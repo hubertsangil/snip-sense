@@ -1,5 +1,6 @@
 """Intelligent auto-naming and filename sanitization engine."""
 
+from __future__ import annotations
 import re
 import sys
 import time

@@ -1,5 +1,6 @@
 """File storage management and operating system explorer integration."""
 
+from __future__ import annotations
 import os
 import sys
 import subprocess

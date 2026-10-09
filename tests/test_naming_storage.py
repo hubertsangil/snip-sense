@@ -1,5 +1,6 @@
 """Unit tests for NamingEngine, filename sanitization, and StorageManager."""
 
+from __future__ import annotations
 from pathlib import Path
 from PIL import Image
 from snipsense.core.models import OCRTextBox
