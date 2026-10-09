@@ -17,6 +17,8 @@ from snipsense.core.dedup import (
 )
 from snipsense.core.ingestion import HistoricalScanner, IngestionWorker
 from snipsense.core.hotkeys import GlobalHotkeyListener
+from snipsense.core.recorder import ScreenRecorder, FrameCaptureWorker, RecordingResult
+from snipsense.core.encoder import ClipEncoder
 
 __all__ = [
     "ScreenRegion",
@@ -40,4 +42,9 @@ __all__ = [
     "HistoricalScanner",
     "IngestionWorker",
     "GlobalHotkeyListener",
+    "ScreenRecorder",
+    "FrameCaptureWorker",
+    "RecordingResult",
+    "ClipEncoder",
 ]
+

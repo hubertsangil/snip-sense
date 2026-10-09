@@ -36,11 +36,15 @@ from snipsense.core.dedup import DuplicateCluster, DuplicateArchiver
 from snipsense.core.ingestion import HistoricalScanner, IngestionWorker
 from snipsense.core.hotkeys import GlobalHotkeyListener
 from snipsense.core.hotkey import GlobalHotkeyManager
+from snipsense.core.recorder import ScreenRecorder, RecordingResult
+from snipsense.core.encoder import ClipEncoder
 from snipsense.ui.canvas import SnipCanvas
 from snipsense.ui.preview import PreviewWindow
 from snipsense.ui.search_modal import SearchModal
 from snipsense.ui.dedup_dialog import DedupDialog
 from snipsense.ui.overlay_hud import OverlayHUD
+from snipsense.ui.recorder_pill import RecorderPill
+from snipsense.ui.recording_dialog import RecordingCompletedDialog
 from snipsense.ui.styles import DARK_THEME_QSS
 
 
@@ -104,20 +108,25 @@ class ControlWindow(QMainWindow):
         snip_btn.clicked.connect(self.app_controller.start_snip)
         btn_row.addWidget(snip_btn)
 
+        record_btn = QPushButton("⏺️ Record (Ctrl+Shift+R)")
+        record_btn.setObjectName("ghostAction")
+        record_btn.clicked.connect(self.app_controller.start_recording)
+        btn_row.addWidget(record_btn)
+
         hud_btn = QPushButton("🔮 HUD (Alt+Z)")
         hud_btn.setObjectName("ghostAction")
         hud_btn.clicked.connect(self.app_controller.open_hud)
         btn_row.addWidget(hud_btn)
 
-        search_btn = QPushButton("🔍 Vault (Alt+F)")
-        search_btn.setObjectName("ghostAction")
-        search_btn.clicked.connect(self.app_controller.open_search_vault)
-        btn_row.addWidget(search_btn)
-
         layout.addLayout(btn_row)
 
         secondary_row = QHBoxLayout()
         secondary_row.setSpacing(8)
+
+        search_btn = QPushButton("🔍 Vault (Alt+F)")
+        search_btn.setObjectName("ghostAction")
+        search_btn.clicked.connect(self.app_controller.open_search_vault)
+        secondary_row.addWidget(search_btn)
 
         self.clean_btn = QPushButton("🧹 Clean Dups")
         self.clean_btn.setObjectName("ghostAction")
@@ -135,6 +144,10 @@ class ControlWindow(QMainWindow):
         self.snip_shortcut = QShortcut(QKeySequence("Ctrl+Shift+S"), self)
         self.snip_shortcut.setContext(Qt.ShortcutContext.ApplicationShortcut)
         self.snip_shortcut.activated.connect(self.app_controller.start_snip)
+
+        self.record_shortcut = QShortcut(QKeySequence("Ctrl+Shift+R"), self)
+        self.record_shortcut.setContext(Qt.ShortcutContext.ApplicationShortcut)
+        self.record_shortcut.activated.connect(self.app_controller.start_recording)
 
         self.hud_shortcut = QShortcut(QKeySequence("Alt+Z"), self)
         self.hud_shortcut.setContext(Qt.ShortcutContext.ApplicationShortcut)
@@ -162,7 +175,7 @@ class ControlWindow(QMainWindow):
 
 
 class SnipSenseApp(QObject):
-    """Coordinates canvas spawning, image grabbing, auto-naming, preview, system tray, HUD, search vault, and deduplication."""
+    """Coordinates canvas spawning, image grabbing, auto-naming, preview, system tray, HUD, search vault, deduplication, and screen recording."""
 
     def __init__(self):
         self.qt_app = QApplication.instance() or QApplication(sys.argv)
@@ -178,6 +191,9 @@ class SnipSenseApp(QObject):
         self.hud: OverlayHUD | None = None
         self.search_modal: SearchModal | None = None
         self.dedup_dialog: DedupDialog | None = None
+        self._recorder: ScreenRecorder | None = None
+        self._recorder_pill: RecorderPill | None = None
+        self.recording_dialog: RecordingCompletedDialog | None = None
         self.control_win: ControlWindow | None = None
         self.duplicate_clusters: list[DuplicateCluster] = []
         self._last_window_title: str = ""
@@ -246,6 +262,9 @@ class SnipSenseApp(QObject):
 
         snip_act = menu.addAction("✂️ New Snip (Ctrl+Shift+S)")
         snip_act.triggered.connect(self.start_snip)
+
+        record_act = menu.addAction("⏺️ Record Clip (Ctrl+Shift+R)")
+        record_act.triggered.connect(self.start_recording)
 
         hud_act = menu.addAction("🔮 HUD (Alt+Z)")
         hud_act.triggered.connect(self.open_hud)
@@ -323,6 +342,7 @@ class SnipSenseApp(QObject):
             )
 
         self.hud.snip_requested.connect(self.start_snip)
+        self.hud.record_requested.connect(self.start_recording)
         self.hud.search_requested.connect(self.open_search_vault)
         self.hud.clean_duplicates_requested.connect(self.open_dedup_dialog)
 
@@ -425,6 +445,89 @@ class SnipSenseApp(QObject):
         if self.control_win and self._control_was_visible:
             self.control_win.showNormal()
 
+    def start_recording(self):
+        """Starts a short screen clip recording session with the floating draggable pill."""
+        if self._recorder and self._recorder.is_recording:
+            return
+
+        self._last_window_title = get_foreground_window_title()
+
+        if self.control_win and self.control_win.isVisible():
+            self._control_was_visible = True
+            self.control_win.hide()
+        else:
+            self._control_was_visible = False
+
+        self._recorder = ScreenRecorder(target_fps=15, max_duration_seconds=30.0)
+        self._recorder_pill = RecorderPill(max_duration_seconds=30.0)
+
+        self._recorder.tick.connect(self._recorder_pill.update_time)
+        self._recorder.recording_finished.connect(self._on_recording_finished)
+        self._recorder.recording_cancelled.connect(self._on_recording_cancelled)
+
+        self._recorder_pill.stop_requested.connect(self.stop_recording)
+        self._recorder_pill.cancel_requested.connect(self.cancel_recording)
+
+        self._recorder_pill.show()
+        if sys.platform == "darwin":
+            try:
+                from AppKit import NSApplication
+                NSApplication.sharedApplication().activateIgnoringOtherApps_(True)
+            except Exception:
+                pass
+        self._recorder_pill.raise_()
+        self._recorder_pill.activateWindow()
+
+        self._recorder.start(window_title=self._last_window_title)
+
+    def stop_recording(self):
+        """Stops the active recording session and begins encoding."""
+        if self._recorder_pill:
+            self._recorder_pill.close()
+            self._recorder_pill = None
+        if self._recorder:
+            self._recorder.stop()
+
+    def cancel_recording(self):
+        """Aborts recording and discards all frames."""
+        if self._recorder_pill:
+            self._recorder_pill.close()
+            self._recorder_pill = None
+        if self._recorder:
+            self._recorder.cancel()
+
+    @pyqtSlot(object)
+    def _on_recording_finished(self, result: RecordingResult):
+        """Encodes frames into MP4/GIF and displays the completion dialog."""
+        encoder = ClipEncoder()
+        encoded_files = encoder.encode_clip(
+            frames=result.frames,
+            window_title=result.window_title,
+            fps=result.fps,
+            generate_gif=True,
+            generate_mp4=True,
+        )
+
+        self.recording_dialog = RecordingCompletedDialog(encoded_files, result)
+        self.recording_dialog.show()
+        if sys.platform == "darwin":
+            try:
+                from AppKit import NSApplication
+                NSApplication.sharedApplication().activateIgnoringOtherApps_(True)
+            except Exception:
+                pass
+        self.recording_dialog.raise_()
+        self.recording_dialog.activateWindow()
+
+        if self.control_win and self._control_was_visible:
+            self.control_win.showNormal()
+
+    @pyqtSlot()
+    def _on_recording_cancelled(self):
+        """Restores control window if a recording session is cancelled."""
+        if self.control_win and self._control_was_visible:
+            self.control_win.showNormal()
+
     def quit(self):
         """Cleanly terminates the application and all background listeners."""
         self.hotkey_listener.stop()
@@ -440,6 +543,10 @@ class SnipSenseApp(QObject):
             self.search_modal.close()
         if self.dedup_dialog:
             self.dedup_dialog.close()
+        if self._recorder_pill:
+            self._recorder_pill.close()
+        if self.recording_dialog:
+            self.recording_dialog.close()
         if self.control_win:
             self.control_win.close()
         app = QApplication.instance()

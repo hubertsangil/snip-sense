@@ -250,8 +250,11 @@ class PreviewWindow(QDialog):
         self.status_badge.setStyleSheet("background-color: rgba(99, 102, 241, 0.35); color: #FFFFFF;")
 
         def _restore():
-            self.status_badge.setText(orig_text)
-            self.status_badge.setStyleSheet("")
+            try:
+                self.status_badge.setText(orig_text)
+                self.status_badge.setStyleSheet("")
+            except (RuntimeError, Exception):
+                pass
 
         QTimer.singleShot(1600, _restore)
 
@@ -263,8 +266,11 @@ class PreviewWindow(QDialog):
         self.status_badge.setStyleSheet("background-color: rgba(16, 185, 129, 0.35); color: #FFFFFF;")
 
         def _restore():
-            self.status_badge.setText(orig_text)
-            self.status_badge.setStyleSheet("")
+            try:
+                self.status_badge.setText(orig_text)
+                self.status_badge.setStyleSheet("")
+            except (RuntimeError, Exception):
+                pass
 
         QTimer.singleShot(1400, _restore)
 

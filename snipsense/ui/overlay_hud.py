@@ -128,13 +128,23 @@ class RecentCaptureCard(QFrame):
             if not pixmap.isNull():
                 QApplication.clipboard().setPixmap(pixmap)
                 self.copy_img_btn.setText("✓")
-                QTimer.singleShot(1000, lambda: self.copy_img_btn.setText("🖼️"))
+                def _reset_img():
+                    try:
+                        self.copy_img_btn.setText("🖼️")
+                    except (RuntimeError, Exception):
+                        pass
+                QTimer.singleShot(1000, _reset_img)
 
     def _copy_text(self):
         text = self.result.ocr_text or self.result.title
         QApplication.clipboard().setText(text)
         self.copy_text_btn.setText("✓")
-        QTimer.singleShot(1000, lambda: self.copy_text_btn.setText("📋"))
+        def _reset_txt():
+            try:
+                self.copy_text_btn.setText("📋")
+            except (RuntimeError, Exception):
+                pass
+        QTimer.singleShot(1000, _reset_txt)
 
     def _open_file(self):
         StorageManager.open_in_explorer(Path(self.result.file_path))
