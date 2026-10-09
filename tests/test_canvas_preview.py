@@ -174,3 +174,80 @@ def test_toggle_boxes_button(qtbot, qapp):
     assert preview.canvas.boxes_visible is False
     qtbot.mouseClick(preview.toggle_boxes_btn, Qt.MouseButton.LeftButton)
     assert preview.canvas.boxes_visible is True
+
+
+def test_shield_pii_button_masks_sensitive_boxes(qtbot, qapp):
+    pil_img = Image.new("RGB", (200, 100), color=(255, 255, 255))
+    boxes = [
+        OCRTextBox(text="admin@example.com", confidence=0.99, x=10, y=10, width=80, height=20, polygon=[]),
+        OCRTextBox(text="General Header", confidence=0.95, x=10, y=40, width=80, height=20, polygon=[]),
+        OCRTextBox(text="sk_live_1234567890abcdef1234", confidence=0.98, x=10, y=70, width=80, height=20, polygon=[]),
+    ]
+    result = CaptureResult(
+        image=pil_img,
+        region=ScreenRegion(x=0, y=0, width=200, height=100),
+        ocr_boxes=boxes,
+        raw_text="admin@example.com\nGeneral Header\nsk_live_1234567890abcdef1234",
+    )
+
+    preview = PreviewWindow(result)
+    qtbot.addWidget(preview)
+    preview.show()
+
+    assert hasattr(preview, "shield_pii_btn")
+    assert len(preview.masked_boxes) == 0
+
+    # Click Shield PII button
+    qtbot.mouseClick(preview.shield_pii_btn, Qt.MouseButton.LeftButton)
+
+    # 2 sensitive boxes should be masked
+    assert len(preview.masked_boxes) == 2
+    assert boxes[0] in preview.masked_boxes  # email
+    assert boxes[2] in preview.masked_boxes  # api key
+    assert boxes[1] not in preview.masked_boxes  # general header
+
+    # Verify Copy All Text produces [REDACTED] for masked items
+    clipboard = QApplication.clipboard()
+    clipboard.clear()
+    qtbot.mouseClick(preview.copy_text_btn, Qt.MouseButton.LeftButton)
+    assert clipboard.text() == "[REDACTED]\nGeneral Header\n[REDACTED]"
+
+    # Verify Copy Image copies the blurred pixmap
+    clipboard.clear()
+    qtbot.mouseClick(preview.copy_img_btn, Qt.MouseButton.LeftButton)
+    clip_pix = clipboard.pixmap()
+    assert not clip_pix.isNull()
+    assert clip_pix.width() == 200
+    assert clip_pix.height() == 100
+
+
+def test_manual_box_toggle_masking(qtbot, qapp):
+    pil_img = Image.new("RGB", (150, 80), color=(255, 255, 255))
+    box = OCRTextBox(text="NonSensitiveText", confidence=0.9, x=10, y=10, width=80, height=20, polygon=[])
+    result = CaptureResult(
+        image=pil_img,
+        region=ScreenRegion(x=0, y=0, width=150, height=80),
+        ocr_boxes=[box],
+        raw_text="NonSensitiveText",
+    )
+
+    preview = PreviewWindow(result)
+    qtbot.addWidget(preview)
+    preview.show()
+
+    assert len(preview.masked_boxes) == 0
+
+    # Simulate click on box -> manually mask
+    preview.canvas.hovered_box = box
+    qtbot.mouseClick(preview.canvas, Qt.MouseButton.LeftButton, pos=QPoint(15, 15))
+
+    assert box in preview.masked_boxes
+    assert preview.get_redacted_text() == "[REDACTED]"
+
+    # Simulate second click on box -> unmask
+    preview.canvas.hovered_box = box
+    qtbot.mouseClick(preview.canvas, Qt.MouseButton.LeftButton, pos=QPoint(15, 15))
+
+    assert box not in preview.masked_boxes
+    assert preview.get_redacted_text() == "NonSensitiveText"
+

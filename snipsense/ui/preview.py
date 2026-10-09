@@ -14,7 +14,8 @@ from PyQt6.QtWidgets import (
     QWidget,
     QApplication,
 )
-from snipsense.core.models import CaptureResult
+from snipsense.core.models import CaptureResult, OCRTextBox
+from snipsense.core.privacy_shield import PrivacyShield, apply_blur_mask
 from snipsense.ui.styles import DARK_THEME_QSS
 from snipsense.ui.image_canvas import InteractiveImageCanvas
 
@@ -40,7 +41,11 @@ class PreviewWindow(QDialog):
         )
 
         self.capture_result = capture_result
-        self.pixmap = pil_to_qpixmap(capture_result.image)
+        self.original_image: Image.Image = capture_result.image
+        self.current_image: Image.Image = capture_result.image.copy()
+        self.masked_boxes: set[OCRTextBox] = set()
+
+        self.pixmap = pil_to_qpixmap(self.current_image)
 
         self._init_ui()
         self._setup_shortcuts()
@@ -80,8 +85,13 @@ class PreviewWindow(QDialog):
         scroll.setWidgetResizable(True)
         scroll.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.canvas = InteractiveImageCanvas(self.pixmap, self.capture_result.ocr_boxes)
+        self.canvas = InteractiveImageCanvas(
+            self.pixmap,
+            self.capture_result.ocr_boxes,
+            masked_boxes=self.masked_boxes,
+        )
         self.canvas.text_copied.connect(self._on_snippet_copied)
+        self.canvas.box_mask_toggled.connect(self._on_box_mask_toggled)
         scroll.setWidget(self.canvas)
 
         layout.addWidget(scroll, stretch=1)
@@ -94,8 +104,15 @@ class PreviewWindow(QDialog):
         dim_label.setObjectName("dimensionPill")
         bottom_bar.addWidget(dim_label)
 
-        # Toggle Text Box Overlays Button
+        # Shield PII Action Button (Prominent)
         if self.capture_result.ocr_boxes:
+            self.shield_pii_btn = QPushButton("🛡️ Shield PII")
+            self.shield_pii_btn.setObjectName("shieldAction")
+            self.shield_pii_btn.setToolTip("Auto-detect and blur emails, keys, tokens, IPs, passwords, and cards")
+            self.shield_pii_btn.clicked.connect(self.shield_pii)
+            bottom_bar.addWidget(self.shield_pii_btn)
+
+            # Toggle Text Box Overlays Button
             self.toggle_boxes_btn = QPushButton("👁️ Boxes")
             self.toggle_boxes_btn.setObjectName("ghostAction")
             self.toggle_boxes_btn.setCheckable(True)
@@ -131,8 +148,8 @@ class PreviewWindow(QDialog):
         # Clamped initial dialog dimensions
         img_w = self.capture_result.width
         img_h = self.capture_result.height
-        target_w = max(520, min(img_w + 40, 1020))
-        target_h = max(380, min(img_h + 110, 720))
+        target_w = max(580, min(img_w + 40, 1060))
+        target_h = max(400, min(img_h + 110, 740))
         self.resize(target_w, target_h)
 
     def _setup_shortcuts(self):
@@ -151,8 +168,57 @@ class PreviewWindow(QDialog):
         is_visible = self.toggle_boxes_btn.isChecked()
         self.canvas.set_boxes_visible(is_visible)
 
+    def _on_box_mask_toggled(self, box: OCRTextBox, is_masked: bool):
+        """Handles manual toggle on a specific OCR box."""
+        if is_masked:
+            self.masked_boxes.add(box)
+        else:
+            self.masked_boxes.discard(box)
+        self._reapply_masks()
+
+        status_msg = f"🔒 Redacted \"{box.text[:20]}\"" if is_masked else f"🔓 Unmasked \"{box.text[:20]}\""
+        self._show_badge_notification(status_msg)
+
+    def shield_pii(self):
+        """Analyzes all OCR text boxes for sensitive PII and applies blur masking."""
+        pii_boxes = PrivacyShield.detect_pii_boxes(self.capture_result.ocr_boxes)
+        if not pii_boxes:
+            self._show_badge_notification("No sensitive PII patterns detected")
+            return
+
+        for box in pii_boxes:
+            self.masked_boxes.add(box)
+
+        self.canvas.set_masked_boxes(self.masked_boxes)
+        self._reapply_masks()
+        self._show_badge_notification(f"🛡️ Shielded {len(pii_boxes)} sensitive item{'s' if len(pii_boxes) != 1 else ''}")
+
+    def _reapply_masks(self):
+        """Recomputes the underlying masked image buffer from original image + masked_boxes."""
+        if self.masked_boxes:
+            self.current_image = apply_blur_mask(self.original_image, list(self.masked_boxes))
+        else:
+            self.current_image = self.original_image.copy()
+
+        # Update capture_result image reference
+        self.capture_result.image = self.current_image
+        self.pixmap = pil_to_qpixmap(self.current_image)
+        self.canvas.update_pixmap(self.pixmap)
+
+    def _show_badge_notification(self, text: str):
+        """Displays transient visual confirmation in the status badge."""
+        orig_text = f"{len(self.capture_result.ocr_boxes)} text blocks detected"
+        self.status_badge.setText(text)
+        self.status_badge.setStyleSheet("background-color: rgba(99, 102, 241, 0.35); color: #FFFFFF;")
+
+        def _restore():
+            self.status_badge.setText(orig_text)
+            self.status_badge.setStyleSheet("")
+
+        QTimer.singleShot(1600, _restore)
+
     def _on_snippet_copied(self, text: str):
-        """Displays transient visual confirmation in the header when a specific text box is clicked."""
+        """Displays transient visual confirmation when a specific text box is clicked."""
         truncated = text if len(text) <= 30 else text[:27] + "..."
         orig_text = self.status_badge.text()
         self.status_badge.setText(f"✓ Copied: \"{truncated}\"")
@@ -164,8 +230,18 @@ class PreviewWindow(QDialog):
 
         QTimer.singleShot(1400, _restore)
 
+    def get_redacted_text(self) -> str:
+        """Returns raw OCR text where masked bounding boxes are replaced with [REDACTED]."""
+        lines = []
+        for box in self.capture_result.ocr_boxes:
+            if box in self.masked_boxes:
+                lines.append("[REDACTED]")
+            else:
+                lines.append(box.text)
+        return "\n".join(lines)
+
     def copy_image_to_clipboard(self):
-        """Copies the captured QPixmap onto the system clipboard."""
+        """Copies the masked QPixmap buffer onto the system clipboard."""
         clipboard = QApplication.clipboard()
         clipboard.setPixmap(self.pixmap)
 
@@ -178,11 +254,12 @@ class PreviewWindow(QDialog):
         self.copy_img_btn.setStyleSheet("")
 
     def copy_all_text_to_clipboard(self):
-        """Copies all recognized OCR lines into the clipboard as formatted plain text."""
-        if not self.capture_result.raw_text.strip():
+        """Copies all recognized OCR lines into clipboard, masking redacted text as [REDACTED]."""
+        text_to_copy = self.get_redacted_text() if self.masked_boxes else self.capture_result.raw_text
+        if not text_to_copy.strip():
             return
         clipboard = QApplication.clipboard()
-        clipboard.setText(self.capture_result.raw_text)
+        clipboard.setText(text_to_copy)
 
         self.copy_text_btn.setText("✓ Copied All Text!")
         self.copy_text_btn.setStyleSheet("background-color: #059669; color: #FFFFFF;")
@@ -191,3 +268,4 @@ class PreviewWindow(QDialog):
     def _reset_copy_text_btn(self):
         self.copy_text_btn.setText("📋 Copy All Text")
         self.copy_text_btn.setStyleSheet("")
+

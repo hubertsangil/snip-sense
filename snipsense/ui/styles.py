@@ -50,6 +50,25 @@ QPushButton#ghostAction:pressed {
     background-color: #1A202C;
 }
 
+/* Shield PII Action Button (Indigo / Violet with prominent accent) */
+QPushButton#shieldAction {
+    background-color: #4F46E5;
+    color: #FFFFFF;
+    font-weight: 600;
+    border: 1px solid #6366F1;
+    border-radius: 6px;
+    padding: 7px 14px;
+    min-height: 18px;
+}
+QPushButton#shieldAction:hover {
+    background-color: #4338CA;
+    border-color: #818CF8;
+}
+QPushButton#shieldAction:pressed {
+    background-color: #3730A3;
+}
+
+
 /* Destructive / Close Action */
 QPushButton#closeBtn {
     background-color: transparent;
