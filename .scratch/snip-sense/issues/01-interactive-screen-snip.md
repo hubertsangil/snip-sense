@@ -4,11 +4,11 @@
 
 **Blocked by:** None (can start immediately)
 
-**Status:** ready-for-agent
+**Status:** completed
 
-- [ ] Pressing the capture shortcut summons a responsive, full-screen transparent selection canvas across all active displays.
-- [ ] Dragging the mouse renders a visual selection rectangle with real-time coordinate and dimension indicators.
-- [ ] Releasing the mouse captures the exact pixel buffer inside the rectangle using fast in-memory capture (`mss`).
-- [ ] The captured image immediately opens in an interactive desktop preview window anchored near the cursor or centered.
-- [ ] Clicking "Copy Image" places the full-resolution captured image onto the OS system clipboard.
-- [ ] Pressing `ESC` at any point during selection cleanly dismisses the canvas without side effects.
+- [x] Pressing the capture shortcut summons a responsive, full-screen transparent selection canvas across all active displays.
+- [x] Dragging the mouse renders a visual selection rectangle with real-time coordinate and dimension indicators.
+- [x] Releasing the mouse captures the exact pixel buffer inside the rectangle using fast in-memory capture (`mss`).
+- [x] The captured image immediately opens in an interactive desktop preview window anchored near the cursor or centered.
+- [x] Clicking "Copy Image" places the full-resolution captured image onto the OS system clipboard.
+- [x] Pressing `ESC` at any point during selection cleanly dismisses the canvas without side effects.
