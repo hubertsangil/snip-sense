@@ -12,6 +12,7 @@ from PyQt6.QtWidgets import (
     QApplication,
 )
 from snipsense.ui.styles import DARK_THEME_QSS
+from snipsense.ui.motion import start_breathing_pulse, stop_breathing_pulse
 
 
 class RecorderPill(QWidget):
@@ -60,10 +61,11 @@ class RecorderPill(QWidget):
         layout.setContentsMargins(10, 6, 10, 6)
         layout.setSpacing(12)
 
-        # Pulsing REC indicator
+        # Pulsing REC indicator with purposeful breathing motion
         self.rec_indicator = QLabel("🔴 REC")
         self.rec_indicator.setStyleSheet("color: #EF4444; font-weight: bold; font-size: 12px;")
         layout.addWidget(self.rec_indicator)
+        start_breathing_pulse(self.rec_indicator, min_opacity=0.35, max_opacity=1.0, duration_ms=850)
 
         # Timer label
         self.timer_label = QLabel(f"00:00 / {int(self.max_duration):02d}:00")
@@ -164,6 +166,7 @@ class RecorderPill(QWidget):
         event.accept()
 
     def closeEvent(self, event):
+        stop_breathing_pulse(self.rec_indicator)
         if hasattr(self, "pulse_timer") and self.pulse_timer.isActive():
             self.pulse_timer.stop()
         super().closeEvent(event)

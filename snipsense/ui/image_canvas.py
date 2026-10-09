@@ -121,7 +121,10 @@ class InteractiveImageCanvas(QWidget):
         super().leaveEvent(event)
 
     def paintEvent(self, event):
-        painter = QPainter(self)
+        try:
+            painter = QPainter(self)
+        except RuntimeError:
+            return
         painter.setRenderHint(QPainter.RenderHint.Antialiasing, True)
 
         # 1. Draw base screenshot pixmap

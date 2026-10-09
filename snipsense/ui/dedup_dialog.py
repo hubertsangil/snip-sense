@@ -24,6 +24,7 @@ from PIL import Image
 from snipsense.core.dedup import DuplicateCluster, DuplicateArchiver, hamming_distance
 from snipsense.ui.styles import DARK_THEME_QSS
 from snipsense.ui.window_frame import CustomWindowContainer
+from snipsense.ui.motion import animate_window_entrance, animate_badge_toast
 
 
 def format_bytes(bytes_count: int) -> str:
@@ -267,6 +268,11 @@ class DedupDialog(QDialog):
 
         self.container.add_content_layout(btn_layout)
 
+    def showEvent(self, event):
+        """Applies purposeful entrance motion when dedup cleaner opens."""
+        super().showEvent(event)
+        animate_window_entrance(self, duration_ms=180, slide_px=6)
+
     def _handle_clean(self):
         """Archives all selected duplicate items."""
         to_archive: List[str] = []
@@ -287,8 +293,14 @@ class DedupDialog(QDialog):
         self.undo_btn.setEnabled(True)
         self.clean_btn.setEnabled(False)
 
-        self.stats_badge.setText(f"Cleaned {count} duplicates ({format_bytes(reclaimed_bytes)} reclaimed)")
-        self.stats_badge.setStyleSheet("background-color: rgba(16, 185, 129, 0.2); color: #10B981;")
+        if self.stats_badge:
+            animate_badge_toast(
+                self.stats_badge,
+                message=f"Cleaned {count} duplicates ({format_bytes(reclaimed_bytes)} reclaimed)",
+                original_text=self.stats_badge.text(),
+                toast_style="background-color: rgba(16, 185, 129, 0.2); color: #10B981;",
+                hold_ms=2500,
+            )
 
         self.cleaning_completed.emit(count, reclaimed_bytes)
 
@@ -300,5 +312,11 @@ class DedupDialog(QDialog):
         restored = self.archiver.undo_archive(self.last_batch_id)
         self.undo_btn.setEnabled(False)
         self.clean_btn.setEnabled(True)
-        self.stats_badge.setText(f"Restored {restored} files from archive")
-        self.stats_badge.setStyleSheet("background-color: rgba(59, 130, 246, 0.2); color: #60A5FA;")
+        if self.stats_badge:
+            animate_badge_toast(
+                self.stats_badge,
+                message=f"Restored {restored} files from archive",
+                original_text=self.stats_badge.text(),
+                toast_style="background-color: rgba(59, 130, 246, 0.2); color: #60A5FA;",
+                hold_ms=2500,
+            )

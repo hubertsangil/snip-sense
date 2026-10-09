@@ -23,6 +23,7 @@ from PIL import Image
 from snipsense.core.recorder import RecordingResult
 from snipsense.ui.styles import DARK_THEME_QSS
 from snipsense.ui.window_frame import CustomWindowContainer
+from snipsense.ui.motion import animate_window_entrance
 
 
 def format_bytes(byte_count: int) -> str:
@@ -155,6 +156,11 @@ class RecordingCompletedDialog(QDialog):
         btn_layout.addWidget(done_btn)
 
         self.container.add_content_layout(btn_layout)
+
+    def showEvent(self, event):
+        """Applies purposeful entrance motion when dialog opens."""
+        super().showEvent(event)
+        animate_window_entrance(self, duration_ms=180, slide_px=6)
 
     def _get_primary_path(self) -> Optional[Path]:
         """Returns MP4 or GIF primary output path."""

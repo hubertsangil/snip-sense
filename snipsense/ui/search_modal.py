@@ -24,6 +24,7 @@ from snipsense.core.vault import VaultDatabase, SearchResult
 from snipsense.core.storage import StorageManager
 from snipsense.ui.styles import DARK_THEME_QSS
 from snipsense.ui.window_frame import CustomWindowContainer
+from snipsense.ui.motion import animate_window_entrance, animate_window_exit
 
 
 def format_relative_time(timestamp: float) -> str:
@@ -254,9 +255,14 @@ class SearchModal(QDialog):
             self.results_list.addItem(item)
             self.results_list.setItemWidget(item, card)
 
+    def showEvent(self, event):
+        """Applies purposeful entrance motion when search modal opens."""
+        super().showEvent(event)
+        animate_window_entrance(self, duration_ms=180, slide_px=6)
+
     def keyPressEvent(self, event):
         """Handles Escape to close and Enter to trigger selection."""
         if event.key() == Qt.Key.Key_Escape:
-            self.close()
+            animate_window_exit(self, on_finished=self.close, duration_ms=120)
         else:
             super().keyPressEvent(event)

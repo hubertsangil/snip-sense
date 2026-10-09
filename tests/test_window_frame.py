@@ -228,8 +228,7 @@ def test_control_window_frameless_integration(qtbot, monkeypatch):
     assert win.btn_minimize is not None
     assert win.btn_maximize is not None
     assert win.btn_close is not None
-    assert win.badge is not None
-    assert win.badge.text() == "100% Offline"
+    assert win.badge is None
 
     # Verify close button routes through closeEvent and minimizes to tray
     win.show()

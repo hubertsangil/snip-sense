@@ -48,6 +48,7 @@ from snipsense.ui.recorder_pill import RecorderPill
 from snipsense.ui.recording_dialog import RecordingCompletedDialog
 from snipsense.ui.window_frame import CustomWindowContainer
 from snipsense.ui.styles import DARK_THEME_QSS
+from snipsense.ui.motion import animate_window_entrance
 
 
 def create_app_icon() -> QIcon:
@@ -91,7 +92,7 @@ class ControlWindow(QMainWindow):
         self.container = CustomWindowContainer(
             parent_window=self,
             title="SnipSense",
-            badge_text="100% Offline",
+            badge_text=None,
             can_maximize=True,
             can_minimize=True,
         )
@@ -154,9 +155,9 @@ class ControlWindow(QMainWindow):
 
         footer.addStretch()
 
-        hint_label = QLabel("Runs in system tray when closed")
-        hint_label.setStyleSheet("color: #767676; font-size: 11px;")
-        footer.addWidget(hint_label)
+        self.hint_label = QLabel("Runs in system tray when closed")
+        self.hint_label.setStyleSheet("color: #767676; font-size: 11px;")
+        footer.addWidget(self.hint_label)
 
         self.container.add_content_layout(footer)
 
@@ -177,9 +178,20 @@ class ControlWindow(QMainWindow):
         self.search_shortcut.setContext(Qt.ShortcutContext.ApplicationShortcut)
         self.search_shortcut.activated.connect(self.app_controller.open_search_vault)
 
+    def showEvent(self, event):
+        """Applies purposeful entrance motion when window is shown."""
+        super().showEvent(event)
+        animate_window_entrance(self, duration_ms=180, slide_px=6)
+
     def set_status_text(self, text: str):
-        """Updates the status badge text."""
-        self.badge.setText(text)
+        """Updates the status text."""
+        if self.badge:
+            self.badge.setText(text)
+        if hasattr(self, "hint_label") and self.hint_label:
+            if text:
+                self.hint_label.setText(f"{text} • Runs in tray")
+            else:
+                self.hint_label.setText("Runs in system tray when closed")
 
     def _open_screenshots_folder(self):
         self.app_controller.open_screenshots_folder()
@@ -249,7 +261,7 @@ class SnipSenseApp(QObject):
             if dup_count > 0:
                 self.control_win.set_status_text(f"{indexed_count} indexed | {dup_count} duplicate bursts")
             else:
-                self.control_win.set_status_text(f"{indexed_count} indexed • 100% Offline")
+                self.control_win.set_status_text(f"{indexed_count} indexed")
 
     def open_dedup_dialog(self):
         """Opens the review and deduplication modal."""

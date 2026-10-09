@@ -21,6 +21,7 @@ from snipsense.core.vault import VaultDatabase, SearchResult
 from snipsense.core.storage import StorageManager
 from snipsense.ui.search_modal import format_relative_time
 from snipsense.ui.styles import DARK_THEME_QSS
+from snipsense.ui.motion import animate_window_entrance, animate_window_exit
 
 
 class RecentCaptureCard(QFrame):
@@ -202,20 +203,13 @@ class OverlayHUD(QDialog):
         title.setStyleSheet("font-size: 14px; font-weight: 600; color: #F3F3F3;")
         header.addWidget(title)
 
-        offline_badge = QLabel("100% Offline")
-        offline_badge.setObjectName("statusBadge")
-        offline_badge.setStyleSheet(
-            "background-color: rgba(255, 255, 255, 0.06); color: #CCCCCC; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 500;"
-        )
-        header.addWidget(offline_badge)
-
         header.addStretch()
 
         esc_btn = QPushButton("✕")
         esc_btn.setToolTip("Close (Esc)")
         esc_btn.setObjectName("winBtnClose")
         esc_btn.setFixedSize(32, 28)
-        esc_btn.clicked.connect(self.close)
+        esc_btn.clicked.connect(self._dismiss_hud)
         header.addWidget(esc_btn)
         container_layout.addLayout(header)
 
@@ -354,8 +348,9 @@ class OverlayHUD(QDialog):
         return self._carousel_cards
 
     def showEvent(self, event):
-        """Deferred activation so macOS window server grants input focus even from background."""
+        """Deferred activation so window server grants input focus even from background."""
         super().showEvent(event)
+        animate_window_entrance(self, duration_ms=180, slide_px=0)
         self.raise_()
         self.activateWindow()
         # Defer activation pass so event loop completes initial window display
@@ -413,19 +408,23 @@ class OverlayHUD(QDialog):
         painter = QPainter(self)
         painter.fillRect(self.rect(), QColor(11, 13, 16, 175))
 
+    def _dismiss_hud(self):
+        """Gracefully closes HUD with accelerated fade-out."""
+        animate_window_exit(self, on_finished=self.close, duration_ms=130)
+
     def mousePressEvent(self, event):
         """Dismisses the HUD when clicking outside the centered HUD card."""
         pos = event.position().toPoint()
         if hasattr(self, "hud_container") and self.hud_container is not None:
             if not self.hud_container.geometry().contains(pos):
-                self.close()
+                self._dismiss_hud()
                 return
         super().mousePressEvent(event)
 
     def keyPressEvent(self, event):
         """Dismisses the HUD when Escape is pressed."""
         if event.key() == Qt.Key.Key_Escape:
-            self.close()
+            self._dismiss_hud()
         else:
             super().keyPressEvent(event)
 

@@ -24,6 +24,7 @@ from snipsense.core.vault import VaultDatabase
 from snipsense.ui.styles import DARK_THEME_QSS
 from snipsense.ui.image_canvas import InteractiveImageCanvas
 from snipsense.ui.window_frame import CustomWindowContainer
+from snipsense.ui.motion import animate_window_entrance, animate_badge_toast
 
 
 def pil_to_qpixmap(pil_img: Image.Image) -> QPixmap:
@@ -237,36 +238,37 @@ class PreviewWindow(QDialog):
         self.pixmap = pil_to_qpixmap(self.current_image)
         self.canvas.update_pixmap(self.pixmap)
 
+    def showEvent(self, event):
+        """Applies purposeful entrance motion when inspector opens."""
+        super().showEvent(event)
+        animate_window_entrance(self, duration_ms=180, slide_px=6)
+
     def _show_badge_notification(self, text: str):
-        """Displays transient visual confirmation in the status badge."""
+        """Displays transient visual confirmation in the status badge with smooth motion."""
+        if not self.status_badge:
+            return
         orig_text = f"{len(self.capture_result.ocr_boxes)} text blocks detected"
-        self.status_badge.setText(text)
-        self.status_badge.setStyleSheet("background-color: rgba(99, 102, 241, 0.35); color: #FFFFFF;")
-
-        def _restore():
-            try:
-                self.status_badge.setText(orig_text)
-                self.status_badge.setStyleSheet("")
-            except (RuntimeError, Exception):
-                pass
-
-        QTimer.singleShot(1600, _restore)
+        animate_badge_toast(
+            self.status_badge,
+            message=text,
+            original_text=orig_text,
+            toast_style="background-color: rgba(99, 102, 241, 0.35); color: #FFFFFF;",
+            hold_ms=1600,
+        )
 
     def _on_snippet_copied(self, text: str):
         """Displays transient visual confirmation when a specific text box is clicked."""
+        if not self.status_badge:
+            return
         truncated = text if len(text) <= 30 else text[:27] + "..."
         orig_text = self.status_badge.text()
-        self.status_badge.setText(f"Copied: \"{truncated}\"")
-        self.status_badge.setStyleSheet("background-color: rgba(16, 185, 129, 0.35); color: #FFFFFF;")
-
-        def _restore():
-            try:
-                self.status_badge.setText(orig_text)
-                self.status_badge.setStyleSheet("")
-            except (RuntimeError, Exception):
-                pass
-
-        QTimer.singleShot(1400, _restore)
+        animate_badge_toast(
+            self.status_badge,
+            message=f'Copied: "{truncated}"',
+            original_text=orig_text,
+            toast_style="background-color: rgba(16, 185, 129, 0.35); color: #FFFFFF;",
+            hold_ms=1400,
+        )
 
     def save_image_to_disk(self):
         """Saves the current image (masked buffer if masked) to disk and indexes into vault."""
@@ -295,8 +297,14 @@ class PreviewWindow(QDialog):
         self.save_btn.setStyleSheet("background-color: #059669; color: #FFFFFF;")
         self.open_folder_btn.setVisible(True)
 
-        self.status_badge.setText(f"Saved to {saved.parent.name}/{saved.name}")
-        self.status_badge.setStyleSheet("background-color: rgba(16, 185, 129, 0.25); color: #10B981;")
+        if self.status_badge:
+            animate_badge_toast(
+                self.status_badge,
+                message=f"Saved to {saved.parent.name}/{saved.name}",
+                original_text=self.status_badge.text(),
+                toast_style="background-color: rgba(16, 185, 129, 0.25); color: #10B981;",
+                hold_ms=2000,
+            )
 
         QTimer.singleShot(1800, self._reset_save_btn)
 
