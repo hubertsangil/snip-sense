@@ -11,13 +11,10 @@
 
 ---
 
-```
-                                  [ BANNER IMAGE PLACEHOLDER ]
-                         ╔═══════════════════════════════════════════╗
-                         ║     S N I P S E N S E   S T U D I O       ║
-                         ║   Local AI Screen Capture & Memory HUD    ║
-                         ╚═══════════════════════════════════════════╝
-```
+<p align="center">
+  <img src="branding/direction-a/masters/lockup-horizontal-accent.svg" alt="SnipSense Banner" width="700" />
+</p>
+
 
 ---
 
@@ -183,7 +180,23 @@ python main.py
 ```bash
 pytest -v
 ```
-*(Runs all 80 automated unit & UI tests across capture, OCR, privacy shield, search vault, deduplication, and screen recorder)*
+*(Runs all 88 automated unit & UI tests across capture, OCR, privacy shield, search vault, deduplication, and screen recorder)*
+
+---
+
+## 🎨 Brand Identity & Design System
+
+SnipSense follows **The Obsidian Razor** design language (`branding/direction-a/`):
+
+| Token | Hex | Role | Visual Preview |
+|---|---|---|---|
+| **Obsidian Base** | `#0B0D10` | Dark UI Background & Canvas | `██████` |
+| **Cyber Cyan** | `#38BDF8` | Primary Brand Accent & Optical Scanner Eye | `██████` |
+| **Electric Indigo** | `#6366F1` | Secondary Shears & Gradient Accent | `██████` |
+| **Shield Emerald** | `#10B981` | Privacy Safe Status & Offline Verification | `██████` |
+| **Danger Red** | `#EF4444` | Recording Active & PII Threat Detected | `██████` |
+
+For complete vector masters, icon grids, and typography guidelines, refer to [Brand Guidelines](branding/direction-a/BRAND_GUIDELINES.md).
 
 ---
 
