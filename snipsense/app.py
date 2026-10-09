@@ -9,6 +9,7 @@ from PyQt6.QtWidgets import (
     QWidget,
     QVBoxLayout,
     QHBoxLayout,
+    QGridLayout,
     QPushButton,
     QLabel,
     QSystemTrayIcon,
@@ -68,7 +69,7 @@ def create_app_icon() -> QIcon:
 
 
 class ControlWindow(QMainWindow):
-    """Minimal control window offering launcher buttons, folder access, and global shortcuts."""
+    """Minimal, modern control window offering launcher cards, folder access, and global shortcuts."""
 
     def __init__(self, app_controller: "SnipSenseApp"):
         super().__init__()
@@ -76,69 +77,90 @@ class ControlWindow(QMainWindow):
         self.setObjectName("controlWindow")
         self.setStyleSheet(DARK_THEME_QSS)
         self.setWindowTitle("SnipSense Studio")
-        self.resize(420, 230)
+        self.resize(450, 300)
 
         central = QWidget()
         central.setObjectName("controlCentral")
         self.setCentralWidget(central)
         layout = QVBoxLayout(central)
-        layout.setContentsMargins(20, 20, 20, 20)
+        layout.setContentsMargins(22, 20, 22, 20)
         layout.setSpacing(14)
 
+        # 1. Header Bar: Brand + Offline Security Badge
         header = QHBoxLayout()
+        header.setSpacing(10)
+
         title = QLabel("🔮 SnipSense")
         title.setObjectName("headerTitle")
+        title.setStyleSheet("font-size: 15px; font-weight: 700; color: #F8FAFC; letter-spacing: -0.3px;")
         header.addWidget(title)
+
+        studio_tag = QLabel("STUDIO")
+        studio_tag.setStyleSheet("color: #64748B; font-size: 10px; font-weight: 700; letter-spacing: 1px;")
+        header.addWidget(studio_tag)
+
+        header.addStretch()
 
         self.badge = QLabel("100% Offline")
         self.badge.setObjectName("statusBadge")
         header.addWidget(self.badge)
-        header.addStretch()
         layout.addLayout(header)
 
-        desc = QLabel("Press Ctrl+Shift+S anywhere to snip an area.")
-        desc.setStyleSheet("color: #94A3B8; font-size: 12px;")
-        layout.addWidget(desc)
-
-        btn_row = QHBoxLayout()
-        btn_row.setSpacing(8)
-
-        snip_btn = QPushButton("✂️ Snip (Ctrl+Shift+S)")
-        snip_btn.setObjectName("primaryAction")
+        # 2. Hero Primary Action: New Capture Trigger
+        snip_btn = QPushButton("✂️  New Capture                                    Ctrl+Shift+S")
+        snip_btn.setObjectName("heroActionBtn")
+        snip_btn.setToolTip("Instant screen capture with high-DPI precision")
         snip_btn.clicked.connect(self.app_controller.start_snip)
-        btn_row.addWidget(snip_btn)
+        layout.addWidget(snip_btn)
 
-        record_btn = QPushButton("⏺️ Record (Ctrl+Shift+R)")
-        record_btn.setObjectName("ghostAction")
+        # 3. 2x2 Quick Actions Matrix
+        grid = QGridLayout()
+        grid.setHorizontalSpacing(10)
+        grid.setVerticalSpacing(8)
+
+        record_btn = QPushButton("⏺️  Record Clip        Ctrl+Shift+R")
+        record_btn.setObjectName("toolCardBtn")
+        record_btn.setToolTip("Record short screen GIF or MP4 clips (up to 30s)")
         record_btn.clicked.connect(self.app_controller.start_recording)
-        btn_row.addWidget(record_btn)
+        grid.addWidget(record_btn, 0, 0)
 
-        hud_btn = QPushButton("🔮 HUD (Alt+Z)")
-        hud_btn.setObjectName("ghostAction")
+        hud_btn = QPushButton("🔮  Overlay HUD                Alt+Z")
+        hud_btn.setObjectName("toolCardBtn")
+        hud_btn.setToolTip("Open full-screen frosted glass HUD overlay")
         hud_btn.clicked.connect(self.app_controller.open_hud)
-        btn_row.addWidget(hud_btn)
+        grid.addWidget(hud_btn, 0, 1)
 
-        layout.addLayout(btn_row)
-
-        secondary_row = QHBoxLayout()
-        secondary_row.setSpacing(8)
-
-        search_btn = QPushButton("🔍 Vault (Alt+F)")
-        search_btn.setObjectName("ghostAction")
+        search_btn = QPushButton("🔍  Search Vault              Alt+F")
+        search_btn.setObjectName("toolCardBtn")
+        search_btn.setToolTip("Spotlight search across OCR text and screenshots")
         search_btn.clicked.connect(self.app_controller.open_search_vault)
-        secondary_row.addWidget(search_btn)
+        grid.addWidget(search_btn, 1, 0)
 
-        self.clean_btn = QPushButton("🧹 Clean Dups")
-        self.clean_btn.setObjectName("ghostAction")
+        self.clean_btn = QPushButton("🧹  Clean Duplicates")
+        self.clean_btn.setObjectName("toolCardBtn")
+        self.clean_btn.setToolTip("Detect and clean redundant duplicate bursts")
         self.clean_btn.clicked.connect(self.app_controller.open_dedup_dialog)
-        secondary_row.addWidget(self.clean_btn)
+        grid.addWidget(self.clean_btn, 1, 1)
+
+        layout.addLayout(grid)
+
+        # 4. Footer Utility Row
+        footer = QHBoxLayout()
+        footer.setSpacing(10)
 
         folder_btn = QPushButton("📂 Open Folder")
         folder_btn.setObjectName("ghostAction")
+        folder_btn.setToolTip("Open default screenshots directory in Explorer")
         folder_btn.clicked.connect(self._open_screenshots_folder)
-        secondary_row.addWidget(folder_btn)
+        footer.addWidget(folder_btn)
 
-        layout.addLayout(secondary_row)
+        footer.addStretch()
+
+        hint_label = QLabel("Minimizes to tray on ✕")
+        hint_label.setStyleSheet("color: #64748B; font-size: 11px; font-weight: 500;")
+        footer.addWidget(hint_label)
+
+        layout.addLayout(footer)
 
         # In-app shortcuts (Application-wide)
         self.snip_shortcut = QShortcut(QKeySequence("Ctrl+Shift+S"), self)

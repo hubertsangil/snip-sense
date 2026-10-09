@@ -47,26 +47,26 @@ class SearchResultCard(QFrame):
         self.setObjectName("resultCard")
         self.setStyleSheet("""
             #resultCard {
-                background-color: #1A202C;
-                border: 1px solid #2D3748;
-                border-radius: 8px;
+                background-color: #121721;
+                border: 1px solid #1E2736;
+                border-radius: 10px;
                 padding: 6px;
             }
             #resultCard:hover {
-                background-color: #242D3D;
+                background-color: #18202D;
                 border-color: #3B82F6;
             }
         """)
 
         layout = QHBoxLayout(self)
-        layout.setContentsMargins(10, 8, 10, 8)
+        layout.setContentsMargins(12, 8, 12, 8)
         layout.setSpacing(12)
 
         # 1. Image Thumbnail
         self.thumb_label = QLabel()
-        self.thumb_label.setFixedSize(64, 48)
+        self.thumb_label.setFixedSize(64, 46)
         self.thumb_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.thumb_label.setStyleSheet("background-color: #0B0D10; border-radius: 4px; border: 1px solid #262E3B;")
+        self.thumb_label.setStyleSheet("background-color: #0A0D13; border-radius: 6px; border: 1px solid #1E2633;")
         self._load_thumbnail(result.file_path)
         layout.addWidget(self.thumb_label)
 
@@ -76,12 +76,12 @@ class SearchResultCard(QFrame):
 
         header_row = QHBoxLayout()
         self.title_label = QLabel(result.title)
-        self.title_label.setStyleSheet("font-weight: 600; color: #F1F5F9; font-size: 13px;")
+        self.title_label.setStyleSheet("font-weight: 600; color: #F8FAFC; font-size: 13px;")
         header_row.addWidget(self.title_label)
 
         time_str = format_relative_time(result.created_at)
         self.time_label = QLabel(time_str)
-        self.time_label.setStyleSheet("color: #94A3B8; font-size: 11px;")
+        self.time_label.setStyleSheet("color: #64748B; font-size: 11px; font-weight: 500;")
         header_row.addWidget(self.time_label)
         header_row.addStretch()
         text_layout.addLayout(header_row)
@@ -91,7 +91,7 @@ class SearchResultCard(QFrame):
         self.snippet_label = QLabel(snippet_html)
         self.snippet_label.setTextFormat(Qt.TextFormat.RichText)
         self.snippet_label.setWordWrap(True)
-        self.snippet_label.setStyleSheet("color: #CBD5E1; font-size: 11px;")
+        self.snippet_label.setStyleSheet("color: #94A3B8; font-size: 11px;")
         text_layout.addWidget(self.snippet_label)
 
         layout.addLayout(text_layout, stretch=1)
@@ -104,14 +104,14 @@ class SearchResultCard(QFrame):
         self.copy_text_btn = QPushButton("📋 Copy Text")
         self.copy_text_btn.setObjectName("ghostAction")
         self.copy_text_btn.setFixedHeight(26)
-        self.copy_text_btn.setStyleSheet("font-size: 11px; padding: 2px 8px;")
+        self.copy_text_btn.setStyleSheet("font-size: 11px; padding: 2px 8px; border-radius: 6px;")
         self.copy_text_btn.clicked.connect(self._copy_text)
         btn_layout.addWidget(self.copy_text_btn)
 
         self.open_file_btn = QPushButton("📂 Open")
         self.open_file_btn.setObjectName("ghostAction")
         self.open_file_btn.setFixedHeight(26)
-        self.open_file_btn.setStyleSheet("font-size: 11px; padding: 2px 8px;")
+        self.open_file_btn.setStyleSheet("font-size: 11px; padding: 2px 8px; border-radius: 6px;")
         self.open_file_btn.clicked.connect(self._open_file)
         btn_layout.addWidget(self.open_file_btn)
 
@@ -196,21 +196,30 @@ class SearchModal(QDialog):
 
         # Results List Widget
         self.results_list = QListWidget()
+        self.results_list.setObjectName("resultsList")
         self.results_list.setStyleSheet("""
             QListWidget {
-                background-color: #0B0D10;
-                border: 1px solid #262E3B;
-                border-radius: 8px;
-                padding: 4px;
+                background-color: #0A0D13;
+                border: 1px solid #1E2633;
+                border-radius: 10px;
+                padding: 6px;
             }
             QListWidget::item {
                 background-color: transparent;
                 border: none;
-                margin-bottom: 4px;
+                margin-bottom: 6px;
             }
         """)
         self.results_list.setSelectionMode(QListWidget.SelectionMode.SingleSelection)
         layout.addWidget(self.results_list)
+
+        # Footer Hint
+        footer = QHBoxLayout()
+        hint = QLabel("↑ ↓ navigate  •  ↵ open  •  Esc close")
+        hint.setStyleSheet("color: #64748B; font-size: 11px; font-weight: 500;")
+        footer.addWidget(hint)
+        footer.addStretch()
+        layout.addLayout(footer)
 
         # Keyboard shortcuts
         esc_shortcut = QShortcut(QKeySequence("Escape"), self)

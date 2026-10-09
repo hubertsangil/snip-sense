@@ -58,16 +58,16 @@ class PreviewWindow(QDialog):
         self._setup_shortcuts()
 
     def _init_ui(self):
-        self.setWindowTitle("SnipSense — Capture Preview")
+        self.setWindowTitle("SnipSense — Capture Inspector")
         layout = QVBoxLayout(self)
-        layout.setContentsMargins(16, 14, 16, 14)
+        layout.setContentsMargins(18, 16, 18, 16)
         layout.setSpacing(12)
 
         # 1. Top Header Bar
         header = QHBoxLayout()
-        header.setSpacing(8)
+        header.setSpacing(10)
 
-        title_label = QLabel("SnipSense Preview")
+        title_label = QLabel("🔮 SnipSense Inspector")
         title_label.setObjectName("headerTitle")
         header.addWidget(title_label)
 
