@@ -9,6 +9,7 @@ from snipsense.ui.dedup_dialog import DedupDialog
 from snipsense.ui.overlay_hud import OverlayHUD, RecentCaptureCard
 from snipsense.ui.recorder_pill import RecorderPill
 from snipsense.ui.recording_dialog import RecordingCompletedDialog
+from snipsense.ui.window_frame import CustomTitleBar, CustomWindowContainer
 
 __all__ = [
     "DARK_THEME_QSS",
@@ -22,5 +23,7 @@ __all__ = [
     "RecentCaptureCard",
     "RecorderPill",
     "RecordingCompletedDialog",
+    "CustomTitleBar",
+    "CustomWindowContainer",
 ]
 

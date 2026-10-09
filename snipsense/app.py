@@ -46,6 +46,7 @@ from snipsense.ui.dedup_dialog import DedupDialog
 from snipsense.ui.overlay_hud import OverlayHUD
 from snipsense.ui.recorder_pill import RecorderPill
 from snipsense.ui.recording_dialog import RecordingCompletedDialog
+from snipsense.ui.window_frame import CustomWindowContainer
 from snipsense.ui.styles import DARK_THEME_QSS
 
 
@@ -69,7 +70,7 @@ def create_app_icon() -> QIcon:
 
 
 class ControlWindow(QMainWindow):
-    """Minimal, modern control window offering launcher cards, folder access, and global shortcuts."""
+    """Minimal, modern borderless control window offering custom titlebar and dedicated controls."""
 
     def __init__(self, app_controller: "SnipSenseApp"):
         super().__init__()
@@ -77,43 +78,40 @@ class ControlWindow(QMainWindow):
         self.setObjectName("controlWindow")
         self.setStyleSheet(DARK_THEME_QSS)
         self.setWindowTitle("SnipSense Studio")
-        self.resize(450, 300)
+        self.resize(450, 310)
 
-        central = QWidget()
-        central.setObjectName("controlCentral")
-        self.setCentralWidget(central)
-        layout = QVBoxLayout(central)
-        layout.setContentsMargins(22, 20, 22, 20)
-        layout.setSpacing(14)
+        # Borderless frameless window configuration
+        self.setWindowFlags(
+            Qt.WindowType.FramelessWindowHint
+            | Qt.WindowType.Window
+        )
+        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground, True)
 
-        # 1. Header Bar: Brand + Offline Security Badge
-        header = QHBoxLayout()
-        header.setSpacing(10)
+        # Root Custom Window Container with dedicated controls (minimize, expand, exit)
+        self.container = CustomWindowContainer(
+            parent_window=self,
+            title="🔮 SnipSense  STUDIO",
+            badge_text="100% Offline",
+            can_maximize=True,
+            can_minimize=True,
+        )
+        self.setCentralWidget(self.container)
 
-        title = QLabel("🔮 SnipSense")
-        title.setObjectName("headerTitle")
-        title.setStyleSheet("font-size: 15px; font-weight: 700; color: #F8FAFC; letter-spacing: -0.3px;")
-        header.addWidget(title)
+        # Map titlebar and control buttons for external inspection & testing
+        self.title_bar = self.container.title_bar
+        self.badge = self.title_bar.badge_label
+        self.btn_minimize = self.title_bar.btn_minimize
+        self.btn_maximize = self.title_bar.btn_maximize
+        self.btn_close = self.title_bar.btn_close
 
-        studio_tag = QLabel("STUDIO")
-        studio_tag.setStyleSheet("color: #64748B; font-size: 10px; font-weight: 700; letter-spacing: 1px;")
-        header.addWidget(studio_tag)
-
-        header.addStretch()
-
-        self.badge = QLabel("100% Offline")
-        self.badge.setObjectName("statusBadge")
-        header.addWidget(self.badge)
-        layout.addLayout(header)
-
-        # 2. Hero Primary Action: New Capture Trigger
+        # 1. Hero Primary Action: New Capture Trigger
         snip_btn = QPushButton("✂️  New Capture                                    Ctrl+Shift+S")
         snip_btn.setObjectName("heroActionBtn")
         snip_btn.setToolTip("Instant screen capture with high-DPI precision")
         snip_btn.clicked.connect(self.app_controller.start_snip)
-        layout.addWidget(snip_btn)
+        self.container.add_content_widget(snip_btn)
 
-        # 3. 2x2 Quick Actions Matrix
+        # 2. 2x2 Quick Actions Matrix
         grid = QGridLayout()
         grid.setHorizontalSpacing(10)
         grid.setVerticalSpacing(8)
@@ -142,9 +140,9 @@ class ControlWindow(QMainWindow):
         self.clean_btn.clicked.connect(self.app_controller.open_dedup_dialog)
         grid.addWidget(self.clean_btn, 1, 1)
 
-        layout.addLayout(grid)
+        self.container.add_content_layout(grid)
 
-        # 4. Footer Utility Row
+        # 3. Footer Utility Row
         footer = QHBoxLayout()
         footer.setSpacing(10)
 
@@ -156,11 +154,11 @@ class ControlWindow(QMainWindow):
 
         footer.addStretch()
 
-        hint_label = QLabel("Minimizes to tray on ✕")
+        hint_label = QLabel("Minimizes to tray on close ✕")
         hint_label.setStyleSheet("color: #64748B; font-size: 11px; font-weight: 500;")
         footer.addWidget(hint_label)
 
-        layout.addLayout(footer)
+        self.container.add_content_layout(footer)
 
         # In-app shortcuts (Application-wide)
         self.snip_shortcut = QShortcut(QKeySequence("Ctrl+Shift+S"), self)

@@ -13,6 +13,7 @@ QWidget {
 
 /* Main Windows & Dialog Shells */
 QMainWindow#controlWindow, QWidget#controlCentral,
+QFrame#windowFrame,
 QDialog#previewWindow, QWidget#previewContainer,
 QDialog#searchModal, QWidget#searchContainer,
 QDialog#dedupDialog, QWidget#dedupContainer,
@@ -20,6 +21,51 @@ QDialog#recordingDialog, QWidget#recordingContainer {
     background-color: #0E1218;
     border: 1px solid #1E2633;
     border-radius: 14px;
+}
+
+/* Custom Titlebar & Frame */
+QWidget#customTitleBar {
+    background-color: #121620;
+    border-bottom: 1px solid #1E2633;
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+}
+
+QWidget#windowContent {
+    background-color: transparent;
+}
+
+/* Dedicated Window Control Buttons (Minimize, Expand/Maximize, Exit) */
+QPushButton#winBtnMinimize, QPushButton#winBtnMaximize {
+    background-color: transparent;
+    color: #94A3B8;
+    border: none;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+}
+QPushButton#winBtnMinimize:hover, QPushButton#winBtnMaximize:hover {
+    background-color: #1E2633;
+    color: #38BDF8;
+}
+QPushButton#winBtnMinimize:pressed, QPushButton#winBtnMaximize:pressed {
+    background-color: #161D27;
+}
+
+QPushButton#winBtnClose {
+    background-color: transparent;
+    color: #94A3B8;
+    border: none;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+}
+QPushButton#winBtnClose:hover {
+    background-color: #E11D48;
+    color: #FFFFFF;
+}
+QPushButton#winBtnClose:pressed {
+    background-color: #BE123C;
 }
 
 /* Frosted Glass Overlay HUD Container */
