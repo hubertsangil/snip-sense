@@ -61,7 +61,7 @@ class RecordingCompletedDialog(QDialog):
 
         # Header
         header = QHBoxLayout()
-        title_label = QLabel("🎬 Screen Clip Recorded")
+        title_label = QLabel("Screen Clip Recorded")
         title_label.setObjectName("headerTitle")
         header.addWidget(title_label)
 
@@ -80,9 +80,9 @@ class RecordingCompletedDialog(QDialog):
         card = QFrame()
         card.setStyleSheet("""
             QFrame {
-                background-color: #1A202C;
-                border: 1px solid #2D3748;
-                border-radius: 8px;
+                background-color: #262626;
+                border: 1px solid #333333;
+                border-radius: 6px;
                 padding: 10px;
             }
         """)
@@ -93,7 +93,7 @@ class RecordingCompletedDialog(QDialog):
         self.thumb_label = QLabel()
         self.thumb_label.setFixedSize(160, 110)
         self.thumb_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.thumb_label.setStyleSheet("background-color: #0B0D10; border-radius: 6px;")
+        self.thumb_label.setStyleSheet("background-color: #1A1A1A; border-radius: 4px; border: 1px solid #333333;")
 
         if self.result.frames:
             first_frame = self.result.frames[0]
@@ -115,11 +115,11 @@ class RecordingCompletedDialog(QDialog):
         dim_text = f"Resolution: {self.result.width} × {self.result.height}"
 
         dur_label = QLabel(duration_text)
-        dur_label.setStyleSheet("color: #F1F5F9; font-weight: 600; font-size: 12px;")
+        dur_label.setStyleSheet("color: #F3F3F3; font-weight: 600; font-size: 12px;")
         details_layout.addWidget(dur_label)
 
         dim_label = QLabel(dim_text)
-        dim_label.setStyleSheet("color: #94A3B8; font-size: 11px;")
+        dim_label.setStyleSheet("color: #767676; font-size: 11px;")
         details_layout.addWidget(dim_label)
 
         # File sizes
@@ -127,7 +127,7 @@ class RecordingCompletedDialog(QDialog):
             if path.exists():
                 size_str = format_bytes(path.stat().st_size)
                 fmt_label = QLabel(f"• {fmt.upper()}: {path.name} ({size_str})")
-                fmt_label.setStyleSheet("color: #10B981; font-size: 11px;")
+                fmt_label.setStyleSheet("color: #4CC2FF; font-size: 11px;")
                 details_layout.addWidget(fmt_label)
 
         details_layout.addStretch()
@@ -138,12 +138,12 @@ class RecordingCompletedDialog(QDialog):
         btn_layout = QHBoxLayout()
         btn_layout.setSpacing(10)
 
-        self.copy_btn = QPushButton("📋 Copy File Path")
+        self.copy_btn = QPushButton("Copy File Path")
         self.copy_btn.setObjectName("primaryAction")
         self.copy_btn.clicked.connect(self._copy_primary_file)
         btn_layout.addWidget(self.copy_btn)
 
-        self.folder_btn = QPushButton("📂 Open Folder")
+        self.folder_btn = QPushButton("Open Folder")
         self.folder_btn.setObjectName("ghostAction")
         self.folder_btn.clicked.connect(self._open_folder)
         btn_layout.addWidget(self.folder_btn)

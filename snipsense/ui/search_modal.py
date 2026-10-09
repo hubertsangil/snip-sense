@@ -47,26 +47,26 @@ class SearchResultCard(QFrame):
         self.setObjectName("resultCard")
         self.setStyleSheet("""
             #resultCard {
-                background-color: #121721;
-                border: 1px solid #1E2736;
-                border-radius: 10px;
-                padding: 6px;
+                background-color: #262626;
+                border: 1px solid #333333;
+                border-radius: 6px;
+                padding: 4px;
             }
             #resultCard:hover {
-                background-color: #18202D;
-                border-color: #3B82F6;
+                background-color: #2D2D2D;
+                border-color: #444444;
             }
         """)
 
         layout = QHBoxLayout(self)
-        layout.setContentsMargins(12, 8, 12, 8)
-        layout.setSpacing(12)
+        layout.setContentsMargins(10, 8, 10, 8)
+        layout.setSpacing(10)
 
         # 1. Image Thumbnail
         self.thumb_label = QLabel()
         self.thumb_label.setFixedSize(64, 46)
         self.thumb_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.thumb_label.setStyleSheet("background-color: #0A0D13; border-radius: 6px; border: 1px solid #1E2633;")
+        self.thumb_label.setStyleSheet("background-color: #1A1A1A; border-radius: 4px; border: 1px solid #333333; color: #767676; font-size: 10px;")
         self._load_thumbnail(result.file_path)
         layout.addWidget(self.thumb_label)
 
@@ -76,12 +76,12 @@ class SearchResultCard(QFrame):
 
         header_row = QHBoxLayout()
         self.title_label = QLabel(result.title)
-        self.title_label.setStyleSheet("font-weight: 600; color: #F8FAFC; font-size: 13px;")
+        self.title_label.setStyleSheet("font-weight: 600; color: #F3F3F3; font-size: 12px;")
         header_row.addWidget(self.title_label)
 
         time_str = format_relative_time(result.created_at)
         self.time_label = QLabel(time_str)
-        self.time_label.setStyleSheet("color: #64748B; font-size: 11px; font-weight: 500;")
+        self.time_label.setStyleSheet("color: #767676; font-size: 11px;")
         header_row.addWidget(self.time_label)
         header_row.addStretch()
         text_layout.addLayout(header_row)
@@ -91,7 +91,7 @@ class SearchResultCard(QFrame):
         self.snippet_label = QLabel(snippet_html)
         self.snippet_label.setTextFormat(Qt.TextFormat.RichText)
         self.snippet_label.setWordWrap(True)
-        self.snippet_label.setStyleSheet("color: #94A3B8; font-size: 11px;")
+        self.snippet_label.setStyleSheet("color: #A0A0A0; font-size: 11px;")
         text_layout.addWidget(self.snippet_label)
 
         layout.addLayout(text_layout, stretch=1)
@@ -101,17 +101,17 @@ class SearchResultCard(QFrame):
         btn_layout.setSpacing(4)
         btn_layout.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
 
-        self.copy_text_btn = QPushButton("📋 Copy Text")
+        self.copy_text_btn = QPushButton("Copy Text")
         self.copy_text_btn.setObjectName("ghostAction")
-        self.copy_text_btn.setFixedHeight(26)
-        self.copy_text_btn.setStyleSheet("font-size: 11px; padding: 2px 8px; border-radius: 6px;")
+        self.copy_text_btn.setFixedHeight(24)
+        self.copy_text_btn.setStyleSheet("font-size: 11px; padding: 2px 8px; border-radius: 4px;")
         self.copy_text_btn.clicked.connect(self._copy_text)
         btn_layout.addWidget(self.copy_text_btn)
 
-        self.open_file_btn = QPushButton("📂 Open")
+        self.open_file_btn = QPushButton("Open")
         self.open_file_btn.setObjectName("ghostAction")
-        self.open_file_btn.setFixedHeight(26)
-        self.open_file_btn.setStyleSheet("font-size: 11px; padding: 2px 8px; border-radius: 6px;")
+        self.open_file_btn.setFixedHeight(24)
+        self.open_file_btn.setStyleSheet("font-size: 11px; padding: 2px 8px; border-radius: 4px;")
         self.open_file_btn.clicked.connect(self._open_file)
         btn_layout.addWidget(self.open_file_btn)
 
@@ -119,8 +119,7 @@ class SearchResultCard(QFrame):
 
     def _format_snippet_html(self, raw_snippet: str) -> str:
         """Converts <mark> tags to styled HTML spans for rich text display."""
-        # Replace <mark> with glowing green/emerald styling
-        styled = raw_snippet.replace("<mark>", "<span style='color: #34D399; font-weight: bold; background-color: rgba(16, 185, 129, 0.2); border-radius: 2px;'>")
+        styled = raw_snippet.replace("<mark>", "<span style='color: #4CC2FF; font-weight: 600; background-color: rgba(76, 194, 255, 0.15); border-radius: 2px;'>")
         styled = styled.replace("</mark>", "</span>")
         return f"<span>{styled}</span>"
 
@@ -140,17 +139,17 @@ class SearchResultCard(QFrame):
                     return
             except Exception:
                 pass
-        self.thumb_label.setText("🖼️")
+        self.thumb_label.setText("No Preview")
 
     def _copy_text(self):
         clipboard = QApplication.clipboard()
         text_to_copy = self.result.ocr_text or self.result.title
         clipboard.setText(text_to_copy)
 
-        self.copy_text_btn.setText("✓ Copied!")
-        self.copy_text_btn.setStyleSheet("background-color: #059669; color: #FFFFFF; font-size: 11px; padding: 2px 8px;")
-        QTimer.singleShot(1200, lambda: self.copy_text_btn.setText("📋 Copy Text"))
-        QTimer.singleShot(1200, lambda: self.copy_text_btn.setStyleSheet("font-size: 11px; padding: 2px 8px;"))
+        self.copy_text_btn.setText("Copied!")
+        self.copy_text_btn.setStyleSheet("background-color: #0067C0; color: #FFFFFF; font-size: 11px; padding: 2px 8px; border-radius: 4px;")
+        QTimer.singleShot(1200, lambda: self.copy_text_btn.setText("Copy Text"))
+        QTimer.singleShot(1200, lambda: self.copy_text_btn.setStyleSheet("font-size: 11px; padding: 2px 8px; border-radius: 4px;"))
 
     def _open_file(self):
         path = Path(self.result.file_path)
@@ -176,8 +175,8 @@ class SearchModal(QDialog):
         search_row = QHBoxLayout()
         self.search_input = QLineEdit()
         self.search_input.setObjectName("searchInput")
-        self.search_input.setPlaceholderText("🔍 Search screenshot text, titles, or tags... (Press Esc to close)")
-        self.search_input.setFixedHeight(38)
+        self.search_input.setPlaceholderText("Search captured text, titles, or tags... (Esc to close)")
+        self.search_input.setFixedHeight(36)
         self.search_input.textChanged.connect(self._on_search_query_changed)
         search_row.addWidget(self.search_input)
 

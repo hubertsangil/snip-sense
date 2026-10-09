@@ -90,7 +90,7 @@ class ControlWindow(QMainWindow):
         # Root Custom Window Container with dedicated controls (minimize, expand, exit)
         self.container = CustomWindowContainer(
             parent_window=self,
-            title="🔮 SnipSense  STUDIO",
+            title="SnipSense",
             badge_text="100% Offline",
             can_maximize=True,
             can_minimize=True,
@@ -105,38 +105,38 @@ class ControlWindow(QMainWindow):
         self.btn_close = self.title_bar.btn_close
 
         # 1. Hero Primary Action: New Capture Trigger
-        snip_btn = QPushButton("✂️  New Capture                                    Ctrl+Shift+S")
+        snip_btn = QPushButton("New Capture                                        Ctrl+Shift+S")
         snip_btn.setObjectName("heroActionBtn")
-        snip_btn.setToolTip("Instant screen capture with high-DPI precision")
+        snip_btn.setToolTip("Capture selected screen area (Ctrl+Shift+S)")
         snip_btn.clicked.connect(self.app_controller.start_snip)
         self.container.add_content_widget(snip_btn)
 
         # 2. 2x2 Quick Actions Matrix
         grid = QGridLayout()
-        grid.setHorizontalSpacing(10)
+        grid.setHorizontalSpacing(8)
         grid.setVerticalSpacing(8)
 
-        record_btn = QPushButton("⏺️  Record Clip        Ctrl+Shift+R")
+        record_btn = QPushButton("Record Screen           Ctrl+Shift+R")
         record_btn.setObjectName("toolCardBtn")
-        record_btn.setToolTip("Record short screen GIF or MP4 clips (up to 30s)")
+        record_btn.setToolTip("Record screen clip up to 30s (Ctrl+Shift+R)")
         record_btn.clicked.connect(self.app_controller.start_recording)
         grid.addWidget(record_btn, 0, 0)
 
-        hud_btn = QPushButton("🔮  Overlay HUD                Alt+Z")
+        hud_btn = QPushButton("Overlay HUD                     Alt+Z")
         hud_btn.setObjectName("toolCardBtn")
-        hud_btn.setToolTip("Open full-screen frosted glass HUD overlay")
+        hud_btn.setToolTip("Open overlay HUD (Alt+Z)")
         hud_btn.clicked.connect(self.app_controller.open_hud)
         grid.addWidget(hud_btn, 0, 1)
 
-        search_btn = QPushButton("🔍  Search Vault              Alt+F")
+        search_btn = QPushButton("Search Vault                    Alt+F")
         search_btn.setObjectName("toolCardBtn")
-        search_btn.setToolTip("Spotlight search across OCR text and screenshots")
+        search_btn.setToolTip("Search OCR text and history (Alt+F)")
         search_btn.clicked.connect(self.app_controller.open_search_vault)
         grid.addWidget(search_btn, 1, 0)
 
-        self.clean_btn = QPushButton("🧹  Clean Duplicates")
+        self.clean_btn = QPushButton("Clean Duplicates")
         self.clean_btn.setObjectName("toolCardBtn")
-        self.clean_btn.setToolTip("Detect and clean redundant duplicate bursts")
+        self.clean_btn.setToolTip("Detect and clean redundant duplicate captures")
         self.clean_btn.clicked.connect(self.app_controller.open_dedup_dialog)
         grid.addWidget(self.clean_btn, 1, 1)
 
@@ -144,18 +144,18 @@ class ControlWindow(QMainWindow):
 
         # 3. Footer Utility Row
         footer = QHBoxLayout()
-        footer.setSpacing(10)
+        footer.setSpacing(8)
 
-        folder_btn = QPushButton("📂 Open Folder")
+        folder_btn = QPushButton("Open Folder")
         folder_btn.setObjectName("ghostAction")
-        folder_btn.setToolTip("Open default screenshots directory in Explorer")
+        folder_btn.setToolTip("Open screenshots directory in File Explorer")
         folder_btn.clicked.connect(self._open_screenshots_folder)
         footer.addWidget(folder_btn)
 
         footer.addStretch()
 
-        hint_label = QLabel("Minimizes to tray on close ✕")
-        hint_label.setStyleSheet("color: #64748B; font-size: 11px; font-weight: 500;")
+        hint_label = QLabel("Runs in system tray when closed")
+        hint_label.setStyleSheet("color: #767676; font-size: 11px;")
         footer.addWidget(hint_label)
 
         self.container.add_content_layout(footer)
@@ -280,19 +280,19 @@ class SnipSenseApp(QObject):
         menu = QMenu()
         menu.setStyleSheet(DARK_THEME_QSS)
 
-        snip_act = menu.addAction("✂️ New Snip (Ctrl+Shift+S)")
+        snip_act = menu.addAction("New Snip (Ctrl+Shift+S)")
         snip_act.triggered.connect(self.start_snip)
 
-        record_act = menu.addAction("⏺️ Record Clip (Ctrl+Shift+R)")
+        record_act = menu.addAction("Record Clip (Ctrl+Shift+R)")
         record_act.triggered.connect(self.start_recording)
 
-        hud_act = menu.addAction("🔮 HUD (Alt+Z)")
+        hud_act = menu.addAction("Overlay HUD (Alt+Z)")
         hud_act.triggered.connect(self.open_hud)
 
-        search_act = menu.addAction("🔍 Search Vault (Alt+F)")
+        search_act = menu.addAction("Search Vault (Alt+F)")
         search_act.triggered.connect(self.open_search_vault)
 
-        folder_act = menu.addAction("📂 Open Screenshots")
+        folder_act = menu.addAction("Open Screenshots")
         folder_act.triggered.connect(self.open_screenshots_folder)
 
         menu.addSeparator()

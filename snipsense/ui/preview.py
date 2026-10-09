@@ -67,7 +67,7 @@ class PreviewWindow(QDialog):
         header = QHBoxLayout()
         header.setSpacing(10)
 
-        title_label = QLabel("🔮 SnipSense Inspector")
+        title_label = QLabel("Capture Inspector")
         title_label.setObjectName("headerTitle")
         header.addWidget(title_label)
 
@@ -118,12 +118,12 @@ class PreviewWindow(QDialog):
         self.name_edit.returnPressed.connect(self.save_image_to_disk)
         name_row.addWidget(self.name_edit, stretch=1)
 
-        self.save_btn = QPushButton("💾 Save")
+        self.save_btn = QPushButton("Save")
         self.save_btn.setObjectName("primaryAction")
         self.save_btn.clicked.connect(self.save_image_to_disk)
         name_row.addWidget(self.save_btn)
 
-        self.open_folder_btn = QPushButton("📂 Open Folder")
+        self.open_folder_btn = QPushButton("Open Folder")
         self.open_folder_btn.setObjectName("ghostAction")
         self.open_folder_btn.setVisible(False)
         self.open_folder_btn.clicked.connect(self._open_saved_location)
@@ -133,7 +133,7 @@ class PreviewWindow(QDialog):
 
         # 4. Bottom Action Bar
         bottom_bar = QHBoxLayout()
-        bottom_bar.setSpacing(10)
+        bottom_bar.setSpacing(8)
 
         dim_label = QLabel(f"{self.capture_result.width} × {self.capture_result.height} px")
         dim_label.setObjectName("dimensionPill")
@@ -141,14 +141,14 @@ class PreviewWindow(QDialog):
 
         # Shield PII Action Button (Prominent)
         if self.capture_result.ocr_boxes:
-            self.shield_pii_btn = QPushButton("🛡️ Shield PII")
+            self.shield_pii_btn = QPushButton("Redact PII")
             self.shield_pii_btn.setObjectName("shieldAction")
             self.shield_pii_btn.setToolTip("Auto-detect and blur emails, keys, tokens, IPs, passwords, and cards")
             self.shield_pii_btn.clicked.connect(self.shield_pii)
             bottom_bar.addWidget(self.shield_pii_btn)
 
             # Toggle Text Box Overlays Button
-            self.toggle_boxes_btn = QPushButton("👁️ Boxes")
+            self.toggle_boxes_btn = QPushButton("Text Boxes")
             self.toggle_boxes_btn.setObjectName("ghostAction")
             self.toggle_boxes_btn.setCheckable(True)
             self.toggle_boxes_btn.setChecked(True)
@@ -158,7 +158,7 @@ class PreviewWindow(QDialog):
         bottom_bar.addStretch()
 
         # Copy All Text Button
-        self.copy_text_btn = QPushButton("📋 Copy All Text")
+        self.copy_text_btn = QPushButton("Copy All Text")
         self.copy_text_btn.setObjectName("ghostAction")
         if self.capture_result.raw_text.strip():
             self.copy_text_btn.clicked.connect(self.copy_all_text_to_clipboard)
@@ -168,7 +168,7 @@ class PreviewWindow(QDialog):
         bottom_bar.addWidget(self.copy_text_btn)
 
         # Copy Image Button
-        self.copy_img_btn = QPushButton("🖼️ Copy Image")
+        self.copy_img_btn = QPushButton("Copy Image")
         self.copy_img_btn.setObjectName("ghostAction")
         self.copy_img_btn.clicked.connect(self.copy_image_to_clipboard)
         bottom_bar.addWidget(self.copy_img_btn)
@@ -229,7 +229,7 @@ class PreviewWindow(QDialog):
 
         self.canvas.set_masked_boxes(self.masked_boxes)
         self._reapply_masks()
-        self._show_badge_notification(f"🛡️ Shielded {len(pii_boxes)} sensitive item{'s' if len(pii_boxes) != 1 else ''}")
+        self._show_badge_notification(f"Redacted {len(pii_boxes)} sensitive item{'s' if len(pii_boxes) != 1 else ''}")
 
     def _reapply_masks(self):
         """Recomputes the underlying masked image buffer from original image + masked_boxes."""
@@ -262,7 +262,7 @@ class PreviewWindow(QDialog):
         """Displays transient visual confirmation when a specific text box is clicked."""
         truncated = text if len(text) <= 30 else text[:27] + "..."
         orig_text = self.status_badge.text()
-        self.status_badge.setText(f"✓ Copied: \"{truncated}\"")
+        self.status_badge.setText(f"Copied: \"{truncated}\"")
         self.status_badge.setStyleSheet("background-color: rgba(16, 185, 129, 0.35); color: #FFFFFF;")
 
         def _restore():
@@ -297,17 +297,17 @@ class PreviewWindow(QDialog):
         self.name_edit.setText(saved.name)
 
         # Show visual confirmation
-        self.save_btn.setText("✓ Saved!")
+        self.save_btn.setText("Saved!")
         self.save_btn.setStyleSheet("background-color: #059669; color: #FFFFFF;")
         self.open_folder_btn.setVisible(True)
 
-        self.status_badge.setText(f"✓ Saved to {saved.parent.name}/{saved.name}")
+        self.status_badge.setText(f"Saved to {saved.parent.name}/{saved.name}")
         self.status_badge.setStyleSheet("background-color: rgba(16, 185, 129, 0.25); color: #10B981;")
 
         QTimer.singleShot(1800, self._reset_save_btn)
 
     def _reset_save_btn(self):
-        self.save_btn.setText("💾 Save")
+        self.save_btn.setText("Save")
         self.save_btn.setStyleSheet("")
 
     def _open_saved_location(self):
@@ -332,12 +332,12 @@ class PreviewWindow(QDialog):
         clipboard = QApplication.clipboard()
         clipboard.setPixmap(self.pixmap)
 
-        self.copy_img_btn.setText("✓ Copied Image!")
+        self.copy_img_btn.setText("Copied Image!")
         self.copy_img_btn.setStyleSheet("background-color: #059669; color: #FFFFFF;")
         QTimer.singleShot(1200, self._reset_copy_img_btn)
 
     def _reset_copy_img_btn(self):
-        self.copy_img_btn.setText("🖼️ Copy Image")
+        self.copy_img_btn.setText("Copy Image")
         self.copy_img_btn.setStyleSheet("")
 
     def copy_all_text_to_clipboard(self):
@@ -348,10 +348,10 @@ class PreviewWindow(QDialog):
         clipboard = QApplication.clipboard()
         clipboard.setText(text_to_copy)
 
-        self.copy_text_btn.setText("✓ Copied All Text!")
+        self.copy_text_btn.setText("Copied All Text!")
         self.copy_text_btn.setStyleSheet("background-color: #059669; color: #FFFFFF;")
         QTimer.singleShot(1200, self._reset_copy_text_btn)
 
     def _reset_copy_text_btn(self):
-        self.copy_text_btn.setText("📋 Copy All Text")
+        self.copy_text_btn.setText("Copy All Text")
         self.copy_text_btn.setStyleSheet("")

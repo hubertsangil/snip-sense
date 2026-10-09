@@ -49,9 +49,9 @@ class RecorderPill(QWidget):
         self.pill_frame.setObjectName("pillFrame")
         self.pill_frame.setStyleSheet("""
             QFrame#pillFrame {
-                background-color: rgba(20, 24, 31, 0.95);
-                border: 1px solid #262E3B;
-                border-radius: 20px;
+                background-color: rgba(32, 32, 32, 0.95);
+                border: 1px solid #383838;
+                border-radius: 18px;
                 padding: 4px 12px;
             }
         """)
@@ -67,16 +67,16 @@ class RecorderPill(QWidget):
 
         # Timer label
         self.timer_label = QLabel(f"00:00 / {int(self.max_duration):02d}:00")
-        self.timer_label.setStyleSheet("color: #F1F5F9; font-weight: 600; font-family: monospace; font-size: 13px;")
+        self.timer_label.setStyleSheet("color: #F3F3F3; font-weight: 600; font-family: monospace; font-size: 13px;")
         layout.addWidget(self.timer_label)
 
         # Stop button
-        self.stop_btn = QPushButton("⏹ Stop & Save")
+        self.stop_btn = QPushButton("Stop & Save")
         self.stop_btn.setObjectName("primaryAction")
         self.stop_btn.setStyleSheet("""
             QPushButton#primaryAction {
-                background-color: #10B981;
-                color: #0B0D10;
+                background-color: #0067C0;
+                color: #FFFFFF;
                 font-weight: 600;
                 border: none;
                 border-radius: 12px;
@@ -84,7 +84,7 @@ class RecorderPill(QWidget):
                 font-size: 12px;
             }
             QPushButton#primaryAction:hover {
-                background-color: #059669;
+                background-color: #1170CF;
             }
         """)
         self.stop_btn.clicked.connect(self.stop_requested.emit)

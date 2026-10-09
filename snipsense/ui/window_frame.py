@@ -38,16 +38,16 @@ class CustomTitleBar(QWidget):
         self._drag_pos: Optional[QPoint] = None
 
         self.setObjectName("customTitleBar")
-        self.setFixedHeight(38)
+        self.setFixedHeight(34)
 
         layout = QHBoxLayout(self)
-        layout.setContentsMargins(14, 4, 10, 4)
-        layout.setSpacing(10)
+        layout.setContentsMargins(12, 0, 0, 0)
+        layout.setSpacing(8)
 
-        # 1. Left Side: Brand Icon & Title
+        # 1. Left Side: Title
         self.title_label = QLabel(title)
         self.title_label.setObjectName("titleBarTitle")
-        self.title_label.setStyleSheet("font-size: 13px; font-weight: 700; color: #F8FAFC; letter-spacing: -0.2px;")
+        self.title_label.setStyleSheet("font-size: 12px; font-weight: 600; color: #E8E8E8;")
         layout.addWidget(self.title_label)
 
         if badge_text:
@@ -61,7 +61,7 @@ class CustomTitleBar(QWidget):
 
         # 2. Right Side: Dedicated Control Buttons
         controls_layout = QHBoxLayout()
-        controls_layout.setSpacing(4)
+        controls_layout.setSpacing(1)
         controls_layout.setContentsMargins(0, 0, 0, 0)
 
         # Minimize Button
@@ -69,7 +69,7 @@ class CustomTitleBar(QWidget):
             self.btn_minimize = QPushButton("—")
             self.btn_minimize.setObjectName("winBtnMinimize")
             self.btn_minimize.setToolTip("Minimize to tray / taskbar")
-            self.btn_minimize.setFixedSize(28, 26)
+            self.btn_minimize.setFixedSize(38, 30)
             self.btn_minimize.clicked.connect(self._on_minimize)
             controls_layout.addWidget(self.btn_minimize)
         else:
@@ -80,7 +80,7 @@ class CustomTitleBar(QWidget):
             self.btn_maximize = QPushButton("□")
             self.btn_maximize.setObjectName("winBtnMaximize")
             self.btn_maximize.setToolTip("Expand / Restore window")
-            self.btn_maximize.setFixedSize(28, 26)
+            self.btn_maximize.setFixedSize(38, 30)
             self.btn_maximize.clicked.connect(self._on_maximize)
             controls_layout.addWidget(self.btn_maximize)
         else:
@@ -90,7 +90,7 @@ class CustomTitleBar(QWidget):
         self.btn_close = QPushButton("✕")
         self.btn_close.setObjectName("winBtnClose")
         self.btn_close.setToolTip("Close")
-        self.btn_close.setFixedSize(28, 26)
+        self.btn_close.setFixedSize(38, 30)
         self.btn_close.clicked.connect(self._on_close)
         controls_layout.addWidget(self.btn_close)
 
@@ -197,8 +197,8 @@ class CustomWindowContainer(QFrame):
         self.content_widget = QWidget(self)
         self.content_widget.setObjectName("windowContent")
         self.content_layout = QVBoxLayout(self.content_widget)
-        self.content_layout.setContentsMargins(18, 14, 18, 16)
-        self.content_layout.setSpacing(12)
+        self.content_layout.setContentsMargins(16, 12, 16, 14)
+        self.content_layout.setSpacing(10)
         self.root_layout.addWidget(self.content_widget, stretch=1)
 
     def add_content_widget(self, widget: QWidget, stretch: int = 0):

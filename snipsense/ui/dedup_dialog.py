@@ -57,10 +57,10 @@ class ClusterItemWidget(QFrame):
         self.setObjectName("clusterCard")
         self.setStyleSheet("""
             QFrame#clusterCard {
-                background-color: #1A202C;
-                border: 1px solid #2D3748;
-                border-radius: 8px;
-                padding: 12px;
+                background-color: #262626;
+                border: 1px solid #333333;
+                border-radius: 6px;
+                padding: 10px;
             }
         """)
 
@@ -194,7 +194,7 @@ class DedupDialog(QDialog):
 
         # Header
         header = QHBoxLayout()
-        title_label = QLabel("🧹 Duplicate Screenshot Cleaner")
+        title_label = QLabel("Duplicate Screenshot Cleaner")
         title_label.setObjectName("headerTitle")
         header.addWidget(title_label)
 
@@ -212,7 +212,7 @@ class DedupDialog(QDialog):
 
         # Description
         desc = QLabel("Identified near-identical screenshot bursts (Hamming distance ≤ 4). Redundant files will be safely moved to the SnipSense Archive folder.")
-        desc.setStyleSheet("color: #94A3B8; font-size: 12px;")
+        desc.setStyleSheet("color: #A0A0A0; font-size: 12px;")
         desc.setWordWrap(True)
         main_layout.addWidget(desc)
 
@@ -225,8 +225,8 @@ class DedupDialog(QDialog):
         self.scroll_layout.setContentsMargins(6, 6, 6, 6)
 
         if not self.clusters:
-            empty_label = QLabel("✨ No duplicate screenshots found! Your vault is clean.")
-            empty_label.setStyleSheet("color: #94A3B8; font-size: 13px; padding: 40px;")
+            empty_label = QLabel("No duplicate screenshots found. Your vault is clean.")
+            empty_label.setStyleSheet("color: #767676; font-size: 13px; padding: 40px;")
             empty_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
             self.scroll_layout.addWidget(empty_label)
         else:
@@ -243,7 +243,7 @@ class DedupDialog(QDialog):
         btn_layout = QHBoxLayout()
         btn_layout.setSpacing(10)
 
-        self.undo_btn = QPushButton("↩️ Undo Last Cleanup")
+        self.undo_btn = QPushButton("Undo Last Cleanup")
         self.undo_btn.setObjectName("ghostAction")
         self.undo_btn.setEnabled(False)
         self.undo_btn.clicked.connect(self._handle_undo)
@@ -256,7 +256,7 @@ class DedupDialog(QDialog):
         cancel_btn.clicked.connect(self.reject)
         btn_layout.addWidget(cancel_btn)
 
-        self.clean_btn = QPushButton("🧹 Clean Selected Duplicates")
+        self.clean_btn = QPushButton("Clean Selected Duplicates")
         self.clean_btn.setObjectName("primaryAction")
         self.clean_btn.setEnabled(len(self.clusters) > 0)
         self.clean_btn.clicked.connect(self._handle_clean)

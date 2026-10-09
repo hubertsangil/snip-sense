@@ -60,13 +60,13 @@ class RecentCaptureCard(QFrame):
         info_row.addWidget(self.time_label)
 
         # Badge
-        badge_text = "📋 Text" if result.ocr_text.strip() else "🖼️ Image"
-        badge_color = "#34D399"
-        badge_bg = "rgba(16, 185, 129, 0.15)"
+        badge_text = "Text" if result.ocr_text.strip() else "Image"
+        badge_color = "#4CC2FF"
+        badge_bg = "rgba(76, 194, 255, 0.12)"
         if "#masked" in result.tags.lower() or "shield" in result.tags.lower():
-            badge_text = "🛡️ Masked"
-            badge_color = "#818CF8"
-            badge_bg = "rgba(99, 102, 241, 0.15)"
+            badge_text = "Redacted"
+            badge_color = "#E5A93C"
+            badge_bg = "rgba(229, 169, 60, 0.15)"
         self.badge_label = QLabel(badge_text)
         self.badge_label.setStyleSheet(
             f"background-color: {badge_bg}; color: {badge_color}; font-size: 9px; padding: 1px 4px; border-radius: 3px;"
@@ -81,21 +81,21 @@ class RecentCaptureCard(QFrame):
         action_row = QHBoxLayout()
         action_row.setSpacing(4)
 
-        self.copy_img_btn = QPushButton("🖼️")
+        self.copy_img_btn = QPushButton("Image")
         self.copy_img_btn.setToolTip("Copy Image to Clipboard")
         self.copy_img_btn.setObjectName("cardActionBtn")
-        self.copy_img_btn.setFixedSize(32, 24)
+        self.copy_img_btn.setFixedSize(44, 24)
         self.copy_img_btn.clicked.connect(self._copy_image)
         action_row.addWidget(self.copy_img_btn)
 
-        self.copy_text_btn = QPushButton("📋")
+        self.copy_text_btn = QPushButton("Text")
         self.copy_text_btn.setToolTip("Copy OCR Text")
         self.copy_text_btn.setObjectName("cardActionBtn")
-        self.copy_text_btn.setFixedSize(32, 24)
+        self.copy_text_btn.setFixedSize(38, 24)
         self.copy_text_btn.clicked.connect(self._copy_text)
         action_row.addWidget(self.copy_text_btn)
 
-        self.open_btn = QPushButton("📂 Open")
+        self.open_btn = QPushButton("Open")
         self.open_btn.setToolTip("Open in File Explorer")
         self.open_btn.setObjectName("cardActionBtn")
         self.open_btn.setFixedHeight(24)
@@ -119,7 +119,7 @@ class RecentCaptureCard(QFrame):
                     return
             except Exception:
                 pass
-        self.thumb_label.setText("🖼️")
+        self.thumb_label.setText("No Preview")
 
     def _copy_image(self):
         path = Path(self.result.file_path)
@@ -130,7 +130,7 @@ class RecentCaptureCard(QFrame):
                 self.copy_img_btn.setText("✓")
                 def _reset_img():
                     try:
-                        self.copy_img_btn.setText("🖼️")
+                        self.copy_img_btn.setText("Image")
                     except (RuntimeError, Exception):
                         pass
                 QTimer.singleShot(1000, _reset_img)
@@ -141,7 +141,7 @@ class RecentCaptureCard(QFrame):
         self.copy_text_btn.setText("✓")
         def _reset_txt():
             try:
-                self.copy_text_btn.setText("📋")
+                self.copy_text_btn.setText("Text")
             except (RuntimeError, Exception):
                 pass
         QTimer.singleShot(1000, _reset_txt)
@@ -233,25 +233,25 @@ class OverlayHUD(QDialog):
 
         # Action 1: Snip Area
         self.snip_action_btn = self._create_quick_action_btn(
-            "✂️ Snip Area", "Ctrl+Shift+S", self._on_snip_clicked
+            "New Capture", "Ctrl+Shift+S", self._on_snip_clicked
         )
         actions_grid.addWidget(self.snip_action_btn)
 
         # Action 2: Record Clip
         self.record_action_btn = self._create_quick_action_btn(
-            "⏺️ Record Clip", "Up to 30s", self._on_record_clicked
+            "Record Screen", "Ctrl+Shift+R", self._on_record_clicked
         )
         actions_grid.addWidget(self.record_action_btn)
 
         # Action 3: Search Vault
         self.search_action_btn = self._create_quick_action_btn(
-            "🔍 Search Vault", "Alt + F", self._on_search_clicked
+            "Search Vault", "Alt+F", self._on_search_clicked
         )
         actions_grid.addWidget(self.search_action_btn)
 
         # Action 4: Clean Duplicates
         self.clean_dups_btn = self._create_quick_action_btn(
-            "🧹 Clean Duplicates", "Perceptual Hash", self._on_clean_dups_clicked
+            "Clean Duplicates", "Perceptual Hash", self._on_clean_dups_clicked
         )
         actions_grid.addWidget(self.clean_dups_btn)
 
@@ -259,12 +259,12 @@ class OverlayHUD(QDialog):
 
         # 3. Recent Captures Carousel Header
         carousel_header = QHBoxLayout()
-        recent_title = QLabel("RECENT CAPTURES")
-        recent_title.setStyleSheet("font-size: 11px; font-weight: 700; color: #64748B; letter-spacing: 0.5px;")
+        recent_title = QLabel("Recent Captures")
+        recent_title.setStyleSheet("font-size: 11px; font-weight: 600; color: #A0A0A0;")
         carousel_header.addWidget(recent_title)
         carousel_header.addStretch()
 
-        self.view_all_btn = QPushButton("View All in Vault →")
+        self.view_all_btn = QPushButton("View All →")
         self.view_all_btn.setObjectName("ghostAction")
         self.view_all_btn.setStyleSheet("font-size: 11px; padding: 2px 8px;")
         self.view_all_btn.clicked.connect(self._on_search_clicked)
@@ -279,9 +279,9 @@ class OverlayHUD(QDialog):
         self.scroll_area.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.scroll_area.setStyleSheet("""
             QScrollArea {
-                border: 1px solid #1E2530;
-                border-radius: 8px;
-                background-color: #0E1217;
+                border: 1px solid #333333;
+                border-radius: 6px;
+                background-color: #1A1A1A;
             }
         """)
 
@@ -298,9 +298,9 @@ class OverlayHUD(QDialog):
         # 4. Footer Telemetry
         total_count = self.vault.count_total()
         self.footer_label = QLabel(
-            f"STATUS: {total_count} historical screenshots indexed • 100% Zero Cloud Egress"
+            f"{total_count} captures indexed • Local database"
         )
-        self.footer_label.setStyleSheet("color: #64748B; font-size: 11px;")
+        self.footer_label.setStyleSheet("color: #767676; font-size: 11px;")
         container_layout.addWidget(self.footer_label)
 
         root_layout.addWidget(self.hud_container)

@@ -78,8 +78,8 @@ class InteractiveImageCanvas(QWidget):
             self.hovered_box = box
             if box:
                 self.setCursor(Qt.CursorShape.PointingHandCursor)
-                mask_status = "🔒 Masked" if box in self.masked_boxes else "🔓 Unmasked"
-                self.setToolTip(f"[{mask_status}] Click to toggle blur / copy\n\"{box.text}\" ({box.confidence:.0%})")
+                mask_status = "Redacted" if box in self.masked_boxes else "Visible"
+                self.setToolTip(f"[{mask_status}] Click to toggle redaction / copy\n\"{box.text}\" ({box.confidence:.0%})")
             else:
                 self.setCursor(Qt.CursorShape.ArrowCursor)
                 self.setToolTip("")
