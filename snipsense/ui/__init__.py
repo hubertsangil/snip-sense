@@ -5,6 +5,7 @@ from snipsense.ui.canvas import SnipCanvas
 from snipsense.ui.image_canvas import InteractiveImageCanvas
 from snipsense.ui.preview import PreviewWindow
 from snipsense.ui.search_modal import SearchModal, SearchResultCard
+from snipsense.ui.dedup_dialog import DedupDialog
 
 __all__ = [
     "DARK_THEME_QSS",
@@ -13,4 +14,5 @@ __all__ = [
     "PreviewWindow",
     "SearchModal",
     "SearchResultCard",
+    "DedupDialog",
 ]

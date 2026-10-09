@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 import sys
-from PyQt6.QtCore import QObject, pyqtSlot
+from PyQt6.QtCore import QObject, pyqtSlot, QThread
 from PyQt6.QtWidgets import (
     QApplication,
     QMainWindow,
@@ -19,9 +19,12 @@ from snipsense.core.naming import get_foreground_window_title, generate_filename
 from snipsense.core.storage import StorageManager
 from snipsense.core.ocr_engine import OCREngine
 from snipsense.core.vault import VaultDatabase
+from snipsense.core.dedup import DuplicateCluster, DuplicateArchiver
+from snipsense.core.ingestion import HistoricalScanner, IngestionWorker
 from snipsense.ui.canvas import SnipCanvas
 from snipsense.ui.preview import PreviewWindow
 from snipsense.ui.search_modal import SearchModal
+from snipsense.ui.dedup_dialog import DedupDialog
 from snipsense.ui.styles import DARK_THEME_QSS
 
 
@@ -34,7 +37,7 @@ class ControlWindow(QMainWindow):
         self.setObjectName("controlWindow")
         self.setStyleSheet(DARK_THEME_QSS)
         self.setWindowTitle("SnipSense Studio")
-        self.resize(380, 200)
+        self.resize(420, 230)
 
         central = QWidget()
         self.setCentralWidget(central)
@@ -47,9 +50,9 @@ class ControlWindow(QMainWindow):
         title.setObjectName("headerTitle")
         header.addWidget(title)
 
-        badge = QLabel("100% Offline")
-        badge.setObjectName("statusBadge")
-        header.addWidget(badge)
+        self.badge = QLabel("100% Offline")
+        self.badge.setObjectName("statusBadge")
+        header.addWidget(self.badge)
         header.addStretch()
         layout.addLayout(header)
 
@@ -65,17 +68,27 @@ class ControlWindow(QMainWindow):
         snip_btn.clicked.connect(self.app_controller.start_snip)
         btn_row.addWidget(snip_btn)
 
-        search_btn = QPushButton("🔍 Search Vault (Alt+F)")
+        search_btn = QPushButton("🔍 Vault (Alt+F)")
         search_btn.setObjectName("ghostAction")
         search_btn.clicked.connect(self.app_controller.open_search_vault)
         btn_row.addWidget(search_btn)
 
+        layout.addLayout(btn_row)
+
+        secondary_row = QHBoxLayout()
+        secondary_row.setSpacing(8)
+
+        self.clean_btn = QPushButton("🧹 Clean Dups")
+        self.clean_btn.setObjectName("ghostAction")
+        self.clean_btn.clicked.connect(self.app_controller.open_dedup_dialog)
+        secondary_row.addWidget(self.clean_btn)
+
         folder_btn = QPushButton("📂 Open Folder")
         folder_btn.setObjectName("ghostAction")
         folder_btn.clicked.connect(self._open_screenshots_folder)
-        btn_row.addWidget(folder_btn)
+        secondary_row.addWidget(folder_btn)
 
-        layout.addLayout(btn_row)
+        layout.addLayout(secondary_row)
 
         # In-app shortcuts
         self.snip_shortcut = QShortcut(QKeySequence("Ctrl+Shift+S"), self)
@@ -84,13 +97,17 @@ class ControlWindow(QMainWindow):
         self.search_shortcut = QShortcut(QKeySequence("Alt+F"), self)
         self.search_shortcut.activated.connect(self.app_controller.open_search_vault)
 
+    def set_status_text(self, text: str):
+        """Updates the status badge text."""
+        self.badge.setText(text)
+
     def _open_screenshots_folder(self):
         storage = StorageManager()
         storage.open_in_explorer(storage.base_directory)
 
 
 class SnipSenseApp(QObject):
-    """Coordinates canvas spawning, image grabbing, auto-naming, preview, and search vault."""
+    """Coordinates canvas spawning, image grabbing, auto-naming, preview, search vault, and deduplication."""
 
     def __init__(self):
         super().__init__()
@@ -99,8 +116,49 @@ class SnipSenseApp(QObject):
         self.canvas: SnipCanvas | None = None
         self.preview: PreviewWindow | None = None
         self.search_modal: SearchModal | None = None
+        self.dedup_dialog: DedupDialog | None = None
         self.control_win: ControlWindow | None = None
+        self.duplicate_clusters: list[DuplicateCluster] = []
         self._last_window_title: str = ""
+        self._ingestion_thread: QThread | None = None
+        self._ingestion_worker: IngestionWorker | None = None
+
+    def start_background_ingestion(self):
+        """Dispatches non-blocking historical screenshot scan and perceptual deduplication."""
+        self._ingestion_thread = QThread()
+        self._ingestion_worker = IngestionWorker()
+        self._ingestion_worker.moveToThread(self._ingestion_thread)
+
+        self._ingestion_thread.started.connect(self._ingestion_worker.run)
+        self._ingestion_worker.finished.connect(self._on_ingestion_finished)
+        self._ingestion_worker.finished.connect(self._ingestion_thread.quit)
+        self._ingestion_thread.finished.connect(self._ingestion_thread.deleteLater)
+
+        self._ingestion_thread.start()
+
+    @pyqtSlot(int, int)
+    def _on_ingestion_finished(self, indexed_count: int, dup_count: int):
+        # Retrieve clusters directly from the worker (avoids cross-thread list serialization)
+        if self._ingestion_worker:
+            self.duplicate_clusters = self._ingestion_worker.clusters
+        if self.control_win:
+            if dup_count > 0:
+                self.control_win.set_status_text(f"{indexed_count} indexed | {dup_count} duplicate bursts")
+            else:
+                self.control_win.set_status_text(f"{indexed_count} indexed • 100% Offline")
+
+    def open_dedup_dialog(self):
+        """Opens the review and deduplication modal."""
+        self.dedup_dialog = DedupDialog(self.duplicate_clusters)
+        self.dedup_dialog.cleaning_completed.connect(self._on_duplicates_cleaned)
+        self.dedup_dialog.show()
+        self.dedup_dialog.activateWindow()
+        self.dedup_dialog.raise_()
+
+    @pyqtSlot(int, int)
+    def _on_duplicates_cleaned(self, cleaned_count: int, reclaimed_bytes: int):
+        if self.control_win:
+            self.control_win.set_status_text(f"Cleaned {cleaned_count} duplicates")
 
     def open_search_vault(self):
         """Opens the visual memory search dialog."""
@@ -157,9 +215,10 @@ class SnipSenseApp(QObject):
             self.control_win.showNormal()
 
     def run(self):
-        """Starts the main Qt event loop."""
+        """Starts the main Qt event loop and kicks off background ingestion."""
         app = QApplication.instance() or QApplication(sys.argv)
         app.setStyleSheet(DARK_THEME_QSS)
         self.control_win = ControlWindow(self)
         self.control_win.show()
+        self.start_background_ingestion()
         return app.exec()
