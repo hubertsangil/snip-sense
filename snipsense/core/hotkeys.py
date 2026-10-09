@@ -4,7 +4,7 @@ from __future__ import annotations
 import sys
 import threading
 from typing import Optional
-from PyQt6.QtCore import QObject, pyqtSignal
+from PyQt6.QtCore import QObject, QTimer, pyqtSignal
 
 
 class GlobalHotkeyListener(QObject):
@@ -53,15 +53,23 @@ class GlobalHotkeyListener(QObject):
                             is_shift = bool(flags & NSEventModifierFlagShift)
                             is_ctrl = bool(flags & NSEventModifierFlagControl)
 
+                            # Defer signal emissions to the next event loop iteration.
+                            # The global monitor callback fires while macOS is still
+                            # dispatching the key event to the foreground app. Emitting
+                            # synchronously means open_hud / start_snip run inside that
+                            # Cocoa callback, and macOS refuses to transfer input focus
+                            # mid-dispatch. QTimer.singleShot(0) schedules the emit for
+                            # after the callback returns and the run-loop is clean.
+
                             # Option + Z (Alt + Z) -> HUD
                             if is_option and char_lower == "z":
-                                self.hud_triggered.emit()
+                                QTimer.singleShot(0, self.hud_triggered.emit)
                             # Cmd + Shift + S or Ctrl + Shift + S -> Region Snip
                             elif (is_cmd or is_ctrl) and is_shift and char_lower == "s":
-                                self.snip_triggered.emit()
+                                QTimer.singleShot(0, self.snip_triggered.emit)
                             # Option + F (Alt + F) -> Search Vault
                             elif is_option and char_lower == "f":
-                                self.search_triggered.emit()
+                                QTimer.singleShot(0, self.search_triggered.emit)
                         except Exception:
                             pass
 

@@ -107,3 +107,49 @@ def test_overlay_hud_escape_dismisses(populated_vault, qtbot, qapp):
 
     qtbot.keyClick(hud, Qt.Key.Key_Escape)
     assert not hud.isVisible()
+
+
+def test_overlay_hud_record_and_clean_dups_actions(populated_vault, qtbot, qapp):
+    hud = OverlayHUD(vault=populated_vault)
+    qtbot.addWidget(hud)
+    hud.show()
+
+    record_triggered = []
+    clean_dups_triggered = []
+    search_triggered = []
+
+    hud.record_requested.connect(lambda: record_triggered.append(True))
+    hud.clean_duplicates_requested.connect(lambda: clean_dups_triggered.append(True))
+    hud.search_requested.connect(lambda: search_triggered.append(True))
+
+    # Record action
+    qtbot.mouseClick(hud.record_action_btn, Qt.MouseButton.LeftButton)
+    assert len(record_triggered) == 1
+    assert not hud.isVisible()
+
+    hud.show()
+    # Clean dups action
+    qtbot.mouseClick(hud.clean_dups_btn, Qt.MouseButton.LeftButton)
+    assert len(clean_dups_triggered) == 1
+    assert not hud.isVisible()
+
+    hud.show()
+    # View all link
+    qtbot.mouseClick(hud.view_all_btn, Qt.MouseButton.LeftButton)
+    assert len(search_triggered) == 1
+    assert not hud.isVisible()
+
+
+def test_overlay_hud_activation_change_dismisses(populated_vault, qtbot, qapp):
+    from PyQt6.QtCore import QEvent
+    hud = OverlayHUD(vault=populated_vault)
+    qtbot.addWidget(hud)
+    hud.show()
+    assert hud.isVisible()
+
+    hud._is_active_ready = True
+    ev = QEvent(QEvent.Type.ActivationChange)
+    # Simulate window losing active state
+    hud.changeEvent(ev)
+    assert not hud.isVisible()
+

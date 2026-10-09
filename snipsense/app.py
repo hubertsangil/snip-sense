@@ -75,6 +75,7 @@ class ControlWindow(QMainWindow):
         self.resize(420, 230)
 
         central = QWidget()
+        central.setObjectName("controlCentral")
         self.setCentralWidget(central)
         layout = QVBoxLayout(central)
         layout.setContentsMargins(20, 20, 20, 20)
@@ -164,6 +165,7 @@ class SnipSenseApp(QObject):
     """Coordinates canvas spawning, image grabbing, auto-naming, preview, system tray, HUD, search vault, and deduplication."""
 
     def __init__(self):
+        self.qt_app = QApplication.instance() or QApplication(sys.argv)
         super().__init__()
         self.grabber = ScreenGrabber()
         self.vault = VaultDatabase.get_instance()
@@ -305,12 +307,9 @@ class SnipSenseApp(QObject):
 
     def open_hud(self):
         """Opens the frosted-glass overlay HUD (Alt + Z)."""
-        if sys.platform == "darwin":
-            try:
-                from AppKit import NSApplication
-                NSApplication.sharedApplication().activateIgnoringOtherApps_(True)
-            except Exception:
-                pass
+        if self.hud and self.hud.isVisible():
+            self.hud.close()
+            return
 
         cursor_pos = QCursor.pos()
         screen = QGuiApplication.screenAt(cursor_pos) or QGuiApplication.primaryScreen()
@@ -326,23 +325,32 @@ class SnipSenseApp(QObject):
         self.hud.snip_requested.connect(self.start_snip)
         self.hud.search_requested.connect(self.open_search_vault)
         self.hud.clean_duplicates_requested.connect(self.open_dedup_dialog)
-        self.hud.show()
-        self.hud.raise_()
-        self.hud.activateWindow()
 
-    def open_search_vault(self):
-        """Opens the visual memory search dialog."""
+        # On macOS, activate the app AFTER showing the window so the window
+        # server has a visible target to grant input focus to.
+        self.hud.show()
         if sys.platform == "darwin":
             try:
                 from AppKit import NSApplication
                 NSApplication.sharedApplication().activateIgnoringOtherApps_(True)
             except Exception:
                 pass
+        self.hud.raise_()
+        self.hud.activateWindow()
 
+    def open_search_vault(self):
+        """Opens the visual memory search dialog."""
         self.search_modal = SearchModal(vault=self.vault)
         self.search_modal.show()
+        if sys.platform == "darwin":
+            try:
+                from AppKit import NSApplication
+                NSApplication.sharedApplication().activateIgnoringOtherApps_(True)
+            except Exception:
+                pass
         self.search_modal.raise_()
         self.search_modal.activateWindow()
+        self.search_modal.search_input.setFocus()
 
     def start_snip(self):
         """Captures active window context, freezes the screen, and spawns the precision canvas."""
