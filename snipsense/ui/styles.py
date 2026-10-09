@@ -5,7 +5,7 @@ DARK_THEME_QSS = """
 QWidget {
     background-color: transparent;
     color: #F1F5F9;
-    font-family: 'Segoe UI', 'Inter', -apple-system, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
     font-size: 13px;
 }
 
