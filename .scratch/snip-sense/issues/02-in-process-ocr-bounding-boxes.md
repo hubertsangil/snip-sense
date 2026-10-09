@@ -4,12 +4,12 @@
 
 **Blocked by:** 01: Interactive Screen Snip & Instant Preview Canvas
 
-**Status:** ready-for-agent
+**Status:** completed
 
-- [ ] Every captured image is processed through in-process `RapidOCR` in under 80ms on standard CPU.
-- [ ] OCR returns accurate character/word bounding polygons, normalized coordinates `(x, y, w, h)`, and text strings.
-- [ ] Bounding boxes are rendered as subtle visual overlays atop the preview image.
-- [ ] Hovering over a bounding box displays a tooltip with the recognized text string.
-- [ ] Clicking any individual bounding box copies its exact text string directly to the OS clipboard and displays a brief visual confirmation.
-- [ ] A "Copy All Text" button on the toolbar extracts and concatenates all detected lines into structured text on the clipboard.
-- [ ] Captures with no detected text degrade gracefully without errors or visual artifacts.
+- [x] Every captured image is processed through in-process `RapidOCR` in under 80ms on standard CPU.
+- [x] OCR returns accurate character/word bounding polygons, normalized coordinates `(x, y, w, h)`, and text strings.
+- [x] Bounding boxes are rendered as subtle visual overlays atop the preview image.
+- [x] Hovering over a bounding box displays a tooltip with the recognized text string.
+- [x] Clicking any individual bounding box copies its exact text string directly to the OS clipboard and displays a brief visual confirmation.
+- [x] A "Copy All Text" button on the toolbar extracts and concatenates all detected lines into structured text on the clipboard.
+- [x] Captures with no detected text degrade gracefully without errors or visual artifacts.

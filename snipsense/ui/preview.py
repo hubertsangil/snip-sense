@@ -1,8 +1,8 @@
-"""Interactive desktop preview window displaying the captured screenshot with clipboard actions."""
+"""Interactive desktop preview window displaying the captured screenshot with OCR bounding boxes."""
 
 import io
 from PIL import Image
-from PyQt6.QtCore import Qt, QTimer, QSize
+from PyQt6.QtCore import Qt, QTimer
 from PyQt6.QtGui import QPixmap, QImage, QKeySequence, QShortcut
 from PyQt6.QtWidgets import (
     QDialog,
@@ -16,6 +16,7 @@ from PyQt6.QtWidgets import (
 )
 from snipsense.core.models import CaptureResult
 from snipsense.ui.styles import DARK_THEME_QSS
+from snipsense.ui.image_canvas import InteractiveImageCanvas
 
 
 def pil_to_qpixmap(pil_img: Image.Image) -> QPixmap:
@@ -27,7 +28,7 @@ def pil_to_qpixmap(pil_img: Image.Image) -> QPixmap:
 
 
 class PreviewWindow(QDialog):
-    """Interactive preview dialog rendering the captured image and clipboard actions."""
+    """Interactive preview dialog rendering the captured image, OCR bounding boxes, and clipboard actions."""
 
     def __init__(self, capture_result: CaptureResult, parent: QWidget | None = None):
         super().__init__(parent)
@@ -58,9 +59,11 @@ class PreviewWindow(QDialog):
         title_label.setObjectName("headerTitle")
         header.addWidget(title_label)
 
-        status_badge = QLabel("Captured")
-        status_badge.setObjectName("statusBadge")
-        header.addWidget(status_badge)
+        line_count = len(self.capture_result.ocr_boxes)
+        badge_text = f"{line_count} text {'blocks' if line_count != 1 else 'block'} detected" if line_count > 0 else "Captured"
+        self.status_badge = QLabel(badge_text)
+        self.status_badge.setObjectName("statusBadge")
+        header.addWidget(self.status_badge)
 
         header.addStretch()
 
@@ -72,15 +75,14 @@ class PreviewWindow(QDialog):
 
         layout.addLayout(header)
 
-        # 2. Central Image Scroll View
+        # 2. Central Scrollable Image Canvas with Interactive OCR Boxes
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
         scroll.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.image_label = QLabel()
-        self.image_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.image_label.setPixmap(self.pixmap)
-        scroll.setWidget(self.image_label)
+        self.canvas = InteractiveImageCanvas(self.pixmap, self.capture_result.ocr_boxes)
+        self.canvas.text_copied.connect(self._on_snippet_copied)
+        scroll.setWidget(self.canvas)
 
         layout.addWidget(scroll, stretch=1)
 
@@ -92,12 +94,32 @@ class PreviewWindow(QDialog):
         dim_label.setObjectName("dimensionPill")
         bottom_bar.addWidget(dim_label)
 
+        # Toggle Text Box Overlays Button
+        if self.capture_result.ocr_boxes:
+            self.toggle_boxes_btn = QPushButton("👁️ Boxes")
+            self.toggle_boxes_btn.setObjectName("ghostAction")
+            self.toggle_boxes_btn.setCheckable(True)
+            self.toggle_boxes_btn.setChecked(True)
+            self.toggle_boxes_btn.clicked.connect(self._toggle_boxes)
+            bottom_bar.addWidget(self.toggle_boxes_btn)
+
         bottom_bar.addStretch()
 
-        self.copy_btn = QPushButton("📋 Copy Image")
-        self.copy_btn.setObjectName("primaryAction")
-        self.copy_btn.clicked.connect(self.copy_image_to_clipboard)
-        bottom_bar.addWidget(self.copy_btn)
+        # Copy All Text Button
+        self.copy_text_btn = QPushButton("📋 Copy All Text")
+        self.copy_text_btn.setObjectName("ghostAction")
+        if self.capture_result.raw_text.strip():
+            self.copy_text_btn.clicked.connect(self.copy_all_text_to_clipboard)
+        else:
+            self.copy_text_btn.setText("No Text Found")
+            self.copy_text_btn.setEnabled(False)
+        bottom_bar.addWidget(self.copy_text_btn)
+
+        # Copy Image Button (Primary Action)
+        self.copy_img_btn = QPushButton("🖼️ Copy Image")
+        self.copy_img_btn.setObjectName("primaryAction")
+        self.copy_img_btn.clicked.connect(self.copy_image_to_clipboard)
+        bottom_bar.addWidget(self.copy_img_btn)
 
         dismiss_btn = QPushButton("Close")
         dismiss_btn.setObjectName("ghostAction")
@@ -106,32 +128,66 @@ class PreviewWindow(QDialog):
 
         layout.addLayout(bottom_bar)
 
-        # Determine reasonable dialog dimensions (clamped to screen size)
+        # Clamped initial dialog dimensions
         img_w = self.capture_result.width
         img_h = self.capture_result.height
-        target_w = max(450, min(img_w + 40, 960))
-        target_h = max(350, min(img_h + 100, 680))
+        target_w = max(520, min(img_w + 40, 1020))
+        target_h = max(380, min(img_h + 110, 720))
         self.resize(target_w, target_h)
 
     def _setup_shortcuts(self):
-        # Ctrl+C triggers copy image
-        copy_shortcut = QShortcut(QKeySequence("Ctrl+C"), self)
-        copy_shortcut.activated.connect(self.copy_image_to_clipboard)
+        copy_img_shortcut = QShortcut(QKeySequence("Ctrl+C"), self)
+        copy_img_shortcut.activated.connect(self.copy_image_to_clipboard)
 
-        # Esc or Ctrl+W closes window
+        if self.capture_result.raw_text.strip():
+            copy_text_shortcut = QShortcut(QKeySequence("Ctrl+Shift+C"), self)
+            copy_text_shortcut.activated.connect(self.copy_all_text_to_clipboard)
+
         close_shortcut = QShortcut(QKeySequence("Ctrl+W"), self)
         close_shortcut.activated.connect(self.close)
 
+    def _toggle_boxes(self):
+        """Toggles rendering of the OCR bounding boxes on the canvas."""
+        is_visible = self.toggle_boxes_btn.isChecked()
+        self.canvas.set_boxes_visible(is_visible)
+
+    def _on_snippet_copied(self, text: str):
+        """Displays transient visual confirmation in the header when a specific text box is clicked."""
+        truncated = text if len(text) <= 30 else text[:27] + "..."
+        orig_text = self.status_badge.text()
+        self.status_badge.setText(f"✓ Copied: \"{truncated}\"")
+        self.status_badge.setStyleSheet("background-color: rgba(16, 185, 129, 0.35); color: #FFFFFF;")
+
+        def _restore():
+            self.status_badge.setText(orig_text)
+            self.status_badge.setStyleSheet("")
+
+        QTimer.singleShot(1400, _restore)
+
     def copy_image_to_clipboard(self):
-        """Copies the captured QPixmap directly onto the OS system clipboard."""
+        """Copies the captured QPixmap onto the system clipboard."""
         clipboard = QApplication.clipboard()
         clipboard.setPixmap(self.pixmap)
 
-        # Visual feedback: update button text for 1.2 seconds
-        self.copy_btn.setText("✓ Copied!")
-        self.copy_btn.setStyleSheet("background-color: #059669; color: #FFFFFF;")
-        QTimer.singleShot(1200, self._reset_copy_btn)
+        self.copy_img_btn.setText("✓ Copied Image!")
+        self.copy_img_btn.setStyleSheet("background-color: #059669; color: #FFFFFF;")
+        QTimer.singleShot(1200, self._reset_copy_img_btn)
 
-    def _reset_copy_btn(self):
-        self.copy_btn.setText("📋 Copy Image")
-        self.copy_btn.setStyleSheet("")
+    def _reset_copy_img_btn(self):
+        self.copy_img_btn.setText("🖼️ Copy Image")
+        self.copy_img_btn.setStyleSheet("")
+
+    def copy_all_text_to_clipboard(self):
+        """Copies all recognized OCR lines into the clipboard as formatted plain text."""
+        if not self.capture_result.raw_text.strip():
+            return
+        clipboard = QApplication.clipboard()
+        clipboard.setText(self.capture_result.raw_text)
+
+        self.copy_text_btn.setText("✓ Copied All Text!")
+        self.copy_text_btn.setStyleSheet("background-color: #059669; color: #FFFFFF;")
+        QTimer.singleShot(1200, self._reset_copy_text_btn)
+
+    def _reset_copy_text_btn(self):
+        self.copy_text_btn.setText("📋 Copy All Text")
+        self.copy_text_btn.setStyleSheet("")

@@ -90,6 +90,12 @@ class SnipSenseApp(QObject):
         """Captures the requested region and opens the preview window."""
         try:
             result = self.grabber.capture_region(region)
+            # Run in-process OCR extraction
+            from snipsense.core.ocr_engine import OCREngine
+            boxes, raw_text = OCREngine.get_instance().extract_text(result.image)
+            result.ocr_boxes = boxes
+            result.raw_text = raw_text
+
             self.preview = PreviewWindow(result)
             self.preview.show()
             self.preview.activateWindow()

@@ -31,6 +31,22 @@ class ScreenRegion:
         return {"left": self.x, "top": self.y, "width": self.width, "height": self.height}
 
 
+@dataclass(frozen=True)
+class OCRTextBox:
+    """Represents a single recognized text block with normalized bounding coordinates."""
+    text: str
+    confidence: float
+    x: int
+    y: int
+    width: int
+    height: int
+    polygon: list[tuple[float, float]]
+
+    def contains_point(self, px: float, py: float) -> bool:
+        """Checks if a point (px, py) falls inside this text bounding box."""
+        return self.x <= px <= self.x + self.width and self.y <= py <= self.y + self.height
+
+
 @dataclass
 class CaptureResult:
     """Represents the output of a completed screen capture action."""
@@ -38,6 +54,8 @@ class CaptureResult:
     region: ScreenRegion
     timestamp: float = field(default_factory=time.time)
     window_title: Optional[str] = None
+    ocr_boxes: list[OCRTextBox] = field(default_factory=list)
+    raw_text: str = ""
 
     @property
     def width(self) -> int:
