@@ -1,4 +1,4 @@
-"""Application coordinator linking hotkeys, canvas overlay, auto-naming, preview dialog, system tray, and deduplication."""
+"""Application coordinator linking hotkeys, canvas overlay, auto-naming, preview dialog, system tray, HUD, and deduplication."""
 
 from __future__ import annotations
 import sys
@@ -23,6 +23,8 @@ from PyQt6.QtGui import (
     QColor,
     QFont,
     QCloseEvent,
+    QCursor,
+    QGuiApplication,
 )
 from snipsense.core.capture import ScreenGrabber
 from snipsense.core.models import ScreenRegion, CaptureResult
@@ -32,11 +34,13 @@ from snipsense.core.ocr_engine import OCREngine
 from snipsense.core.vault import VaultDatabase
 from snipsense.core.dedup import DuplicateCluster, DuplicateArchiver
 from snipsense.core.ingestion import HistoricalScanner, IngestionWorker
+from snipsense.core.hotkeys import GlobalHotkeyListener
 from snipsense.core.hotkey import GlobalHotkeyManager
 from snipsense.ui.canvas import SnipCanvas
 from snipsense.ui.preview import PreviewWindow
 from snipsense.ui.search_modal import SearchModal
 from snipsense.ui.dedup_dialog import DedupDialog
+from snipsense.ui.overlay_hud import OverlayHUD
 from snipsense.ui.styles import DARK_THEME_QSS
 
 
@@ -94,10 +98,15 @@ class ControlWindow(QMainWindow):
         btn_row = QHBoxLayout()
         btn_row.setSpacing(8)
 
-        snip_btn = QPushButton("✂️ New Snip (Ctrl+Shift+S)")
+        snip_btn = QPushButton("✂️ Snip (Ctrl+Shift+S)")
         snip_btn.setObjectName("primaryAction")
         snip_btn.clicked.connect(self.app_controller.start_snip)
         btn_row.addWidget(snip_btn)
+
+        hud_btn = QPushButton("🔮 HUD (Alt+Z)")
+        hud_btn.setObjectName("ghostAction")
+        hud_btn.clicked.connect(self.app_controller.open_hud)
+        btn_row.addWidget(hud_btn)
 
         search_btn = QPushButton("🔍 Vault (Alt+F)")
         search_btn.setObjectName("ghostAction")
@@ -121,11 +130,17 @@ class ControlWindow(QMainWindow):
 
         layout.addLayout(secondary_row)
 
-        # In-app shortcuts
+        # In-app shortcuts (Application-wide)
         self.snip_shortcut = QShortcut(QKeySequence("Ctrl+Shift+S"), self)
+        self.snip_shortcut.setContext(Qt.ShortcutContext.ApplicationShortcut)
         self.snip_shortcut.activated.connect(self.app_controller.start_snip)
 
+        self.hud_shortcut = QShortcut(QKeySequence("Alt+Z"), self)
+        self.hud_shortcut.setContext(Qt.ShortcutContext.ApplicationShortcut)
+        self.hud_shortcut.activated.connect(self.app_controller.open_hud)
+
         self.search_shortcut = QShortcut(QKeySequence("Alt+F"), self)
+        self.search_shortcut.setContext(Qt.ShortcutContext.ApplicationShortcut)
         self.search_shortcut.activated.connect(self.app_controller.open_search_vault)
 
     def set_status_text(self, text: str):
@@ -146,17 +161,19 @@ class ControlWindow(QMainWindow):
 
 
 class SnipSenseApp(QObject):
-    """Coordinates canvas spawning, image grabbing, auto-naming, preview, system tray, search vault, and deduplication."""
+    """Coordinates canvas spawning, image grabbing, auto-naming, preview, system tray, HUD, search vault, and deduplication."""
 
     def __init__(self):
         super().__init__()
         self.grabber = ScreenGrabber()
         self.vault = VaultDatabase.get_instance()
-        self.hotkey_manager = GlobalHotkeyManager()
+        self.hotkey_listener = GlobalHotkeyListener(self)
+        self.hotkey_manager = self.hotkey_listener
         self.tray_icon: QSystemTrayIcon | None = None
         self._has_shown_tray_balloon: bool = False
         self.canvas: SnipCanvas | None = None
         self.preview: PreviewWindow | None = None
+        self.hud: OverlayHUD | None = None
         self.search_modal: SearchModal | None = None
         self.dedup_dialog: DedupDialog | None = None
         self.control_win: ControlWindow | None = None
@@ -165,6 +182,12 @@ class SnipSenseApp(QObject):
         self._control_was_visible: bool = False
         self._ingestion_thread: QThread | None = None
         self._ingestion_worker: IngestionWorker | None = None
+
+        # Global system-wide hotkeys (Alt+Z, Ctrl+Shift+S, Alt+F)
+        self.hotkey_listener.hud_triggered.connect(self.open_hud)
+        self.hotkey_listener.snip_triggered.connect(self.start_snip)
+        self.hotkey_listener.search_triggered.connect(self.open_search_vault)
+        self.hotkey_listener.start()
 
     def start_background_ingestion(self):
         """Dispatches non-blocking historical screenshot scan and perceptual deduplication."""
@@ -222,6 +245,9 @@ class SnipSenseApp(QObject):
         snip_act = menu.addAction("✂️ New Snip (Ctrl+Shift+S)")
         snip_act.triggered.connect(self.start_snip)
 
+        hud_act = menu.addAction("🔮 HUD (Alt+Z)")
+        hud_act.triggered.connect(self.open_hud)
+
         search_act = menu.addAction("🔍 Search Vault (Alt+F)")
         search_act.triggered.connect(self.open_search_vault)
 
@@ -277,15 +303,56 @@ class SnipSenseApp(QObject):
         storage = StorageManager()
         storage.open_in_explorer(storage.base_directory)
 
+    def open_hud(self):
+        """Opens the frosted-glass overlay HUD (Alt + Z)."""
+        if sys.platform == "darwin":
+            try:
+                from AppKit import NSApplication
+                NSApplication.sharedApplication().activateIgnoringOtherApps_(True)
+            except Exception:
+                pass
+
+        cursor_pos = QCursor.pos()
+        screen = QGuiApplication.screenAt(cursor_pos) or QGuiApplication.primaryScreen()
+
+        self.hud = OverlayHUD(vault=self.vault)
+        if screen:
+            sg = screen.geometry()
+            self.hud.move(
+                sg.x() + (sg.width() - self.hud.width()) // 2,
+                sg.y() + (sg.height() - self.hud.height()) // 2,
+            )
+
+        self.hud.snip_requested.connect(self.start_snip)
+        self.hud.search_requested.connect(self.open_search_vault)
+        self.hud.clean_duplicates_requested.connect(self.open_dedup_dialog)
+        self.hud.show()
+        self.hud.raise_()
+        self.hud.activateWindow()
+
     def open_search_vault(self):
         """Opens the visual memory search dialog."""
+        if sys.platform == "darwin":
+            try:
+                from AppKit import NSApplication
+                NSApplication.sharedApplication().activateIgnoringOtherApps_(True)
+            except Exception:
+                pass
+
         self.search_modal = SearchModal(vault=self.vault)
         self.search_modal.show()
-        self.search_modal.activateWindow()
         self.search_modal.raise_()
+        self.search_modal.activateWindow()
 
     def start_snip(self):
         """Captures active window context, freezes the screen, and spawns the precision canvas."""
+        if sys.platform == "darwin":
+            try:
+                from AppKit import NSApplication
+                NSApplication.sharedApplication().activateIgnoringOtherApps_(True)
+            except Exception:
+                pass
+
         # Query active window title before modifying window state
         self._last_window_title = get_foreground_window_title()
 
@@ -352,13 +419,15 @@ class SnipSenseApp(QObject):
 
     def quit(self):
         """Cleanly terminates the application and all background listeners."""
-        self.hotkey_manager.stop()
+        self.hotkey_listener.stop()
         if self.tray_icon:
             self.tray_icon.hide()
         if self.canvas:
             self.canvas.close()
         if self.preview:
             self.preview.close()
+        if self.hud:
+            self.hud.close()
         if self.search_modal:
             self.search_modal.close()
         if self.dedup_dialog:
@@ -382,13 +451,11 @@ class SnipSenseApp(QObject):
         self.control_win.setWindowIcon(icon)
         self.setup_system_tray()
 
-        # Connect and start global OS-wide hotkey listener
-        self.hotkey_manager.hotkey_triggered.connect(self.start_snip)
-        self.hotkey_manager.start()
-
         self.control_win.show()
+        self.control_win.raise_()
+        self.control_win.activateWindow()
         self.start_background_ingestion()
         try:
             return app.exec()
         finally:
-            self.hotkey_manager.stop()
+            self.hotkey_listener.stop()

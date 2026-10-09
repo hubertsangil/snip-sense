@@ -1,43 +1,20 @@
-"""Global system-wide hotkey listener using pynput and Qt signal dispatch."""
+"""Global system-wide hotkey listener using macOS Cocoa and Windows/Linux support."""
 
+from __future__ import annotations
+from typing import Optional
 from PyQt6.QtCore import QObject, pyqtSignal
-from pynput import keyboard
+from snipsense.core.hotkeys import GlobalHotkeyListener
 
 
-class GlobalHotkeyManager(QObject):
-    """Listens for global key combinations across all applications and dispatches Qt signals."""
+class GlobalHotkeyManager(GlobalHotkeyListener):
+    """Compatibility wrapper providing hotkey_triggered alias for snip_triggered."""
 
     hotkey_triggered = pyqtSignal()
 
-    def __init__(self, parent: QObject | None = None):
+    def __init__(self, parent: Optional[QObject] = None):
         super().__init__(parent)
-        self._listener: keyboard.GlobalHotKeys | None = None
+        self.snip_triggered.connect(self.hotkey_triggered.emit)
 
     def _on_hotkey(self):
-        """Callback invoked on pynput background thread."""
-        self.hotkey_triggered.emit()
-
-    def start(self):
-        """Starts the global hotkey listener in a daemon background thread."""
-        if self._listener is None:
-            try:
-                self._listener = keyboard.GlobalHotKeys({
-                    "<ctrl>+<shift>+s": self._on_hotkey,
-                })
-                self._listener.daemon = True
-                self._listener.start()
-            except Exception:
-                self._listener = None
-
-    def stop(self):
-        """Stops and cleans up the hotkey listener."""
-        if self._listener:
-            try:
-                self._listener.stop()
-            except Exception:
-                pass
-            self._listener = None
-
-    def is_running(self) -> bool:
-        """Checks if the hotkey listener thread is active."""
-        return self._listener is not None and self._listener.is_alive()
+        """Manually triggers the snip signal for testing."""
+        self.snip_triggered.emit()

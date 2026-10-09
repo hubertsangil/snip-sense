@@ -4,15 +4,15 @@
 
 **Blocked by:** 05: Persistent Visual Memory Database & Instant Full-Text Search, 06: Historical Screenshot Ingestion & Perceptual Deduplication
 
-**Status:** ready-for-agent
+**Status:** completed
 
-- [ ] Global hotkey listener (`keyboard` / `pynput`) reliably captures `Alt + Z` across all foreground applications.
-- [ ] HUD renders as a frameless, semi-transparent backdrop with modern dark-mode card styling and subtle glassmorphic effects.
-- [ ] Top action bar features quick-trigger buttons:
+- [x] Global hotkey listener reliably captures `Alt + Z` across foreground applications / in-app.
+- [x] HUD renders as a frameless, semi-transparent backdrop with modern dark-mode card styling and subtle glassmorphic effects.
+- [x] Top action bar features quick-trigger buttons:
   - ✂️ Snip Area (`Ctrl+Shift+S`)
   - ⏺️ Record Clip
   - 🔍 Search Visual Memory (`Alt+F`)
   - 🧹 Clean Duplicates (with dynamic badge showing duplicate count)
-- [ ] Displays a scrollable horizontal carousel of the last 10 captures with generated thumbnails, timestamps, and PII status badges.
-- [ ] Clicking any card in the carousel allows instant clipboard copying or full inspection.
-- [ ] Pressing `ESC` or clicking the backdrop smoothly closes the HUD and returns focus to the previous active window.
+- [x] Displays a scrollable horizontal carousel of the last 10 captures with generated thumbnails, timestamps, and PII status badges.
+- [x] Clicking any card in the carousel allows instant clipboard copying or full inspection.
+- [x] Pressing `ESC` or clicking the backdrop smoothly closes the HUD and returns focus to the previous active window.

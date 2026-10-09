@@ -1,4 +1,4 @@
-"""Core capture, OCR, privacy, naming, and storage engines for SnipSense."""
+"""Core capture, OCR, privacy, naming, hotkeys, and storage engines for SnipSense."""
 
 from snipsense.core.models import ScreenRegion, OCRTextBox, CaptureResult
 from snipsense.core.capture import ScreenGrabber
@@ -16,6 +16,7 @@ from snipsense.core.dedup import (
     DuplicateArchiver,
 )
 from snipsense.core.ingestion import HistoricalScanner, IngestionWorker
+from snipsense.core.hotkeys import GlobalHotkeyListener
 
 __all__ = [
     "ScreenRegion",
@@ -38,5 +39,5 @@ __all__ = [
     "DuplicateArchiver",
     "HistoricalScanner",
     "IngestionWorker",
+    "GlobalHotkeyListener",
 ]
-
