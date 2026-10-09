@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-labelledby="title-c">
+  <title id="title-c">SnipSense Layered Frame Stack</title>
+  <!-- Upper / Capture Crop Frame -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 84 36
+    H 196
+    C 209.25 36 220 46.75 220 60
+    V 156
+    C 220 169.25 209.25 180 196 180
+    H 164
+    V 148
+    H 188
+    V 68
+    H 116
+    V 92
+    H 84
+    V 60
+    C 84 46.75 94.75 36 108 36
+    Z
+  "/>
+  <!-- Lower / AI Sense Intelligence Frame -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 60 76
+    H 92
+    V 108
+    H 68
+    V 188
+    H 140
+    V 164
+    H 172
+    V 196
+    C 172 209.25 161.25 220 148 220
+    H 60
+    C 46.75 220 36 209.25 36 196
+    V 100
+    C 36 86.75 46.75 76 60 76
+    Z
+  "/>
+  <!-- Connecting S-Beam Aperture -->
+  <rect x="96" y="116" width="64" height="24" rx="12" fill="#0F172A"/>
+</svg>

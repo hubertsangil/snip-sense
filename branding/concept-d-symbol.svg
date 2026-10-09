@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-labelledby="title-d">
+  <title id="title-d">SnipSense Aperture Shears</title>
+  <!-- Upper Scissor Blade & Loop (forms upper S curve) -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 88 40
+    C 58 40 36 62 36 92
+    C 36 122 58 144 88 144
+    C 102 144 114 139 124 130
+    L 204 50
+    C 210 44 206 36 196 38
+    L 136 50
+    C 122 43 106 40 88 40
+    Z
+    M 88 68
+    C 101.25 68 112 78.75 112 92
+    C 112 105.25 101.25 116 88 116
+    C 74.75 116 64 105.25 64 92
+    C 64 78.75 74.75 68 88 68
+    Z
+  "/>
+  <!-- Lower Scissor Blade & Loop (forms lower S curve) -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 168 216
+    C 198 216 220 194 220 164
+    C 220 134 198 112 168 112
+    C 154 112 142 117 132 126
+    L 52 206
+    C 46 212 50 220 60 218
+    L 120 206
+    C 134 213 150 216 168 216
+    Z
+    M 168 188
+    C 154.75 188 144 177.25 144 164
+    C 144 150.75 154.75 140 168 140
+    C 181.25 140 192 150.75 192 164
+    C 192 177.25 181.25 188 168 188
+    Z
+  "/>
+  <!-- Central Pivot Sensor / Aperture Pin -->
+  <circle cx="128" cy="128" r="9" fill="#0F172A"/>
+</svg>

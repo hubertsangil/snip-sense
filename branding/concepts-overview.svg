@@ -1,0 +1,739 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1600" height="984" viewBox="0 0 1600 984"><rect width="1600" height="984" fill="#f7f7f4"/><text x="60" y="78" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="40" font-weight="700" fill="#161616">Logo concepts</text><text x="60" y="116" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="20" fill="#6b6b6b">Concepts for review — pick a direction (or tell me what you like in each).</text><rect x="60" y="150" width="474.667" height="774" rx="18" fill="#fff" stroke="#161616" stroke-width="2"/><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title-a" viewBox="0 0 256 256" x="90" y="190" width="414.667" height="300" preserveAspectRatio="xMidYMid meet">
+  <title id="c0-title-a">SnipSense Interlocking Viewfinder SS</title>
+  <!-- Top-Left S Bracket -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 44 40
+    H 148
+    C 165.67 40 180 54.33 180 72
+    V 88
+    H 144
+    V 74
+    H 80
+    V 112
+    H 140
+    C 157.67 112 172 126.33 172 144
+    V 164
+    H 136
+    V 146
+    H 80
+    C 60.12 146 44 129.88 44 110
+    Z
+  "/>
+  <!-- Bottom-Right S Bracket (Interlocking mirror) -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 212 216
+    H 108
+    C 90.33 216 76 201.67 76 184
+    V 168
+    H 112
+    V 182
+    H 176
+    V 144
+    H 116
+    C 98.33 144 84 129.67 84 112
+    V 92
+    H 120
+    V 110
+    H 176
+    C 195.88 110 212 126.12 212 146
+    Z
+  "/>
+</svg></g><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title-lockup-a" viewBox="0 0 820 256" x="90" y="514" width="414.667" height="120" preserveAspectRatio="xMidYMid meet">
+  <title id="l0-title-lockup-a">SnipSense Concept A Lockup</title>
+  <!-- Symbol scaled to 176x176 at x=40, y=40 -->
+  <g id="l0-symbol" transform="translate(40, 40) scale(0.6875)">
+    
+  <title id="l0-title-a">SnipSense Interlocking Viewfinder SS</title>
+  <!-- Top-Left S Bracket -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 44 40
+    H 148
+    C 165.67 40 180 54.33 180 72
+    V 88
+    H 144
+    V 74
+    H 80
+    V 112
+    H 140
+    C 157.67 112 172 126.33 172 144
+    V 164
+    H 136
+    V 146
+    H 80
+    C 60.12 146 44 129.88 44 110
+    Z
+  "/>
+  <!-- Bottom-Right S Bracket (Interlocking mirror) -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 212 216
+    H 108
+    C 90.33 216 76 201.67 76 184
+    V 168
+    H 112
+    V 182
+    H 176
+    V 144
+    H 116
+    C 98.33 144 84 129.67 84 112
+    V 92
+    H 120
+    V 110
+    H 176
+    C 195.88 110 212 126.12 212 146
+    Z
+  "/>
+
+  </g>
+  <!-- Typographic Wordmark "SnipSense" -->
+  <g id="l0-wordmark" fill="#0F172A" transform="translate(236, 84)">
+    <!-- S (Snip) -->
+    <path d="M 38 18 C 38 7 28 0 16 0 C 4 0 0 7 0 16 C 0 28 15 32 26 36 C 37 40 42 46 42 56 C 42 67 33 74 18 74 C 4 74 0 66 0 54 H 12 C 12 60 15 63 20 63 C 26 63 30 59 30 54 C 30 46 19 42 10 38 C 2 33 0 26 0 17 C 0 6 7 0 20 0 C 33 0 38 7 38 18 Z"/>
+    
+    <!-- n -->
+    <path d="M 52 24 H 64 V 35 C 68 27 76 23 86 23 C 100 23 107 31 107 46 V 73 H 95 V 48 C 95 38 90 34 81 34 C 72 34 64 40 64 52 V 73 H 52 Z"/>
+    
+    <!-- i -->
+    <path d="M 120 24 H 132 V 73 H 120 Z M 120 4 H 132 V 16 H 120 Z"/>
+    
+    <!-- p -->
+    <path d="M 144 24 H 156 V 34 C 160 26 168 23 178 23 C 193 23 204 35 204 50 C 204 65 193 74 178 74 C 168 74 160 70 156 62 V 96 H 144 Z M 156 49 C 156 60 163 64 173 64 C 182 64 191 58 191 49 C 191 40 182 34 173 34 C 163 34 156 38 156 49 Z"/>
+
+    <!-- Sense: bolder + vibrant accent-ready geometry -->
+    <!-- S -->
+    <path d="M 264 18 C 264 6 252 0 238 0 C 224 0 216 7 216 18 C 216 32 233 36 245 40 C 257 44 263 50 263 60 C 263 72 252 78 236 78 C 220 78 214 69 214 55 H 228 C 228 62 231 66 237 66 C 244 66 248 62 248 57 C 248 48 234 44 223 39 C 214 34 212 26 212 17 C 212 5 221 0 237 0 C 253 0 264 7 264 18 Z"/>
+    
+    <!-- e -->
+    <path d="M 298 23 C 314 23 325 34 325 50 C 325 52 325 54 324 55 H 283 C 285 64 291 68 300 68 C 307 68 312 65 316 61 H 324 C 319 70 311 77 299 77 C 282 77 271 65 271 50 C 271 34 282 23 298 23 Z M 312 45 C 311 37 305 32 297 32 C 289 32 284 37 283 45 Z"/>
+    
+    <!-- n -->
+    <path d="M 338 24 H 350 V 35 C 354 27 362 23 372 23 C 386 23 393 31 393 46 V 73 H 381 V 48 C 381 38 376 34 367 34 C 358 34 350 40 350 52 V 73 H 338 Z"/>
+    
+    <!-- s -->
+    <path d="M 430 33 C 430 27 424 23 416 23 C 408 23 402 27 402 33 C 402 42 413 44 421 47 C 429 50 435 55 435 62 C 435 71 426 77 416 77 C 404 77 398 71 398 62 H 409 C 409 66 412 68 416 68 C 420 68 424 66 424 61 C 424 55 415 53 407 50 C 400 46 397 41 397 34 C 397 26 404 23 415 23 C 426 23 430 28 430 33 Z"/>
+    
+    <!-- e -->
+    <path d="M 466 23 C 482 23 493 34 493 50 C 493 52 493 54 492 55 H 451 C 453 64 459 68 468 68 C 475 68 480 65 484 61 H 492 C 487 70 479 77 467 77 C 450 77 439 65 439 50 C 439 34 450 23 466 23 Z M 480 45 C 479 37 473 32 465 32 C 457 32 452 37 451 45 Z"/>
+  </g>
+</svg></g><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title-a" viewBox="0 0 256 256" x="90" y="660" width="64" height="64" preserveAspectRatio="xMidYMid meet">
+  <title id="s064-title-a">SnipSense Interlocking Viewfinder SS</title>
+  <!-- Top-Left S Bracket -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 44 40
+    H 148
+    C 165.67 40 180 54.33 180 72
+    V 88
+    H 144
+    V 74
+    H 80
+    V 112
+    H 140
+    C 157.67 112 172 126.33 172 144
+    V 164
+    H 136
+    V 146
+    H 80
+    C 60.12 146 44 129.88 44 110
+    Z
+  "/>
+  <!-- Bottom-Right S Bracket (Interlocking mirror) -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 212 216
+    H 108
+    C 90.33 216 76 201.67 76 184
+    V 168
+    H 112
+    V 182
+    H 176
+    V 144
+    H 116
+    C 98.33 144 84 129.67 84 112
+    V 92
+    H 120
+    V 110
+    H 176
+    C 195.88 110 212 126.12 212 146
+    Z
+  "/>
+</svg></g><text x="122" y="744" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" fill="#8a8a8a" text-anchor="middle">64px</text><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title-a" viewBox="0 0 256 256" x="180" y="692" width="32" height="32" preserveAspectRatio="xMidYMid meet">
+  <title id="s032-title-a">SnipSense Interlocking Viewfinder SS</title>
+  <!-- Top-Left S Bracket -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 44 40
+    H 148
+    C 165.67 40 180 54.33 180 72
+    V 88
+    H 144
+    V 74
+    H 80
+    V 112
+    H 140
+    C 157.67 112 172 126.33 172 144
+    V 164
+    H 136
+    V 146
+    H 80
+    C 60.12 146 44 129.88 44 110
+    Z
+  "/>
+  <!-- Bottom-Right S Bracket (Interlocking mirror) -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 212 216
+    H 108
+    C 90.33 216 76 201.67 76 184
+    V 168
+    H 112
+    V 182
+    H 176
+    V 144
+    H 116
+    C 98.33 144 84 129.67 84 112
+    V 92
+    H 120
+    V 110
+    H 176
+    C 195.88 110 212 126.12 212 146
+    Z
+  "/>
+</svg></g><text x="196" y="744" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" fill="#8a8a8a" text-anchor="middle">32px</text><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title-a" viewBox="0 0 256 256" x="238" y="708" width="16" height="16" preserveAspectRatio="xMidYMid meet">
+  <title id="s016-title-a">SnipSense Interlocking Viewfinder SS</title>
+  <!-- Top-Left S Bracket -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 44 40
+    H 148
+    C 165.67 40 180 54.33 180 72
+    V 88
+    H 144
+    V 74
+    H 80
+    V 112
+    H 140
+    C 157.67 112 172 126.33 172 144
+    V 164
+    H 136
+    V 146
+    H 80
+    C 60.12 146 44 129.88 44 110
+    Z
+  "/>
+  <!-- Bottom-Right S Bracket (Interlocking mirror) -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 212 216
+    H 108
+    C 90.33 216 76 201.67 76 184
+    V 168
+    H 112
+    V 182
+    H 176
+    V 144
+    H 116
+    C 98.33 144 84 129.67 84 112
+    V 92
+    H 120
+    V 110
+    H 176
+    C 195.88 110 212 126.12 212 146
+    Z
+  "/>
+</svg></g><text x="246" y="744" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" fill="#8a8a8a" text-anchor="middle">16px</text><text x="90.0" y="780" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#161616">A · The Interlocking Viewfinder</text><text x="90.0" y="808" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="15" font-weight="700" fill="#161616" letter-spacing="1.5">RECOMMENDED</text><text x="90.0" y="842" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="19" fill="#555">Interlocking SS crop corners framing an</text><text x="90.0" y="868" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="19" fill="#555">aperture center</text><rect x="562.667" y="150" width="474.667" height="774" rx="18" fill="#fff" stroke="#e4e4e0" stroke-width="1"/><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title-b" viewBox="0 0 256 256" x="592.667" y="190" width="414.667" height="300" preserveAspectRatio="xMidYMid meet">
+  <title id="c1-title-b">SnipSense Precision Crosshair Monogram</title>
+  <!-- Top Viewfinder Loop -->
+  <path fill="#0F172A" d="
+    M 56 44
+    H 180
+    C 199.88 44 216 60.12 216 80
+    V 108
+    H 176
+    V 84
+    H 96
+    V 116
+    H 176
+    C 195.88 116 212 132.12 212 152
+    V 156
+    H 172
+    V 152
+    H 96
+    C 74 152 56 134 56 112
+    V 80
+    C 56 60.12 72.12 44 92 44
+    Z
+  "/>
+  <!-- Bottom Viewfinder Loop -->
+  <path fill="#0F172A" d="
+    M 200 212
+    H 76
+    C 56.12 212 40 195.88 40 176
+    V 148
+    H 80
+    V 172
+    H 160
+    V 140
+    H 80
+    C 60.12 140 44 123.88 44 104
+    V 100
+    H 84
+    V 104
+    H 160
+    C 182 104 200 122 200 144
+    V 176
+    C 200 195.88 183.88 212 164 212
+    Z
+  "/>
+  <!-- Optical Crosshair Pin -->
+  <circle cx="128" cy="128" r="8" fill="#0F172A"/>
+</svg></g><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title-lockup-b" viewBox="0 0 820 256" x="592.667" y="514" width="414.667" height="120" preserveAspectRatio="xMidYMid meet">
+  <title id="l1-title-lockup-b">SnipSense Concept B Lockup</title>
+  <!-- Symbol scaled to 176x176 at x=40, y=40 -->
+  <g id="l1-symbol" transform="translate(40, 40) scale(0.6875)">
+    
+  <title id="l1-title-b">SnipSense Precision Crosshair Monogram</title>
+  <!-- Top Viewfinder Loop -->
+  <path fill="#0F172A" d="
+    M 56 44
+    H 180
+    C 199.88 44 216 60.12 216 80
+    V 108
+    H 176
+    V 84
+    H 96
+    V 116
+    H 176
+    C 195.88 116 212 132.12 212 152
+    V 156
+    H 172
+    V 152
+    H 96
+    C 74 152 56 134 56 112
+    V 80
+    C 56 60.12 72.12 44 92 44
+    Z
+  "/>
+  <!-- Bottom Viewfinder Loop -->
+  <path fill="#0F172A" d="
+    M 200 212
+    H 76
+    C 56.12 212 40 195.88 40 176
+    V 148
+    H 80
+    V 172
+    H 160
+    V 140
+    H 80
+    C 60.12 140 44 123.88 44 104
+    V 100
+    H 84
+    V 104
+    H 160
+    C 182 104 200 122 200 144
+    V 176
+    C 200 195.88 183.88 212 164 212
+    Z
+  "/>
+  <!-- Optical Crosshair Pin -->
+  <circle cx="128" cy="128" r="8" fill="#0F172A"/>
+
+  </g>
+  <!-- Typographic Wordmark "SnipSense" -->
+  <g id="l1-wordmark" fill="#0F172A" transform="translate(236, 84)">
+    <!-- S (Snip) -->
+    <path d="M 38 18 C 38 7 28 0 16 0 C 4 0 0 7 0 16 C 0 28 15 32 26 36 C 37 40 42 46 42 56 C 42 67 33 74 18 74 C 4 74 0 66 0 54 H 12 C 12 60 15 63 20 63 C 26 63 30 59 30 54 C 30 46 19 42 10 38 C 2 33 0 26 0 17 C 0 6 7 0 20 0 C 33 0 38 7 38 18 Z"/>
+    
+    <!-- n -->
+    <path d="M 52 24 H 64 V 35 C 68 27 76 23 86 23 C 100 23 107 31 107 46 V 73 H 95 V 48 C 95 38 90 34 81 34 C 72 34 64 40 64 52 V 73 H 52 Z"/>
+    
+    <!-- i -->
+    <path d="M 120 24 H 132 V 73 H 120 Z M 120 4 H 132 V 16 H 120 Z"/>
+    
+    <!-- p -->
+    <path d="M 144 24 H 156 V 34 C 160 26 168 23 178 23 C 193 23 204 35 204 50 C 204 65 193 74 178 74 C 168 74 160 70 156 62 V 96 H 144 Z M 156 49 C 156 60 163 64 173 64 C 182 64 191 58 191 49 C 191 40 182 34 173 34 C 163 34 156 38 156 49 Z"/>
+
+    <!-- Sense: bolder + vibrant accent-ready geometry -->
+    <!-- S -->
+    <path d="M 264 18 C 264 6 252 0 238 0 C 224 0 216 7 216 18 C 216 32 233 36 245 40 C 257 44 263 50 263 60 C 263 72 252 78 236 78 C 220 78 214 69 214 55 H 228 C 228 62 231 66 237 66 C 244 66 248 62 248 57 C 248 48 234 44 223 39 C 214 34 212 26 212 17 C 212 5 221 0 237 0 C 253 0 264 7 264 18 Z"/>
+    
+    <!-- e -->
+    <path d="M 298 23 C 314 23 325 34 325 50 C 325 52 325 54 324 55 H 283 C 285 64 291 68 300 68 C 307 68 312 65 316 61 H 324 C 319 70 311 77 299 77 C 282 77 271 65 271 50 C 271 34 282 23 298 23 Z M 312 45 C 311 37 305 32 297 32 C 289 32 284 37 283 45 Z"/>
+    
+    <!-- n -->
+    <path d="M 338 24 H 350 V 35 C 354 27 362 23 372 23 C 386 23 393 31 393 46 V 73 H 381 V 48 C 381 38 376 34 367 34 C 358 34 350 40 350 52 V 73 H 338 Z"/>
+    
+    <!-- s -->
+    <path d="M 430 33 C 430 27 424 23 416 23 C 408 23 402 27 402 33 C 402 42 413 44 421 47 C 429 50 435 55 435 62 C 435 71 426 77 416 77 C 404 77 398 71 398 62 H 409 C 409 66 412 68 416 68 C 420 68 424 66 424 61 C 424 55 415 53 407 50 C 400 46 397 41 397 34 C 397 26 404 23 415 23 C 426 23 430 28 430 33 Z"/>
+    
+    <!-- e -->
+    <path d="M 466 23 C 482 23 493 34 493 50 C 493 52 493 54 492 55 H 451 C 453 64 459 68 468 68 C 475 68 480 65 484 61 H 492 C 487 70 479 77 467 77 C 450 77 439 65 439 50 C 439 34 450 23 466 23 Z M 480 45 C 479 37 473 32 465 32 C 457 32 452 37 451 45 Z"/>
+  </g>
+</svg></g><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title-b" viewBox="0 0 256 256" x="592.667" y="660" width="64" height="64" preserveAspectRatio="xMidYMid meet">
+  <title id="s164-title-b">SnipSense Precision Crosshair Monogram</title>
+  <!-- Top Viewfinder Loop -->
+  <path fill="#0F172A" d="
+    M 56 44
+    H 180
+    C 199.88 44 216 60.12 216 80
+    V 108
+    H 176
+    V 84
+    H 96
+    V 116
+    H 176
+    C 195.88 116 212 132.12 212 152
+    V 156
+    H 172
+    V 152
+    H 96
+    C 74 152 56 134 56 112
+    V 80
+    C 56 60.12 72.12 44 92 44
+    Z
+  "/>
+  <!-- Bottom Viewfinder Loop -->
+  <path fill="#0F172A" d="
+    M 200 212
+    H 76
+    C 56.12 212 40 195.88 40 176
+    V 148
+    H 80
+    V 172
+    H 160
+    V 140
+    H 80
+    C 60.12 140 44 123.88 44 104
+    V 100
+    H 84
+    V 104
+    H 160
+    C 182 104 200 122 200 144
+    V 176
+    C 200 195.88 183.88 212 164 212
+    Z
+  "/>
+  <!-- Optical Crosshair Pin -->
+  <circle cx="128" cy="128" r="8" fill="#0F172A"/>
+</svg></g><text x="624.667" y="744" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" fill="#8a8a8a" text-anchor="middle">64px</text><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title-b" viewBox="0 0 256 256" x="682.667" y="692" width="32" height="32" preserveAspectRatio="xMidYMid meet">
+  <title id="s132-title-b">SnipSense Precision Crosshair Monogram</title>
+  <!-- Top Viewfinder Loop -->
+  <path fill="#0F172A" d="
+    M 56 44
+    H 180
+    C 199.88 44 216 60.12 216 80
+    V 108
+    H 176
+    V 84
+    H 96
+    V 116
+    H 176
+    C 195.88 116 212 132.12 212 152
+    V 156
+    H 172
+    V 152
+    H 96
+    C 74 152 56 134 56 112
+    V 80
+    C 56 60.12 72.12 44 92 44
+    Z
+  "/>
+  <!-- Bottom Viewfinder Loop -->
+  <path fill="#0F172A" d="
+    M 200 212
+    H 76
+    C 56.12 212 40 195.88 40 176
+    V 148
+    H 80
+    V 172
+    H 160
+    V 140
+    H 80
+    C 60.12 140 44 123.88 44 104
+    V 100
+    H 84
+    V 104
+    H 160
+    C 182 104 200 122 200 144
+    V 176
+    C 200 195.88 183.88 212 164 212
+    Z
+  "/>
+  <!-- Optical Crosshair Pin -->
+  <circle cx="128" cy="128" r="8" fill="#0F172A"/>
+</svg></g><text x="698.667" y="744" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" fill="#8a8a8a" text-anchor="middle">32px</text><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title-b" viewBox="0 0 256 256" x="740.667" y="708" width="16" height="16" preserveAspectRatio="xMidYMid meet">
+  <title id="s116-title-b">SnipSense Precision Crosshair Monogram</title>
+  <!-- Top Viewfinder Loop -->
+  <path fill="#0F172A" d="
+    M 56 44
+    H 180
+    C 199.88 44 216 60.12 216 80
+    V 108
+    H 176
+    V 84
+    H 96
+    V 116
+    H 176
+    C 195.88 116 212 132.12 212 152
+    V 156
+    H 172
+    V 152
+    H 96
+    C 74 152 56 134 56 112
+    V 80
+    C 56 60.12 72.12 44 92 44
+    Z
+  "/>
+  <!-- Bottom Viewfinder Loop -->
+  <path fill="#0F172A" d="
+    M 200 212
+    H 76
+    C 56.12 212 40 195.88 40 176
+    V 148
+    H 80
+    V 172
+    H 160
+    V 140
+    H 80
+    C 60.12 140 44 123.88 44 104
+    V 100
+    H 84
+    V 104
+    H 160
+    C 182 104 200 122 200 144
+    V 176
+    C 200 195.88 183.88 212 164 212
+    Z
+  "/>
+  <!-- Optical Crosshair Pin -->
+  <circle cx="128" cy="128" r="8" fill="#0F172A"/>
+</svg></g><text x="748.667" y="744" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" fill="#8a8a8a" text-anchor="middle">16px</text><text x="592.6666666666667" y="780" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#161616">B · The Precision Crosshair</text><text x="592.6666666666667" y="814" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="19" fill="#555">Geometric S with optical viewfinder</text><text x="592.6666666666667" y="840" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="19" fill="#555">crosshair cuts</text><rect x="1065.33" y="150" width="474.667" height="774" rx="18" fill="#fff" stroke="#e4e4e0" stroke-width="1"/><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title-c" viewBox="0 0 256 256" x="1095.33" y="190" width="414.667" height="300" preserveAspectRatio="xMidYMid meet">
+  <title id="c2-title-c">SnipSense Layered Frame Stack</title>
+  <!-- Upper / Capture Crop Frame -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 84 36
+    H 196
+    C 209.25 36 220 46.75 220 60
+    V 156
+    C 220 169.25 209.25 180 196 180
+    H 164
+    V 148
+    H 188
+    V 68
+    H 116
+    V 92
+    H 84
+    V 60
+    C 84 46.75 94.75 36 108 36
+    Z
+  "/>
+  <!-- Lower / AI Sense Intelligence Frame -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 60 76
+    H 92
+    V 108
+    H 68
+    V 188
+    H 140
+    V 164
+    H 172
+    V 196
+    C 172 209.25 161.25 220 148 220
+    H 60
+    C 46.75 220 36 209.25 36 196
+    V 100
+    C 36 86.75 46.75 76 60 76
+    Z
+  "/>
+  <!-- Connecting S-Beam Aperture -->
+  <rect x="96" y="116" width="64" height="24" rx="12" fill="#0F172A"/>
+</svg></g><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title-lockup-c" viewBox="0 0 820 256" x="1095.33" y="514" width="414.667" height="120" preserveAspectRatio="xMidYMid meet">
+  <title id="l2-title-lockup-c">SnipSense Concept C Lockup</title>
+  <!-- Symbol scaled to 176x176 at x=40, y=40 -->
+  <g id="l2-symbol" transform="translate(40, 40) scale(0.6875)">
+    
+  <title id="l2-title-c">SnipSense Layered Frame Stack</title>
+  <!-- Upper / Capture Crop Frame -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 84 36
+    H 196
+    C 209.25 36 220 46.75 220 60
+    V 156
+    C 220 169.25 209.25 180 196 180
+    H 164
+    V 148
+    H 188
+    V 68
+    H 116
+    V 92
+    H 84
+    V 60
+    C 84 46.75 94.75 36 108 36
+    Z
+  "/>
+  <!-- Lower / AI Sense Intelligence Frame -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 60 76
+    H 92
+    V 108
+    H 68
+    V 188
+    H 140
+    V 164
+    H 172
+    V 196
+    C 172 209.25 161.25 220 148 220
+    H 60
+    C 46.75 220 36 209.25 36 196
+    V 100
+    C 36 86.75 46.75 76 60 76
+    Z
+  "/>
+  <!-- Connecting S-Beam Aperture -->
+  <rect x="96" y="116" width="64" height="24" rx="12" fill="#0F172A"/>
+
+  </g>
+  <!-- Typographic Wordmark "SnipSense" -->
+  <g id="l2-wordmark" fill="#0F172A" transform="translate(236, 84)">
+    <!-- S (Snip) -->
+    <path d="M 38 18 C 38 7 28 0 16 0 C 4 0 0 7 0 16 C 0 28 15 32 26 36 C 37 40 42 46 42 56 C 42 67 33 74 18 74 C 4 74 0 66 0 54 H 12 C 12 60 15 63 20 63 C 26 63 30 59 30 54 C 30 46 19 42 10 38 C 2 33 0 26 0 17 C 0 6 7 0 20 0 C 33 0 38 7 38 18 Z"/>
+    
+    <!-- n -->
+    <path d="M 52 24 H 64 V 35 C 68 27 76 23 86 23 C 100 23 107 31 107 46 V 73 H 95 V 48 C 95 38 90 34 81 34 C 72 34 64 40 64 52 V 73 H 52 Z"/>
+    
+    <!-- i -->
+    <path d="M 120 24 H 132 V 73 H 120 Z M 120 4 H 132 V 16 H 120 Z"/>
+    
+    <!-- p -->
+    <path d="M 144 24 H 156 V 34 C 160 26 168 23 178 23 C 193 23 204 35 204 50 C 204 65 193 74 178 74 C 168 74 160 70 156 62 V 96 H 144 Z M 156 49 C 156 60 163 64 173 64 C 182 64 191 58 191 49 C 191 40 182 34 173 34 C 163 34 156 38 156 49 Z"/>
+
+    <!-- Sense: bolder + vibrant accent-ready geometry -->
+    <!-- S -->
+    <path d="M 264 18 C 264 6 252 0 238 0 C 224 0 216 7 216 18 C 216 32 233 36 245 40 C 257 44 263 50 263 60 C 263 72 252 78 236 78 C 220 78 214 69 214 55 H 228 C 228 62 231 66 237 66 C 244 66 248 62 248 57 C 248 48 234 44 223 39 C 214 34 212 26 212 17 C 212 5 221 0 237 0 C 253 0 264 7 264 18 Z"/>
+    
+    <!-- e -->
+    <path d="M 298 23 C 314 23 325 34 325 50 C 325 52 325 54 324 55 H 283 C 285 64 291 68 300 68 C 307 68 312 65 316 61 H 324 C 319 70 311 77 299 77 C 282 77 271 65 271 50 C 271 34 282 23 298 23 Z M 312 45 C 311 37 305 32 297 32 C 289 32 284 37 283 45 Z"/>
+    
+    <!-- n -->
+    <path d="M 338 24 H 350 V 35 C 354 27 362 23 372 23 C 386 23 393 31 393 46 V 73 H 381 V 48 C 381 38 376 34 367 34 C 358 34 350 40 350 52 V 73 H 338 Z"/>
+    
+    <!-- s -->
+    <path d="M 430 33 C 430 27 424 23 416 23 C 408 23 402 27 402 33 C 402 42 413 44 421 47 C 429 50 435 55 435 62 C 435 71 426 77 416 77 C 404 77 398 71 398 62 H 409 C 409 66 412 68 416 68 C 420 68 424 66 424 61 C 424 55 415 53 407 50 C 400 46 397 41 397 34 C 397 26 404 23 415 23 C 426 23 430 28 430 33 Z"/>
+    
+    <!-- e -->
+    <path d="M 466 23 C 482 23 493 34 493 50 C 493 52 493 54 492 55 H 451 C 453 64 459 68 468 68 C 475 68 480 65 484 61 H 492 C 487 70 479 77 467 77 C 450 77 439 65 439 50 C 439 34 450 23 466 23 Z M 480 45 C 479 37 473 32 465 32 C 457 32 452 37 451 45 Z"/>
+  </g>
+</svg></g><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title-c" viewBox="0 0 256 256" x="1095.33" y="660" width="64" height="64" preserveAspectRatio="xMidYMid meet">
+  <title id="s264-title-c">SnipSense Layered Frame Stack</title>
+  <!-- Upper / Capture Crop Frame -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 84 36
+    H 196
+    C 209.25 36 220 46.75 220 60
+    V 156
+    C 220 169.25 209.25 180 196 180
+    H 164
+    V 148
+    H 188
+    V 68
+    H 116
+    V 92
+    H 84
+    V 60
+    C 84 46.75 94.75 36 108 36
+    Z
+  "/>
+  <!-- Lower / AI Sense Intelligence Frame -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 60 76
+    H 92
+    V 108
+    H 68
+    V 188
+    H 140
+    V 164
+    H 172
+    V 196
+    C 172 209.25 161.25 220 148 220
+    H 60
+    C 46.75 220 36 209.25 36 196
+    V 100
+    C 36 86.75 46.75 76 60 76
+    Z
+  "/>
+  <!-- Connecting S-Beam Aperture -->
+  <rect x="96" y="116" width="64" height="24" rx="12" fill="#0F172A"/>
+</svg></g><text x="1127.33" y="744" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" fill="#8a8a8a" text-anchor="middle">64px</text><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title-c" viewBox="0 0 256 256" x="1185.33" y="692" width="32" height="32" preserveAspectRatio="xMidYMid meet">
+  <title id="s232-title-c">SnipSense Layered Frame Stack</title>
+  <!-- Upper / Capture Crop Frame -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 84 36
+    H 196
+    C 209.25 36 220 46.75 220 60
+    V 156
+    C 220 169.25 209.25 180 196 180
+    H 164
+    V 148
+    H 188
+    V 68
+    H 116
+    V 92
+    H 84
+    V 60
+    C 84 46.75 94.75 36 108 36
+    Z
+  "/>
+  <!-- Lower / AI Sense Intelligence Frame -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 60 76
+    H 92
+    V 108
+    H 68
+    V 188
+    H 140
+    V 164
+    H 172
+    V 196
+    C 172 209.25 161.25 220 148 220
+    H 60
+    C 46.75 220 36 209.25 36 196
+    V 100
+    C 36 86.75 46.75 76 60 76
+    Z
+  "/>
+  <!-- Connecting S-Beam Aperture -->
+  <rect x="96" y="116" width="64" height="24" rx="12" fill="#0F172A"/>
+</svg></g><text x="1201.33" y="744" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" fill="#8a8a8a" text-anchor="middle">32px</text><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title-c" viewBox="0 0 256 256" x="1243.33" y="708" width="16" height="16" preserveAspectRatio="xMidYMid meet">
+  <title id="s216-title-c">SnipSense Layered Frame Stack</title>
+  <!-- Upper / Capture Crop Frame -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 84 36
+    H 196
+    C 209.25 36 220 46.75 220 60
+    V 156
+    C 220 169.25 209.25 180 196 180
+    H 164
+    V 148
+    H 188
+    V 68
+    H 116
+    V 92
+    H 84
+    V 60
+    C 84 46.75 94.75 36 108 36
+    Z
+  "/>
+  <!-- Lower / AI Sense Intelligence Frame -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 60 76
+    H 92
+    V 108
+    H 68
+    V 188
+    H 140
+    V 164
+    H 172
+    V 196
+    C 172 209.25 161.25 220 148 220
+    H 60
+    C 46.75 220 36 209.25 36 196
+    V 100
+    C 36 86.75 46.75 76 60 76
+    Z
+  "/>
+  <!-- Connecting S-Beam Aperture -->
+  <rect x="96" y="116" width="64" height="24" rx="12" fill="#0F172A"/>
+</svg></g><text x="1251.33" y="744" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" fill="#8a8a8a" text-anchor="middle">16px</text><text x="1095.3333333333335" y="780" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#161616">C · The Layered Frame Stack</text><text x="1095.3333333333335" y="814" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="19" fill="#555">Dual offset capture frames joined by an</text><text x="1095.3333333333335" y="840" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="19" fill="#555">intelligent S-ribbon</text></svg>

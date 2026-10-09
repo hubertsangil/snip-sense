@@ -1,0 +1,37 @@
+{
+  "brand": "SnipSense",
+  "tagline": "AI-Native Desktop Snipping & Privacy Companion",
+  "brief": "A high-performance screenshot and visual intelligence utility built for developers and power users. Designed with Raycast/Linear minimalism and GeForce HUD fluidity, featuring sub-second capture and 100% offline OCR.",
+  "adjectives": [
+    "precise",
+    "minimalist",
+    "intelligent",
+    "private",
+    "fluid"
+  ],
+  "criteria": "Success: Instantaneous recognition, unmistakable 45° razor shears silhouette with central sensor aperture, scales flawlessly down to 16 px menu bar tray, and commands prestige in macOS Dock.",
+  "industry": "software",
+  "brand_color": "#0B0D10",
+  "greyscale": false,
+  "designer": "Antigravity Identity Studio",
+  "round": 1,
+  "concepts": [
+    {
+      "name": "The Obsidian Razor",
+      "symbol": "masters/symbol-obsidian.svg",
+      "lockup": "masters/lockup-horizontal-obsidian.svg",
+      "idea": "Symmetrical 45° razor-tapered shears crossing through a central optical sensor aperture.",
+      "rationale": [
+        "Unites physical capture speed ('Snip') with offline optical intelligence ('Sense')",
+        "Perfect mathematical 45° symmetry guarantees flawless legibility across macOS Dock and Menu Bar",
+        "Deep Obsidian (#0B0D10) monochrome luxury fits alongside Linear, Raycast, and Figma"
+      ]
+    }
+  ],
+  "recommendation": "The Obsidian Razor is the definitive mark. It carries maximum symbolic clarity, zero unnecessary ornament, and supreme durability.",
+  "next_steps": [
+    "Approved as official brand identity",
+    "Export production asset package",
+    "Integrate into macOS app, dock icon, tray, and studio UI"
+  ]
+}

@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-labelledby="title-aperture">
+  <title id="title-aperture">SnipSense Aperture Shears</title>
+  <!-- Top-Left Teardrop Blade -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 84 38
+    C 54 38 32 60 32 90
+    C 32 120 54 142 84 142
+    C 98.5 142 111.5 136.5 121.5 127
+    L 208 46
+    C 214 40 210 32 200 34
+    L 134 47
+    C 119.5 41 102.5 38 84 38
+    Z
+    M 84 66
+    C 97.25 66 108 76.75 108 90
+    C 108 103.25 97.25 114 84 114
+    C 70.75 114 60 103.25 60 90
+    C 60 76.75 70.75 66 84 66
+    Z
+  "/>
+  <!-- Bottom-Right Teardrop Blade -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 172 218
+    C 202 218 224 196 224 166
+    C 224 136 202 114 172 114
+    C 157.5 114 144.5 119.5 134.5 129
+    L 48 210
+    C 42 216 46 224 56 222
+    L 122 209
+    C 136.5 215 153.5 218 172 218
+    Z
+    M 172 190
+    C 158.75 190 148 179.25 148 166
+    C 148 152.75 158.75 142 172 142
+    C 185.25 142 196 152.75 196 166
+    C 196 179.25 185.25 190 172 190
+    Z
+  "/>
+  <circle cx="128" cy="128" r="9" fill="#0F172A"/>
+</svg>

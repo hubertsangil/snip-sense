@@ -1,0 +1,979 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1600" height="984" viewBox="0 0 1600 984"><rect width="1600" height="984" fill="#f7f7f4"/><text x="60" y="78" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="40" font-weight="700" fill="#161616">Logo concepts</text><text x="60" y="116" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="20" fill="#6b6b6b">Concepts for review — pick a direction (or tell me what you like in each).</text><rect x="60" y="150" width="474.667" height="774" rx="18" fill="#fff" stroke="#161616" stroke-width="2"/><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title-aperture" viewBox="0 0 256 256" x="90" y="190" width="414.667" height="300" preserveAspectRatio="xMidYMid meet">
+  <title id="c0-title-aperture">SnipSense Aperture Shears</title>
+  <!-- Top-Left Teardrop Blade -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 84 38
+    C 54 38 32 60 32 90
+    C 32 120 54 142 84 142
+    C 98.5 142 111.5 136.5 121.5 127
+    L 208 46
+    C 214 40 210 32 200 34
+    L 134 47
+    C 119.5 41 102.5 38 84 38
+    Z
+    M 84 66
+    C 97.25 66 108 76.75 108 90
+    C 108 103.25 97.25 114 84 114
+    C 70.75 114 60 103.25 60 90
+    C 60 76.75 70.75 66 84 66
+    Z
+  "/>
+  <!-- Bottom-Right Teardrop Blade -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 172 218
+    C 202 218 224 196 224 166
+    C 224 136 202 114 172 114
+    C 157.5 114 144.5 119.5 134.5 129
+    L 48 210
+    C 42 216 46 224 56 222
+    L 122 209
+    C 136.5 215 153.5 218 172 218
+    Z
+    M 172 190
+    C 158.75 190 148 179.25 148 166
+    C 148 152.75 158.75 142 172 142
+    C 185.25 142 196 152.75 196 166
+    C 196 179.25 185.25 190 172 190
+    Z
+  "/>
+  <circle cx="128" cy="128" r="9" fill="#0F172A"/>
+</svg></g><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title-lockup-aperture" viewBox="0 0 840 256" x="90" y="514" width="414.667" height="120" preserveAspectRatio="xMidYMid meet">
+  <title id="l0-title-lockup-aperture">SnipSense Aperture Shears Lockup</title>
+  <!-- Symbol scaled to 176x176 at x=40, y=40 -->
+  <g id="l0-symbol" transform="translate(40, 40) scale(0.6875)">
+    
+  <title id="l0-title-aperture">SnipSense Aperture Shears</title>
+  <!-- Top-Left Teardrop Blade -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 84 38
+    C 54 38 32 60 32 90
+    C 32 120 54 142 84 142
+    C 98.5 142 111.5 136.5 121.5 127
+    L 208 46
+    C 214 40 210 32 200 34
+    L 134 47
+    C 119.5 41 102.5 38 84 38
+    Z
+    M 84 66
+    C 97.25 66 108 76.75 108 90
+    C 108 103.25 97.25 114 84 114
+    C 70.75 114 60 103.25 60 90
+    C 60 76.75 70.75 66 84 66
+    Z
+  "/>
+  <!-- Bottom-Right Teardrop Blade -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 172 218
+    C 202 218 224 196 224 166
+    C 224 136 202 114 172 114
+    C 157.5 114 144.5 119.5 134.5 129
+    L 48 210
+    C 42 216 46 224 56 222
+    L 122 209
+    C 136.5 215 153.5 218 172 218
+    Z
+    M 172 190
+    C 158.75 190 148 179.25 148 166
+    C 148 152.75 158.75 142 172 142
+    C 185.25 142 196 152.75 196 166
+    C 196 179.25 185.25 190 172 190
+    Z
+  "/>
+  <circle cx="128" cy="128" r="9" fill="#0F172A"/>
+
+  </g>
+  <!-- Flawless Typographic Wordmark "SnipSense" -->
+  <g id="l0-wordmark" fill="#0F172A" transform="translate(236, 84)">
+    
+    <!-- S (Snip) - Complete, fully resolved geometric S -->
+    <path d="
+      M 36 22
+      H 24
+      C 24 14.5 19 11.5 13 11.5
+      C 6.5 11.5 2 15 2 20.5
+      C 2 26 6 29 16 31.5
+      C 29 35 38 41 38 52
+      C 38 64.5 28 73 13 73
+      C 2 73 0 65 0 54
+      H 12
+      C 12 60 16 62 22 62
+      C 28.5 62 33 58 33 52
+      C 33 46 29 43 19 40.5
+      C 6 37 0 31.5 0 21
+      C 0 9 9.5 0 24 0
+      C 34 0 36 7 36 22
+      Z
+    "/>
+    
+    <!-- n -->
+    <path d="M 48 22 H 60 V 33 C 64 25 72 21 82 21 C 96 21 103 29 103 44 V 71 H 91 V 46 C 91 36 86 32 77 32 C 68 32 60 38 60 50 V 71 H 48 Z"/>
+    
+    <!-- i -->
+    <path d="M 116 22 H 128 V 71 H 116 Z M 116 4 H 128 V 16 H 116 Z"/>
+    
+    <!-- p -->
+    <path d="
+      M 140 22 H 152 V 32
+      C 156 24 164 21 174 21
+      C 189 21 200 33 200 48
+      C 200 63 189 72 174 72
+      C 164 72 156 68 152 60
+      V 94 H 140 Z
+      M 152 47
+      C 152 58 159 62 169 62
+      C 178 62 187 56 187 47
+      C 187 38 178 32 169 32
+      C 159 32 152 36 152 47 Z
+    "/>
+
+    <!-- S (Sense - Bold Accent) -->
+    <path d="
+      M 252 23
+      H 238
+      C 238 15 233 11 226 11
+      C 219 11 214 15 214 21
+      C 214 27 219 30 229 33
+      C 243 37 254 43 254 55
+      C 254 68 243 75 227 75
+      C 213 75 210 65 210 52
+      H 224
+      C 224 60 228 63 235 63
+      C 242 63 247 59 247 53
+      C 247 47 242 44 232 41
+      C 218 37 212 31 212 21
+      C 212 9 222 0 238 0
+      C 250 0 252 8 252 23
+      Z
+    "/>
+    
+    <!-- e -->
+    <path d="
+      M 288 21
+      C 304 21 315 32 315 48
+      C 315 50 315 52 314 53
+      H 273
+      C 275 62 281 66 290 66
+      C 297 66 302 63 306 59
+      H 314
+      C 309 68 301 75 289 75
+      C 272 75 261 63 261 48
+      C 261 32 272 21 288 21
+      Z
+      M 302 43
+      C 301 35 295 30 287 30
+      C 279 30 274 35 273 43
+      Z
+    "/>
+    
+    <!-- n -->
+    <path d="M 328 22 H 340 V 33 C 344 25 352 21 362 21 C 376 21 383 29 383 44 V 71 H 371 V 46 C 371 36 366 32 357 32 C 348 32 340 38 340 50 V 71 H 328 Z"/>
+    
+    <!-- s (Complete, fully resolved lowercase s) -->
+    <path d="
+      M 420 32
+      H 410
+      C 410 26 406 23.5 401 23.5
+      C 396 23.5 393 25.5 393 29.5
+      C 393 34 396 36 404 38
+      C 414 40.5 422 45 422 53
+      C 422 62 414 68 402 68
+      C 393 68 390 62 390 54
+      H 399
+      C 399 58 402 60 407 60
+      C 412 60 415 57 415 53
+      C 415 48.5 411 46.5 403 44.5
+      C 392 41.5 387 37 387 29.5
+      C 387 21.5 394 15 405 15
+      C 414 15 420 21 420 32
+      Z
+      " transform="translate(0, 7)"/>
+    
+    <!-- e -->
+    <path d="
+      M 456 21
+      C 472 21 483 32 483 48
+      C 483 50 483 52 482 53
+      H 441
+      C 443 62 449 66 458 66
+      C 465 66 470 63 474 59
+      H 482
+      C 477 68 469 75 457 75
+      C 440 75 429 63 429 48
+      C 429 32 440 21 456 21
+      Z
+      M 470 43
+      C 469 35 463 30 455 30
+      C 447 30 442 35 441 43
+      Z
+    "/>
+  </g>
+</svg></g><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title-aperture" viewBox="0 0 256 256" x="90" y="660" width="64" height="64" preserveAspectRatio="xMidYMid meet">
+  <title id="s064-title-aperture">SnipSense Aperture Shears</title>
+  <!-- Top-Left Teardrop Blade -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 84 38
+    C 54 38 32 60 32 90
+    C 32 120 54 142 84 142
+    C 98.5 142 111.5 136.5 121.5 127
+    L 208 46
+    C 214 40 210 32 200 34
+    L 134 47
+    C 119.5 41 102.5 38 84 38
+    Z
+    M 84 66
+    C 97.25 66 108 76.75 108 90
+    C 108 103.25 97.25 114 84 114
+    C 70.75 114 60 103.25 60 90
+    C 60 76.75 70.75 66 84 66
+    Z
+  "/>
+  <!-- Bottom-Right Teardrop Blade -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 172 218
+    C 202 218 224 196 224 166
+    C 224 136 202 114 172 114
+    C 157.5 114 144.5 119.5 134.5 129
+    L 48 210
+    C 42 216 46 224 56 222
+    L 122 209
+    C 136.5 215 153.5 218 172 218
+    Z
+    M 172 190
+    C 158.75 190 148 179.25 148 166
+    C 148 152.75 158.75 142 172 142
+    C 185.25 142 196 152.75 196 166
+    C 196 179.25 185.25 190 172 190
+    Z
+  "/>
+  <circle cx="128" cy="128" r="9" fill="#0F172A"/>
+</svg></g><text x="122" y="744" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" fill="#8a8a8a" text-anchor="middle">64px</text><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title-aperture" viewBox="0 0 256 256" x="180" y="692" width="32" height="32" preserveAspectRatio="xMidYMid meet">
+  <title id="s032-title-aperture">SnipSense Aperture Shears</title>
+  <!-- Top-Left Teardrop Blade -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 84 38
+    C 54 38 32 60 32 90
+    C 32 120 54 142 84 142
+    C 98.5 142 111.5 136.5 121.5 127
+    L 208 46
+    C 214 40 210 32 200 34
+    L 134 47
+    C 119.5 41 102.5 38 84 38
+    Z
+    M 84 66
+    C 97.25 66 108 76.75 108 90
+    C 108 103.25 97.25 114 84 114
+    C 70.75 114 60 103.25 60 90
+    C 60 76.75 70.75 66 84 66
+    Z
+  "/>
+  <!-- Bottom-Right Teardrop Blade -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 172 218
+    C 202 218 224 196 224 166
+    C 224 136 202 114 172 114
+    C 157.5 114 144.5 119.5 134.5 129
+    L 48 210
+    C 42 216 46 224 56 222
+    L 122 209
+    C 136.5 215 153.5 218 172 218
+    Z
+    M 172 190
+    C 158.75 190 148 179.25 148 166
+    C 148 152.75 158.75 142 172 142
+    C 185.25 142 196 152.75 196 166
+    C 196 179.25 185.25 190 172 190
+    Z
+  "/>
+  <circle cx="128" cy="128" r="9" fill="#0F172A"/>
+</svg></g><text x="196" y="744" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" fill="#8a8a8a" text-anchor="middle">32px</text><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title-aperture" viewBox="0 0 256 256" x="238" y="708" width="16" height="16" preserveAspectRatio="xMidYMid meet">
+  <title id="s016-title-aperture">SnipSense Aperture Shears</title>
+  <!-- Top-Left Teardrop Blade -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 84 38
+    C 54 38 32 60 32 90
+    C 32 120 54 142 84 142
+    C 98.5 142 111.5 136.5 121.5 127
+    L 208 46
+    C 214 40 210 32 200 34
+    L 134 47
+    C 119.5 41 102.5 38 84 38
+    Z
+    M 84 66
+    C 97.25 66 108 76.75 108 90
+    C 108 103.25 97.25 114 84 114
+    C 70.75 114 60 103.25 60 90
+    C 60 76.75 70.75 66 84 66
+    Z
+  "/>
+  <!-- Bottom-Right Teardrop Blade -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 172 218
+    C 202 218 224 196 224 166
+    C 224 136 202 114 172 114
+    C 157.5 114 144.5 119.5 134.5 129
+    L 48 210
+    C 42 216 46 224 56 222
+    L 122 209
+    C 136.5 215 153.5 218 172 218
+    Z
+    M 172 190
+    C 158.75 190 148 179.25 148 166
+    C 148 152.75 158.75 142 172 142
+    C 185.25 142 196 152.75 196 166
+    C 196 179.25 185.25 190 172 190
+    Z
+  "/>
+  <circle cx="128" cy="128" r="9" fill="#0F172A"/>
+</svg></g><text x="246" y="744" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" fill="#8a8a8a" text-anchor="middle">16px</text><text x="90.0" y="780" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#161616">A · The Aperture Shears</text><text x="90.0" y="808" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="15" font-weight="700" fill="#161616" letter-spacing="1.5">RECOMMENDED</text><text x="90.0" y="842" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="19" fill="#555">Fluid curved teardrop blades with central</text><text x="90.0" y="868" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="19" fill="#555">sensor aperture</text><rect x="562.667" y="150" width="474.667" height="774" rx="18" fill="#fff" stroke="#e4e4e0" stroke-width="1"/><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title-razor" viewBox="0 0 256 256" x="592.667" y="190" width="414.667" height="300" preserveAspectRatio="xMidYMid meet">
+  <title id="c1-title-razor">SnipSense Razor Shears</title>
+  <!-- Top Blade -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 78 40
+    C 51.49 40 30 61.49 30 88
+    C 30 114.51 51.49 136 78 136
+    C 92.5 136 105.4 129.5 114.2 119.2
+    L 214 44
+    L 194 30
+    L 126 80
+    C 114.8 56.4 98.4 40 78 40
+    Z
+    M 78 64
+    C 91.25 64 102 74.75 102 88
+    C 102 101.25 91.25 112 78 112
+    C 64.75 112 54 101.25 54 88
+    C 54 74.75 64.75 64 78 64
+    Z
+  "/>
+  <!-- Bottom Blade -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 178 216
+    C 204.51 216 226 194.51 226 168
+    C 226 141.49 204.51 120 178 120
+    C 163.5 120 150.6 126.5 141.8 136.8
+    L 42 212
+    L 62 226
+    L 130 176
+    C 141.2 199.6 157.6 216 178 216
+    Z
+    M 178 192
+    C 164.75 192 154 181.25 154 168
+    C 154 154.75 164.75 144 178 144
+    C 191.25 144 202 154.75 202 168
+    C 202 181.25 191.25 192 178 192
+    Z
+  "/>
+  <circle cx="128" cy="128" r="9" fill="#0F172A"/>
+</svg></g><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title-lockup-razor" viewBox="0 0 840 256" x="592.667" y="514" width="414.667" height="120" preserveAspectRatio="xMidYMid meet">
+  <title id="l1-title-lockup-razor">SnipSense Razor Shears Lockup</title>
+  <!-- Symbol scaled to 176x176 at x=40, y=40 -->
+  <g id="l1-symbol" transform="translate(40, 40) scale(0.6875)">
+    
+  <title id="l1-title-razor">SnipSense Razor Shears</title>
+  <!-- Top Blade -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 78 40
+    C 51.49 40 30 61.49 30 88
+    C 30 114.51 51.49 136 78 136
+    C 92.5 136 105.4 129.5 114.2 119.2
+    L 214 44
+    L 194 30
+    L 126 80
+    C 114.8 56.4 98.4 40 78 40
+    Z
+    M 78 64
+    C 91.25 64 102 74.75 102 88
+    C 102 101.25 91.25 112 78 112
+    C 64.75 112 54 101.25 54 88
+    C 54 74.75 64.75 64 78 64
+    Z
+  "/>
+  <!-- Bottom Blade -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 178 216
+    C 204.51 216 226 194.51 226 168
+    C 226 141.49 204.51 120 178 120
+    C 163.5 120 150.6 126.5 141.8 136.8
+    L 42 212
+    L 62 226
+    L 130 176
+    C 141.2 199.6 157.6 216 178 216
+    Z
+    M 178 192
+    C 164.75 192 154 181.25 154 168
+    C 154 154.75 164.75 144 178 144
+    C 191.25 144 202 154.75 202 168
+    C 202 181.25 191.25 192 178 192
+    Z
+  "/>
+  <circle cx="128" cy="128" r="9" fill="#0F172A"/>
+
+  </g>
+  <!-- Flawless Typographic Wordmark "SnipSense" -->
+  <g id="l1-wordmark" fill="#0F172A" transform="translate(236, 84)">
+    
+    <!-- S (Snip) - Complete, fully resolved geometric S -->
+    <path d="
+      M 36 22
+      H 24
+      C 24 14.5 19 11.5 13 11.5
+      C 6.5 11.5 2 15 2 20.5
+      C 2 26 6 29 16 31.5
+      C 29 35 38 41 38 52
+      C 38 64.5 28 73 13 73
+      C 2 73 0 65 0 54
+      H 12
+      C 12 60 16 62 22 62
+      C 28.5 62 33 58 33 52
+      C 33 46 29 43 19 40.5
+      C 6 37 0 31.5 0 21
+      C 0 9 9.5 0 24 0
+      C 34 0 36 7 36 22
+      Z
+    "/>
+    
+    <!-- n -->
+    <path d="M 48 22 H 60 V 33 C 64 25 72 21 82 21 C 96 21 103 29 103 44 V 71 H 91 V 46 C 91 36 86 32 77 32 C 68 32 60 38 60 50 V 71 H 48 Z"/>
+    
+    <!-- i -->
+    <path d="M 116 22 H 128 V 71 H 116 Z M 116 4 H 128 V 16 H 116 Z"/>
+    
+    <!-- p -->
+    <path d="
+      M 140 22 H 152 V 32
+      C 156 24 164 21 174 21
+      C 189 21 200 33 200 48
+      C 200 63 189 72 174 72
+      C 164 72 156 68 152 60
+      V 94 H 140 Z
+      M 152 47
+      C 152 58 159 62 169 62
+      C 178 62 187 56 187 47
+      C 187 38 178 32 169 32
+      C 159 32 152 36 152 47 Z
+    "/>
+
+    <!-- S (Sense - Bold Accent) -->
+    <path d="
+      M 252 23
+      H 238
+      C 238 15 233 11 226 11
+      C 219 11 214 15 214 21
+      C 214 27 219 30 229 33
+      C 243 37 254 43 254 55
+      C 254 68 243 75 227 75
+      C 213 75 210 65 210 52
+      H 224
+      C 224 60 228 63 235 63
+      C 242 63 247 59 247 53
+      C 247 47 242 44 232 41
+      C 218 37 212 31 212 21
+      C 212 9 222 0 238 0
+      C 250 0 252 8 252 23
+      Z
+    "/>
+    
+    <!-- e -->
+    <path d="
+      M 288 21
+      C 304 21 315 32 315 48
+      C 315 50 315 52 314 53
+      H 273
+      C 275 62 281 66 290 66
+      C 297 66 302 63 306 59
+      H 314
+      C 309 68 301 75 289 75
+      C 272 75 261 63 261 48
+      C 261 32 272 21 288 21
+      Z
+      M 302 43
+      C 301 35 295 30 287 30
+      C 279 30 274 35 273 43
+      Z
+    "/>
+    
+    <!-- n -->
+    <path d="M 328 22 H 340 V 33 C 344 25 352 21 362 21 C 376 21 383 29 383 44 V 71 H 371 V 46 C 371 36 366 32 357 32 C 348 32 340 38 340 50 V 71 H 328 Z"/>
+    
+    <!-- s (Complete, fully resolved lowercase s) -->
+    <path d="
+      M 420 32
+      H 410
+      C 410 26 406 23.5 401 23.5
+      C 396 23.5 393 25.5 393 29.5
+      C 393 34 396 36 404 38
+      C 414 40.5 422 45 422 53
+      C 422 62 414 68 402 68
+      C 393 68 390 62 390 54
+      H 399
+      C 399 58 402 60 407 60
+      C 412 60 415 57 415 53
+      C 415 48.5 411 46.5 403 44.5
+      C 392 41.5 387 37 387 29.5
+      C 387 21.5 394 15 405 15
+      C 414 15 420 21 420 32
+      Z
+      " transform="translate(0, 7)"/>
+    
+    <!-- e -->
+    <path d="
+      M 456 21
+      C 472 21 483 32 483 48
+      C 483 50 483 52 482 53
+      H 441
+      C 443 62 449 66 458 66
+      C 465 66 470 63 474 59
+      H 482
+      C 477 68 469 75 457 75
+      C 440 75 429 63 429 48
+      C 429 32 440 21 456 21
+      Z
+      M 470 43
+      C 469 35 463 30 455 30
+      C 447 30 442 35 441 43
+      Z
+    "/>
+  </g>
+</svg></g><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title-razor" viewBox="0 0 256 256" x="592.667" y="660" width="64" height="64" preserveAspectRatio="xMidYMid meet">
+  <title id="s164-title-razor">SnipSense Razor Shears</title>
+  <!-- Top Blade -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 78 40
+    C 51.49 40 30 61.49 30 88
+    C 30 114.51 51.49 136 78 136
+    C 92.5 136 105.4 129.5 114.2 119.2
+    L 214 44
+    L 194 30
+    L 126 80
+    C 114.8 56.4 98.4 40 78 40
+    Z
+    M 78 64
+    C 91.25 64 102 74.75 102 88
+    C 102 101.25 91.25 112 78 112
+    C 64.75 112 54 101.25 54 88
+    C 54 74.75 64.75 64 78 64
+    Z
+  "/>
+  <!-- Bottom Blade -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 178 216
+    C 204.51 216 226 194.51 226 168
+    C 226 141.49 204.51 120 178 120
+    C 163.5 120 150.6 126.5 141.8 136.8
+    L 42 212
+    L 62 226
+    L 130 176
+    C 141.2 199.6 157.6 216 178 216
+    Z
+    M 178 192
+    C 164.75 192 154 181.25 154 168
+    C 154 154.75 164.75 144 178 144
+    C 191.25 144 202 154.75 202 168
+    C 202 181.25 191.25 192 178 192
+    Z
+  "/>
+  <circle cx="128" cy="128" r="9" fill="#0F172A"/>
+</svg></g><text x="624.667" y="744" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" fill="#8a8a8a" text-anchor="middle">64px</text><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title-razor" viewBox="0 0 256 256" x="682.667" y="692" width="32" height="32" preserveAspectRatio="xMidYMid meet">
+  <title id="s132-title-razor">SnipSense Razor Shears</title>
+  <!-- Top Blade -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 78 40
+    C 51.49 40 30 61.49 30 88
+    C 30 114.51 51.49 136 78 136
+    C 92.5 136 105.4 129.5 114.2 119.2
+    L 214 44
+    L 194 30
+    L 126 80
+    C 114.8 56.4 98.4 40 78 40
+    Z
+    M 78 64
+    C 91.25 64 102 74.75 102 88
+    C 102 101.25 91.25 112 78 112
+    C 64.75 112 54 101.25 54 88
+    C 54 74.75 64.75 64 78 64
+    Z
+  "/>
+  <!-- Bottom Blade -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 178 216
+    C 204.51 216 226 194.51 226 168
+    C 226 141.49 204.51 120 178 120
+    C 163.5 120 150.6 126.5 141.8 136.8
+    L 42 212
+    L 62 226
+    L 130 176
+    C 141.2 199.6 157.6 216 178 216
+    Z
+    M 178 192
+    C 164.75 192 154 181.25 154 168
+    C 154 154.75 164.75 144 178 144
+    C 191.25 144 202 154.75 202 168
+    C 202 181.25 191.25 192 178 192
+    Z
+  "/>
+  <circle cx="128" cy="128" r="9" fill="#0F172A"/>
+</svg></g><text x="698.667" y="744" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" fill="#8a8a8a" text-anchor="middle">32px</text><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title-razor" viewBox="0 0 256 256" x="740.667" y="708" width="16" height="16" preserveAspectRatio="xMidYMid meet">
+  <title id="s116-title-razor">SnipSense Razor Shears</title>
+  <!-- Top Blade -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 78 40
+    C 51.49 40 30 61.49 30 88
+    C 30 114.51 51.49 136 78 136
+    C 92.5 136 105.4 129.5 114.2 119.2
+    L 214 44
+    L 194 30
+    L 126 80
+    C 114.8 56.4 98.4 40 78 40
+    Z
+    M 78 64
+    C 91.25 64 102 74.75 102 88
+    C 102 101.25 91.25 112 78 112
+    C 64.75 112 54 101.25 54 88
+    C 54 74.75 64.75 64 78 64
+    Z
+  "/>
+  <!-- Bottom Blade -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 178 216
+    C 204.51 216 226 194.51 226 168
+    C 226 141.49 204.51 120 178 120
+    C 163.5 120 150.6 126.5 141.8 136.8
+    L 42 212
+    L 62 226
+    L 130 176
+    C 141.2 199.6 157.6 216 178 216
+    Z
+    M 178 192
+    C 164.75 192 154 181.25 154 168
+    C 154 154.75 164.75 144 178 144
+    C 191.25 144 202 154.75 202 168
+    C 202 181.25 191.25 192 178 192
+    Z
+  "/>
+  <circle cx="128" cy="128" r="9" fill="#0F172A"/>
+</svg></g><text x="748.667" y="744" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" fill="#8a8a8a" text-anchor="middle">16px</text><text x="592.6666666666667" y="780" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#161616">B · The Razor Shears</text><text x="592.6666666666667" y="814" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="19" fill="#555">Sharp 45° razor blade tapers with circular</text><text x="592.6666666666667" y="840" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="19" fill="#555">handles</text><rect x="1065.33" y="150" width="474.667" height="774" rx="18" fill="#fff" stroke="#e4e4e0" stroke-width="1"/><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title-hybrid" viewBox="0 0 256 256" x="1095.33" y="190" width="414.667" height="300" preserveAspectRatio="xMidYMid meet">
+  <title id="c2-title-hybrid">SnipSense Aero Shears</title>
+  <!-- Upper Aero Blade -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 80 40
+    C 52.38 40 30 62.38 30 90
+    C 30 117.62 52.38 140 80 140
+    C 95 140 108 133.5 117 123
+    L 218 42
+    L 186 34
+    L 126 78
+    C 115 54 99 40 80 40
+    Z
+    M 80 64
+    C 94.36 64 106 75.64 106 90
+    C 106 104.36 94.36 116 80 116
+    C 65.64 116 54 104.36 54 90
+    C 54 75.64 65.64 64 80 64
+    Z
+  "/>
+  <!-- Lower Aero Blade -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 176 216
+    C 203.62 216 226 193.62 226 166
+    C 226 138.38 203.62 116 176 116
+    C 161 116 148 122.5 139 133
+    L 38 214
+    L 70 222
+    L 130 178
+    C 141 202 157 216 176 216
+    Z
+    M 176 192
+    C 161.64 192 150 180.36 150 166
+    C 150 151.64 161.64 140 176 140
+    C 190.36 140 202 151.64 202 166
+    C 202 180.36 190.36 192 176 192
+    Z
+  "/>
+  <circle cx="128" cy="128" r="9" fill="#0F172A"/>
+</svg></g><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title-lockup-hybrid" viewBox="0 0 840 256" x="1095.33" y="514" width="414.667" height="120" preserveAspectRatio="xMidYMid meet">
+  <title id="l2-title-lockup-hybrid">SnipSense Aero Shears Lockup</title>
+  <!-- Symbol scaled to 176x176 at x=40, y=40 -->
+  <g id="l2-symbol" transform="translate(40, 40) scale(0.6875)">
+    
+  <title id="l2-title-hybrid">SnipSense Aero Shears</title>
+  <!-- Upper Aero Blade -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 80 40
+    C 52.38 40 30 62.38 30 90
+    C 30 117.62 52.38 140 80 140
+    C 95 140 108 133.5 117 123
+    L 218 42
+    L 186 34
+    L 126 78
+    C 115 54 99 40 80 40
+    Z
+    M 80 64
+    C 94.36 64 106 75.64 106 90
+    C 106 104.36 94.36 116 80 116
+    C 65.64 116 54 104.36 54 90
+    C 54 75.64 65.64 64 80 64
+    Z
+  "/>
+  <!-- Lower Aero Blade -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 176 216
+    C 203.62 216 226 193.62 226 166
+    C 226 138.38 203.62 116 176 116
+    C 161 116 148 122.5 139 133
+    L 38 214
+    L 70 222
+    L 130 178
+    C 141 202 157 216 176 216
+    Z
+    M 176 192
+    C 161.64 192 150 180.36 150 166
+    C 150 151.64 161.64 140 176 140
+    C 190.36 140 202 151.64 202 166
+    C 202 180.36 190.36 192 176 192
+    Z
+  "/>
+  <circle cx="128" cy="128" r="9" fill="#0F172A"/>
+
+  </g>
+  <!-- Flawless Typographic Wordmark "SnipSense" -->
+  <g id="l2-wordmark" fill="#0F172A" transform="translate(236, 84)">
+    
+    <!-- S (Snip) - Complete, fully resolved geometric S -->
+    <path d="
+      M 36 22
+      H 24
+      C 24 14.5 19 11.5 13 11.5
+      C 6.5 11.5 2 15 2 20.5
+      C 2 26 6 29 16 31.5
+      C 29 35 38 41 38 52
+      C 38 64.5 28 73 13 73
+      C 2 73 0 65 0 54
+      H 12
+      C 12 60 16 62 22 62
+      C 28.5 62 33 58 33 52
+      C 33 46 29 43 19 40.5
+      C 6 37 0 31.5 0 21
+      C 0 9 9.5 0 24 0
+      C 34 0 36 7 36 22
+      Z
+    "/>
+    
+    <!-- n -->
+    <path d="M 48 22 H 60 V 33 C 64 25 72 21 82 21 C 96 21 103 29 103 44 V 71 H 91 V 46 C 91 36 86 32 77 32 C 68 32 60 38 60 50 V 71 H 48 Z"/>
+    
+    <!-- i -->
+    <path d="M 116 22 H 128 V 71 H 116 Z M 116 4 H 128 V 16 H 116 Z"/>
+    
+    <!-- p -->
+    <path d="
+      M 140 22 H 152 V 32
+      C 156 24 164 21 174 21
+      C 189 21 200 33 200 48
+      C 200 63 189 72 174 72
+      C 164 72 156 68 152 60
+      V 94 H 140 Z
+      M 152 47
+      C 152 58 159 62 169 62
+      C 178 62 187 56 187 47
+      C 187 38 178 32 169 32
+      C 159 32 152 36 152 47 Z
+    "/>
+
+    <!-- S (Sense - Bold Accent) -->
+    <path d="
+      M 252 23
+      H 238
+      C 238 15 233 11 226 11
+      C 219 11 214 15 214 21
+      C 214 27 219 30 229 33
+      C 243 37 254 43 254 55
+      C 254 68 243 75 227 75
+      C 213 75 210 65 210 52
+      H 224
+      C 224 60 228 63 235 63
+      C 242 63 247 59 247 53
+      C 247 47 242 44 232 41
+      C 218 37 212 31 212 21
+      C 212 9 222 0 238 0
+      C 250 0 252 8 252 23
+      Z
+    "/>
+    
+    <!-- e -->
+    <path d="
+      M 288 21
+      C 304 21 315 32 315 48
+      C 315 50 315 52 314 53
+      H 273
+      C 275 62 281 66 290 66
+      C 297 66 302 63 306 59
+      H 314
+      C 309 68 301 75 289 75
+      C 272 75 261 63 261 48
+      C 261 32 272 21 288 21
+      Z
+      M 302 43
+      C 301 35 295 30 287 30
+      C 279 30 274 35 273 43
+      Z
+    "/>
+    
+    <!-- n -->
+    <path d="M 328 22 H 340 V 33 C 344 25 352 21 362 21 C 376 21 383 29 383 44 V 71 H 371 V 46 C 371 36 366 32 357 32 C 348 32 340 38 340 50 V 71 H 328 Z"/>
+    
+    <!-- s (Complete, fully resolved lowercase s) -->
+    <path d="
+      M 420 32
+      H 410
+      C 410 26 406 23.5 401 23.5
+      C 396 23.5 393 25.5 393 29.5
+      C 393 34 396 36 404 38
+      C 414 40.5 422 45 422 53
+      C 422 62 414 68 402 68
+      C 393 68 390 62 390 54
+      H 399
+      C 399 58 402 60 407 60
+      C 412 60 415 57 415 53
+      C 415 48.5 411 46.5 403 44.5
+      C 392 41.5 387 37 387 29.5
+      C 387 21.5 394 15 405 15
+      C 414 15 420 21 420 32
+      Z
+      " transform="translate(0, 7)"/>
+    
+    <!-- e -->
+    <path d="
+      M 456 21
+      C 472 21 483 32 483 48
+      C 483 50 483 52 482 53
+      H 441
+      C 443 62 449 66 458 66
+      C 465 66 470 63 474 59
+      H 482
+      C 477 68 469 75 457 75
+      C 440 75 429 63 429 48
+      C 429 32 440 21 456 21
+      Z
+      M 470 43
+      C 469 35 463 30 455 30
+      C 447 30 442 35 441 43
+      Z
+    "/>
+  </g>
+</svg></g><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title-hybrid" viewBox="0 0 256 256" x="1095.33" y="660" width="64" height="64" preserveAspectRatio="xMidYMid meet">
+  <title id="s264-title-hybrid">SnipSense Aero Shears</title>
+  <!-- Upper Aero Blade -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 80 40
+    C 52.38 40 30 62.38 30 90
+    C 30 117.62 52.38 140 80 140
+    C 95 140 108 133.5 117 123
+    L 218 42
+    L 186 34
+    L 126 78
+    C 115 54 99 40 80 40
+    Z
+    M 80 64
+    C 94.36 64 106 75.64 106 90
+    C 106 104.36 94.36 116 80 116
+    C 65.64 116 54 104.36 54 90
+    C 54 75.64 65.64 64 80 64
+    Z
+  "/>
+  <!-- Lower Aero Blade -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 176 216
+    C 203.62 216 226 193.62 226 166
+    C 226 138.38 203.62 116 176 116
+    C 161 116 148 122.5 139 133
+    L 38 214
+    L 70 222
+    L 130 178
+    C 141 202 157 216 176 216
+    Z
+    M 176 192
+    C 161.64 192 150 180.36 150 166
+    C 150 151.64 161.64 140 176 140
+    C 190.36 140 202 151.64 202 166
+    C 202 180.36 190.36 192 176 192
+    Z
+  "/>
+  <circle cx="128" cy="128" r="9" fill="#0F172A"/>
+</svg></g><text x="1127.33" y="744" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" fill="#8a8a8a" text-anchor="middle">64px</text><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title-hybrid" viewBox="0 0 256 256" x="1185.33" y="692" width="32" height="32" preserveAspectRatio="xMidYMid meet">
+  <title id="s232-title-hybrid">SnipSense Aero Shears</title>
+  <!-- Upper Aero Blade -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 80 40
+    C 52.38 40 30 62.38 30 90
+    C 30 117.62 52.38 140 80 140
+    C 95 140 108 133.5 117 123
+    L 218 42
+    L 186 34
+    L 126 78
+    C 115 54 99 40 80 40
+    Z
+    M 80 64
+    C 94.36 64 106 75.64 106 90
+    C 106 104.36 94.36 116 80 116
+    C 65.64 116 54 104.36 54 90
+    C 54 75.64 65.64 64 80 64
+    Z
+  "/>
+  <!-- Lower Aero Blade -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 176 216
+    C 203.62 216 226 193.62 226 166
+    C 226 138.38 203.62 116 176 116
+    C 161 116 148 122.5 139 133
+    L 38 214
+    L 70 222
+    L 130 178
+    C 141 202 157 216 176 216
+    Z
+    M 176 192
+    C 161.64 192 150 180.36 150 166
+    C 150 151.64 161.64 140 176 140
+    C 190.36 140 202 151.64 202 166
+    C 202 180.36 190.36 192 176 192
+    Z
+  "/>
+  <circle cx="128" cy="128" r="9" fill="#0F172A"/>
+</svg></g><text x="1201.33" y="744" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" fill="#8a8a8a" text-anchor="middle">32px</text><g><svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title-hybrid" viewBox="0 0 256 256" x="1243.33" y="708" width="16" height="16" preserveAspectRatio="xMidYMid meet">
+  <title id="s216-title-hybrid">SnipSense Aero Shears</title>
+  <!-- Upper Aero Blade -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 80 40
+    C 52.38 40 30 62.38 30 90
+    C 30 117.62 52.38 140 80 140
+    C 95 140 108 133.5 117 123
+    L 218 42
+    L 186 34
+    L 126 78
+    C 115 54 99 40 80 40
+    Z
+    M 80 64
+    C 94.36 64 106 75.64 106 90
+    C 106 104.36 94.36 116 80 116
+    C 65.64 116 54 104.36 54 90
+    C 54 75.64 65.64 64 80 64
+    Z
+  "/>
+  <!-- Lower Aero Blade -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 176 216
+    C 203.62 216 226 193.62 226 166
+    C 226 138.38 203.62 116 176 116
+    C 161 116 148 122.5 139 133
+    L 38 214
+    L 70 222
+    L 130 178
+    C 141 202 157 216 176 216
+    Z
+    M 176 192
+    C 161.64 192 150 180.36 150 166
+    C 150 151.64 161.64 140 176 140
+    C 190.36 140 202 151.64 202 166
+    C 202 180.36 190.36 192 176 192
+    Z
+  "/>
+  <circle cx="128" cy="128" r="9" fill="#0F172A"/>
+</svg></g><text x="1251.33" y="744" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="12" fill="#8a8a8a" text-anchor="middle">16px</text><text x="1095.3333333333335" y="780" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="26" font-weight="700" fill="#161616">C · The Aero Shears (Hybrid)</text><text x="1095.3333333333335" y="814" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="19" fill="#555">Aerodynamic razor blend uniting fluid flow</text><text x="1095.3333333333335" y="840" font-family="system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif" font-size="19" fill="#555">with razor precision</text></svg>

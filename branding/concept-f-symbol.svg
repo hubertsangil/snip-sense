@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-labelledby="title-f">
+  <title id="title-f">SnipSense Geometric Snip-Clip</title>
+  <!-- Top Snip-Clip Loop -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 56 48
+    H 160
+    C 186.51 48 208 69.49 208 96
+    C 208 122.51 186.51 144 160 144
+    H 124
+    L 164 184
+    L 144 204
+    L 92 152
+    C 86 146 86 136 92 130
+    L 134 88
+    H 56
+    Z
+    M 156 76
+    H 136
+    L 116 96
+    H 156
+    C 167.05 96 176 87.05 176 76
+    Z
+  "/>
+  <!-- Bottom Snip-Clip Counterpart Loop -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 200 208
+    H 96
+    C 69.49 208 48 186.51 48 160
+    C 48 133.49 69.49 112 96 112
+    H 132
+    L 92 72
+    L 112 52
+    L 164 104
+    C 170 110 170 120 164 126
+    L 122 168
+    H 200
+    Z
+    M 100 180
+    H 120
+    L 140 160
+    H 100
+    C 88.95 160 80 168.95 80 180
+    Z
+  "/>
+</svg>

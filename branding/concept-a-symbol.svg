@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-labelledby="title-a">
+  <title id="title-a">SnipSense Interlocking Viewfinder SS</title>
+  <!-- Top-Left S Bracket -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 44 40
+    H 148
+    C 165.67 40 180 54.33 180 72
+    V 88
+    H 144
+    V 74
+    H 80
+    V 112
+    H 140
+    C 157.67 112 172 126.33 172 144
+    V 164
+    H 136
+    V 146
+    H 80
+    C 60.12 146 44 129.88 44 110
+    Z
+  "/>
+  <!-- Bottom-Right S Bracket (Interlocking mirror) -->
+  <path fill="#0F172A" fill-rule="evenodd" d="
+    M 212 216
+    H 108
+    C 90.33 216 76 201.67 76 184
+    V 168
+    H 112
+    V 182
+    H 176
+    V 144
+    H 116
+    C 98.33 144 84 129.67 84 112
+    V 92
+    H 120
+    V 110
+    H 176
+    C 195.88 110 212 126.12 212 146
+    Z
+  "/>
+</svg>

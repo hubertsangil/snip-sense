@@ -37,6 +37,9 @@ htmlcov/
 .vscode/
 .idea/
 *.swp
-*~
 Thumbs.db
 Desktop.ini
+.DS_Store
+
+# Scratch
+.scratch/

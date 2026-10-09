@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-labelledby="title-b">
+  <title id="title-b">SnipSense Precision Crosshair Monogram</title>
+  <!-- Top Viewfinder Loop -->
+  <path fill="#0F172A" d="
+    M 56 44
+    H 180
+    C 199.88 44 216 60.12 216 80
+    V 108
+    H 176
+    V 84
+    H 96
+    V 116
+    H 176
+    C 195.88 116 212 132.12 212 152
+    V 156
+    H 172
+    V 152
+    H 96
+    C 74 152 56 134 56 112
+    V 80
+    C 56 60.12 72.12 44 92 44
+    Z
+  "/>
+  <!-- Bottom Viewfinder Loop -->
+  <path fill="#0F172A" d="
+    M 200 212
+    H 76
+    C 56.12 212 40 195.88 40 176
+    V 148
+    H 80
+    V 172
+    H 160
+    V 140
+    H 80
+    C 60.12 140 44 123.88 44 104
+    V 100
+    H 84
+    V 104
+    H 160
+    C 182 104 200 122 200 144
+    V 176
+    C 200 195.88 183.88 212 164 212
+    Z
+  "/>
+  <!-- Optical Crosshair Pin -->
+  <circle cx="128" cy="128" r="8" fill="#0F172A"/>
+</svg>
