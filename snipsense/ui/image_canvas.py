@@ -11,17 +11,47 @@ class InteractiveImageCanvas(QWidget):
     """Custom canvas rendering the captured screenshot with clickable OCR text bounding boxes."""
 
     text_copied = pyqtSignal(str)
+    box_mask_toggled = pyqtSignal(object, bool)  # (OCRTextBox, is_masked)
 
-    def __init__(self, pixmap: QPixmap, ocr_boxes: list[OCRTextBox] | None = None, parent: QWidget | None = None):
+    def __init__(
+        self,
+        pixmap: QPixmap,
+        ocr_boxes: list[OCRTextBox] | None = None,
+        masked_boxes: set[OCRTextBox] | None = None,
+        parent: QWidget | None = None,
+    ):
         super().__init__(parent)
         self.pixmap = pixmap
         self.ocr_boxes = ocr_boxes or []
+        self.masked_boxes: set[OCRTextBox] = set(masked_boxes or set())
         self.boxes_visible = True
         self.hovered_box: OCRTextBox | None = None
         self.copied_box: OCRTextBox | None = None
 
         self.setMouseTracking(True)
         self.setFixedSize(self.pixmap.size())
+
+    def update_pixmap(self, new_pixmap: QPixmap):
+        """Updates the active rendered pixmap buffer."""
+        self.pixmap = new_pixmap
+        self.update()
+
+    def set_masked_boxes(self, masked_boxes: set[OCRTextBox]):
+        """Updates the set of currently masked OCR text boxes."""
+        self.masked_boxes = set(masked_boxes)
+        self.update()
+
+    def toggle_box_mask(self, box: OCRTextBox) -> bool:
+        """Toggles masking state for the specified box and emits box_mask_toggled."""
+        if box in self.masked_boxes:
+            self.masked_boxes.remove(box)
+            is_masked = False
+        else:
+            self.masked_boxes.add(box)
+            is_masked = True
+        self.box_mask_toggled.emit(box, is_masked)
+        self.update()
+        return is_masked
 
     def set_boxes_visible(self, visible: bool):
         """Toggles rendering of the OCR bounding box outlines."""
@@ -48,7 +78,8 @@ class InteractiveImageCanvas(QWidget):
             self.hovered_box = box
             if box:
                 self.setCursor(Qt.CursorShape.PointingHandCursor)
-                self.setToolTip(f"Click to copy: \"{box.text}\" (Confidence: {box.confidence:.0%})")
+                mask_status = "🔒 Masked" if box in self.masked_boxes else "🔓 Unmasked"
+                self.setToolTip(f"[{mask_status}] Click to toggle blur / copy\n\"{box.text}\" ({box.confidence:.0%})")
             else:
                 self.setCursor(Qt.CursorShape.ArrowCursor)
                 self.setToolTip("")
@@ -56,13 +87,19 @@ class InteractiveImageCanvas(QWidget):
 
     def mousePressEvent(self, event):
         if event.button() == Qt.MouseButton.LeftButton and self.hovered_box:
-            # Copy clicked text block to system clipboard
-            text = self.hovered_box.text
+            box = self.hovered_box
+            is_currently_masked = box in self.masked_boxes
+
+            # Toggle masking state
+            self.toggle_box_mask(box)
+
+            # Copy text: if was unmasked, user clicked to copy snippet; if was already masked and clicked, unmasks
+            text = box.text
             clipboard = QApplication.clipboard()
             clipboard.setText(text)
 
             # Trigger visual feedback on the clicked box
-            self.copied_box = self.hovered_box
+            self.copied_box = box
             self.text_copied.emit(text)
             self.update()
 
@@ -70,6 +107,8 @@ class InteractiveImageCanvas(QWidget):
             QTimer.singleShot(800, self._reset_copied_box)
         else:
             super().mousePressEvent(event)
+
+
 
     def _reset_copied_box(self):
         self.copied_box = None
@@ -91,23 +130,33 @@ class InteractiveImageCanvas(QWidget):
         if not self.boxes_visible:
             return
 
-        # 2. Draw OCR bounding boxes
+        # 2. Draw OCR bounding boxes with mask / hover / normal states
         for box in self.ocr_boxes:
             rect = QRect(box.x, box.y, box.width, box.height)
+            is_masked = box in self.masked_boxes
 
             if box == self.copied_box:
                 # Copied confirmation: Vibrant Emerald glow
-                pen = QPen(QColor("#10B981"), 1.5)
+                pen = QPen(QColor("#10B981"), 2)
                 brush = QBrush(QColor(16, 185, 129, 60))
+            elif is_masked:
+                # Redacted / Masked state: Amber / Coral alert border
+                if box == self.hovered_box:
+                    pen = QPen(QColor("#F43F5E"), 2)
+                    brush = QBrush(QColor(244, 63, 94, 70))
+                else:
+                    pen = QPen(QColor("#F43F5E"), 1.5, Qt.PenStyle.DashLine)
+                    brush = QBrush(QColor(244, 63, 94, 30))
             elif box == self.hovered_box:
-                # Hovered state: Solid Blue accent with light tint
+                # Hovered unmasked state: Solid Blue accent with light tint
                 pen = QPen(QColor("#3B82F6"), 1.5)
                 brush = QBrush(QColor(59, 130, 246, 45))
             else:
-                # Inactive state: Subtle dashed border
+                # Inactive unmasked state: Subtle dashed border
                 pen = QPen(QColor(59, 130, 246, 110), 1, Qt.PenStyle.DashLine)
                 brush = QBrush(Qt.BrushStyle.NoBrush)
 
             painter.setPen(pen)
             painter.setBrush(brush)
             painter.drawRoundedRect(rect, 2, 2)
+

@@ -41,11 +41,12 @@ class OCRTextBox:
     y: int
     width: int
     height: int
-    polygon: list[tuple[float, float]]
+    polygon: list[tuple[float, float]] = field(hash=False)
 
     def contains_point(self, px: float, py: float) -> bool:
         """Checks if a point (px, py) falls inside this text bounding box."""
         return self.x <= px <= self.x + self.width and self.y <= py <= self.y + self.height
+
 
 
 @dataclass
