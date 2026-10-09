@@ -22,6 +22,7 @@ from PIL import Image
 
 from snipsense.core.recorder import RecordingResult
 from snipsense.ui.styles import DARK_THEME_QSS
+from snipsense.ui.window_frame import CustomWindowContainer
 
 
 def format_bytes(byte_count: int) -> str:
@@ -47,34 +48,32 @@ class RecordingCompletedDialog(QDialog):
         self.encoded_files = encoded_files
         self.result = result
 
-        self.setWindowTitle("Screen Clip Ready")
+        self.setWindowTitle("Screen Clip Ready — SnipSense")
         self.setObjectName("previewWindow")
         self.setStyleSheet(DARK_THEME_QSS)
         self.setFixedSize(500, 360)
 
+        self.setWindowFlags(
+            Qt.WindowType.FramelessWindowHint
+            | Qt.WindowType.Dialog
+        )
+        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground, True)
+
         self._init_ui()
 
     def _init_ui(self):
-        layout = QVBoxLayout(self)
-        layout.setContentsMargins(20, 20, 20, 20)
-        layout.setSpacing(14)
+        root_layout = QVBoxLayout(self)
+        root_layout.setContentsMargins(0, 0, 0, 0)
+        root_layout.setSpacing(0)
 
-        # Header
-        header = QHBoxLayout()
-        title_label = QLabel("Screen Clip Recorded")
-        title_label.setObjectName("headerTitle")
-        header.addWidget(title_label)
-
-        status_badge = QLabel("Saved")
-        status_badge.setObjectName("statusBadge")
-        header.addWidget(status_badge)
-        header.addStretch()
-
-        close_btn = QPushButton("✕")
-        close_btn.setObjectName("closeBtn")
-        close_btn.clicked.connect(self.accept)
-        header.addWidget(close_btn)
-        layout.addLayout(header)
+        self.container = CustomWindowContainer(
+            parent_window=self,
+            title="Screen Clip Ready",
+            badge_text="Saved",
+            can_maximize=False,
+            can_minimize=False,
+        )
+        root_layout.addWidget(self.container)
 
         # Main Card Frame
         card = QFrame()
@@ -132,7 +131,7 @@ class RecordingCompletedDialog(QDialog):
 
         details_layout.addStretch()
         card_layout.addLayout(details_layout)
-        layout.addWidget(card)
+        self.container.add_content_widget(card, stretch=1)
 
         # Action Buttons
         btn_layout = QHBoxLayout()
@@ -155,7 +154,7 @@ class RecordingCompletedDialog(QDialog):
         done_btn.clicked.connect(self.accept)
         btn_layout.addWidget(done_btn)
 
-        layout.addLayout(btn_layout)
+        self.container.add_content_layout(btn_layout)
 
     def _get_primary_path(self) -> Optional[Path]:
         """Returns MP4 or GIF primary output path."""

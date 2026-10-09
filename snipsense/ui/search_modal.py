@@ -23,6 +23,7 @@ from PIL import Image
 from snipsense.core.vault import VaultDatabase, SearchResult
 from snipsense.core.storage import StorageManager
 from snipsense.ui.styles import DARK_THEME_QSS
+from snipsense.ui.window_frame import CustomWindowContainer
 
 
 def format_relative_time(timestamp: float) -> str:
@@ -167,33 +168,39 @@ class SearchModal(QDialog):
         self.setWindowTitle("Visual Memory Search — SnipSense")
         self.resize(680, 520)
 
-        layout = QVBoxLayout(self)
-        layout.setContentsMargins(16, 16, 16, 16)
-        layout.setSpacing(12)
+        self.setWindowFlags(
+            Qt.WindowType.FramelessWindowHint
+            | Qt.WindowType.Dialog
+        )
+        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground, True)
 
-        # Header Search Bar
-        search_row = QHBoxLayout()
+        root_layout = QVBoxLayout(self)
+        root_layout.setContentsMargins(0, 0, 0, 0)
+        root_layout.setSpacing(0)
+
+        self.container = CustomWindowContainer(
+            parent_window=self,
+            title="Visual Memory Search",
+            badge_text="Alt+F",
+            can_maximize=True,
+            can_minimize=False,
+        )
+        root_layout.addWidget(self.container)
+
+        # 1. Header Search Bar (Full width, no duplicate close button)
         self.search_input = QLineEdit()
         self.search_input.setObjectName("searchInput")
         self.search_input.setPlaceholderText("Search captured text, titles, or tags... (Esc to close)")
         self.search_input.setFixedHeight(36)
         self.search_input.textChanged.connect(self._on_search_query_changed)
-        search_row.addWidget(self.search_input)
+        self.container.add_content_widget(self.search_input)
 
-        close_btn = QPushButton("✕")
-        close_btn.setObjectName("ghostAction")
-        close_btn.setFixedSize(38, 38)
-        close_btn.clicked.connect(self.close)
-        search_row.addWidget(close_btn)
-
-        layout.addLayout(search_row)
-
-        # Results Count Status
+        # 2. Results Count Status
         self.status_label = QLabel("Recent Captures")
         self.status_label.setStyleSheet("color: #94A3B8; font-size: 12px; font-weight: 500;")
-        layout.addWidget(self.status_label)
+        self.container.add_content_widget(self.status_label)
 
-        # Results List Widget
+        # 3. Results List Widget
         self.results_list = QListWidget()
         self.results_list.setObjectName("resultsList")
         self.results_list.setStyleSheet("""
@@ -210,15 +217,15 @@ class SearchModal(QDialog):
             }
         """)
         self.results_list.setSelectionMode(QListWidget.SelectionMode.SingleSelection)
-        layout.addWidget(self.results_list)
+        self.container.add_content_widget(self.results_list, stretch=1)
 
-        # Footer Hint
+        # 4. Footer Hint
         footer = QHBoxLayout()
         hint = QLabel("↑ ↓ navigate  •  ↵ open  •  Esc close")
         hint.setStyleSheet("color: #64748B; font-size: 11px; font-weight: 500;")
         footer.addWidget(hint)
         footer.addStretch()
-        layout.addLayout(footer)
+        self.container.add_content_layout(footer)
 
         # Keyboard shortcuts
         esc_shortcut = QShortcut(QKeySequence("Escape"), self)

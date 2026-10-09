@@ -11,13 +11,18 @@ QWidget {
     selection-color: #FFFFFF;
 }
 
-/* Main Windows & Dialog Shells - Clean Surface Elevation */
-QMainWindow#controlWindow, QWidget#controlCentral,
-QFrame#windowFrame,
-QDialog#previewWindow, QWidget#previewContainer,
-QDialog#searchModal, QWidget#searchContainer,
-QDialog#dedupDialog, QWidget#dedupContainer,
-QDialog#recordingDialog, QWidget#recordingContainer {
+/* Main Windows & Dialog Shells - Transparent outer shells */
+QMainWindow#controlWindow,
+QDialog#previewWindow,
+QDialog#searchModal,
+QDialog#dedupDialog,
+QDialog#recordingDialog {
+    background-color: transparent;
+    border: none;
+}
+
+/* Frameless Window Frame Container - Unified Surface Elevation */
+QFrame#windowFrame {
     background-color: #202020;
     border: 1px solid #383838;
     border-radius: 8px;

@@ -238,3 +238,60 @@ def test_control_window_frameless_integration(qtbot, monkeypatch):
     qtbot.mouseClick(win.btn_close, Qt.MouseButton.LeftButton)
     # Since tray is available, closeEvent ignores the event and hides the window
     assert not win.isVisible()
+
+
+def test_popup_dialogs_frameless_container_integration(qtbot, tmp_path):
+    from PIL import Image
+    from snipsense.core.models import CaptureResult, ScreenRegion
+    from snipsense.core.recorder import RecordingResult
+    from snipsense.core.dedup import DuplicateCluster, ScreenshotCandidate, DuplicateArchiver
+    from snipsense.core.vault import VaultDatabase
+    from snipsense.ui.preview import PreviewWindow
+    from snipsense.ui.search_modal import SearchModal
+    from snipsense.ui.dedup_dialog import DedupDialog
+    from snipsense.ui.recording_dialog import RecordingCompletedDialog
+
+    # 1. PreviewWindow
+    img = Image.new("RGB", (80, 80), color=(10, 10, 10))
+    cap = CaptureResult(image=img, region=ScreenRegion(x=0, y=0, width=80, height=80))
+    preview = PreviewWindow(cap)
+    qtbot.addWidget(preview)
+    assert bool(preview.windowFlags() & Qt.WindowType.FramelessWindowHint)
+    assert preview.testAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
+    assert hasattr(preview, "container")
+    assert isinstance(preview.container, CustomWindowContainer)
+    assert preview.container.title_bar.btn_close is not None
+
+    # 2. SearchModal
+    db_file = tmp_path / "test_frame_vault.db"
+    vault = VaultDatabase(db_path=db_file)
+    search = SearchModal(vault=vault)
+    qtbot.addWidget(search)
+    assert bool(search.windowFlags() & Qt.WindowType.FramelessWindowHint)
+    assert search.testAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
+    assert hasattr(search, "container")
+    assert isinstance(search.container, CustomWindowContainer)
+    assert search.container.title_bar.btn_close is not None
+
+    # 3. DedupDialog
+    cand = ScreenshotCandidate(file_path="dummy.png", created_at=1.0, perceptual_hash="1111", file_size_bytes=100)
+    cluster = DuplicateCluster(cluster_id="c1", primary=cand, duplicates=[])
+    dedup = DedupDialog(clusters=[cluster], archiver=DuplicateArchiver(archive_directory=tmp_path))
+    qtbot.addWidget(dedup)
+    assert bool(dedup.windowFlags() & Qt.WindowType.FramelessWindowHint)
+    assert dedup.testAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
+    assert hasattr(dedup, "container")
+    assert isinstance(dedup.container, CustomWindowContainer)
+    assert dedup.container.title_bar.btn_close is not None
+
+    # 4. RecordingCompletedDialog
+    rec_res = RecordingResult(frames=[img], fps=15, duration_seconds=1.0, window_title="App", width=80, height=80)
+    dummy_file = tmp_path / "dummy.mp4"
+    dummy_file.write_bytes(b"data")
+    rec_dialog = RecordingCompletedDialog(encoded_files={"mp4": dummy_file}, result=rec_res)
+    qtbot.addWidget(rec_dialog)
+    assert bool(rec_dialog.windowFlags() & Qt.WindowType.FramelessWindowHint)
+    assert rec_dialog.testAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
+    assert hasattr(rec_dialog, "container")
+    assert isinstance(rec_dialog.container, CustomWindowContainer)
+    assert rec_dialog.container.title_bar.btn_close is not None

@@ -192,27 +192,29 @@ class OverlayHUD(QDialog):
         self.hud_container.setFixedSize(860, 520)
 
         container_layout = QVBoxLayout(self.hud_container)
-        container_layout.setContentsMargins(24, 20, 24, 20)
-        container_layout.setSpacing(14)
+        container_layout.setContentsMargins(20, 16, 20, 16)
+        container_layout.setSpacing(12)
 
         # 1. Header Bar
         header = QHBoxLayout()
-        title = QLabel("🔮 SNIPSENSE")
+        title = QLabel("SnipSense")
         title.setObjectName("headerTitle")
-        title.setStyleSheet("font-size: 16px; font-weight: 700; color: #F1F5F9; letter-spacing: 0.5px;")
+        title.setStyleSheet("font-size: 14px; font-weight: 600; color: #F3F3F3;")
         header.addWidget(title)
 
-        offline_badge = QLabel("🟢 100% Offline | Zero Cloud")
+        offline_badge = QLabel("100% Offline")
         offline_badge.setObjectName("statusBadge")
         offline_badge.setStyleSheet(
-            "background-color: rgba(16, 185, 129, 0.15); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 4px; padding: 3px 8px; font-size: 11px; font-weight: 600;"
+            "background-color: rgba(255, 255, 255, 0.06); color: #CCCCCC; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 500;"
         )
         header.addWidget(offline_badge)
 
         header.addStretch()
 
-        esc_btn = QPushButton("✕ ESC to Close")
-        esc_btn.setObjectName("closeBtn")
+        esc_btn = QPushButton("✕")
+        esc_btn.setToolTip("Close (Esc)")
+        esc_btn.setObjectName("winBtnClose")
+        esc_btn.setFixedSize(32, 28)
         esc_btn.clicked.connect(self.close)
         header.addWidget(esc_btn)
         container_layout.addLayout(header)
@@ -220,12 +222,12 @@ class OverlayHUD(QDialog):
         # Divider
         line1 = QFrame()
         line1.setFrameShape(QFrame.Shape.HLine)
-        line1.setStyleSheet("color: #1E2530; background-color: #1E2530; height: 1px; border: none;")
+        line1.setStyleSheet("color: #383838; background-color: #383838; height: 1px; border: none;")
         container_layout.addWidget(line1)
 
         # 2. Quick Actions Section
-        action_sec_title = QLabel("QUICK ACTIONS")
-        action_sec_title.setStyleSheet("font-size: 11px; font-weight: 700; color: #64748B; letter-spacing: 0.5px;")
+        action_sec_title = QLabel("Quick Actions")
+        action_sec_title.setStyleSheet("font-size: 11px; font-weight: 600; color: #A0A0A0;")
         container_layout.addWidget(action_sec_title)
 
         actions_grid = QHBoxLayout()

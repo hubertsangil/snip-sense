@@ -23,6 +23,7 @@ from snipsense.core.storage import StorageManager
 from snipsense.core.vault import VaultDatabase
 from snipsense.ui.styles import DARK_THEME_QSS
 from snipsense.ui.image_canvas import InteractiveImageCanvas
+from snipsense.ui.window_frame import CustomWindowContainer
 
 
 def pil_to_qpixmap(pil_img: Image.Image) -> QPixmap:
@@ -41,9 +42,11 @@ class PreviewWindow(QDialog):
         self.setObjectName("previewWindow")
         self.setStyleSheet(DARK_THEME_QSS)
         self.setWindowFlags(
-            Qt.WindowType.Dialog
+            Qt.WindowType.FramelessWindowHint
+            | Qt.WindowType.Dialog
             | Qt.WindowType.WindowStaysOnTopHint
         )
+        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground, True)
 
         self.capture_result = capture_result
         self.original_image: Image.Image = capture_result.image
@@ -58,36 +61,27 @@ class PreviewWindow(QDialog):
         self._setup_shortcuts()
 
     def _init_ui(self):
-        self.setWindowTitle("SnipSense — Capture Inspector")
-        layout = QVBoxLayout(self)
-        layout.setContentsMargins(18, 16, 18, 16)
-        layout.setSpacing(12)
-
-        # 1. Top Header Bar
-        header = QHBoxLayout()
-        header.setSpacing(10)
-
-        title_label = QLabel("Capture Inspector")
-        title_label.setObjectName("headerTitle")
-        header.addWidget(title_label)
+        self.setWindowTitle("Capture Inspector — SnipSense")
+        root_layout = QVBoxLayout(self)
+        root_layout.setContentsMargins(0, 0, 0, 0)
+        root_layout.setSpacing(0)
 
         line_count = len(self.capture_result.ocr_boxes)
         badge_text = f"{line_count} text {'blocks' if line_count != 1 else 'block'} detected" if line_count > 0 else "Captured"
-        self.status_badge = QLabel(badge_text)
-        self.status_badge.setObjectName("statusBadge")
-        header.addWidget(self.status_badge)
 
-        header.addStretch()
+        self.container = CustomWindowContainer(
+            parent_window=self,
+            title="Capture Inspector",
+            badge_text=badge_text,
+            can_maximize=True,
+            can_minimize=False,
+        )
+        root_layout.addWidget(self.container)
 
-        close_btn = QPushButton("✕")
-        close_btn.setObjectName("closeBtn")
-        close_btn.setFixedSize(28, 28)
-        close_btn.clicked.connect(self.close)
-        header.addWidget(close_btn)
+        # Map status_badge to title bar badge for status notifications
+        self.status_badge = self.container.title_bar.badge_label
 
-        layout.addLayout(header)
-
-        # 2. Central Scrollable Image Canvas with Interactive OCR Boxes
+        # 1. Central Scrollable Image Canvas with Interactive OCR Boxes
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
         scroll.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -101,9 +95,9 @@ class PreviewWindow(QDialog):
         self.canvas.box_mask_toggled.connect(self._on_box_mask_toggled)
         scroll.setWidget(self.canvas)
 
-        layout.addWidget(scroll, stretch=1)
+        self.container.add_content_widget(scroll, stretch=1)
 
-        # 3. Filename & Disk Save Bar
+        # 2. Filename & Disk Save Bar
         name_row = QHBoxLayout()
         name_row.setSpacing(8)
 
@@ -129,9 +123,9 @@ class PreviewWindow(QDialog):
         self.open_folder_btn.clicked.connect(self._open_saved_location)
         name_row.addWidget(self.open_folder_btn)
 
-        layout.addLayout(name_row)
+        self.container.add_content_layout(name_row)
 
-        # 4. Bottom Action Bar
+        # 3. Bottom Action Bar
         bottom_bar = QHBoxLayout()
         bottom_bar.setSpacing(8)
 
@@ -178,7 +172,7 @@ class PreviewWindow(QDialog):
         dismiss_btn.clicked.connect(self.close)
         bottom_bar.addWidget(dismiss_btn)
 
-        layout.addLayout(bottom_bar)
+        self.container.add_content_layout(bottom_bar)
 
         # Clamped initial dialog dimensions
         img_w = self.capture_result.width

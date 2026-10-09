@@ -23,6 +23,7 @@ from PIL import Image
 
 from snipsense.core.dedup import DuplicateCluster, DuplicateArchiver, hamming_distance
 from snipsense.ui.styles import DARK_THEME_QSS
+from snipsense.ui.window_frame import CustomWindowContainer
 
 
 def format_bytes(bytes_count: int) -> str:
@@ -180,41 +181,43 @@ class DedupDialog(QDialog):
         self.item_widgets: List[ClusterItemWidget] = []
         self.last_batch_id: Optional[str] = None
 
-        self.setWindowTitle("Review & Clean Screenshot Duplicates")
+        self.setWindowTitle("Review & Clean Screenshot Duplicates — SnipSense")
         self.setObjectName("previewWindow")
         self.setStyleSheet(DARK_THEME_QSS)
         self.resize(750, 520)
 
+        self.setWindowFlags(
+            Qt.WindowType.FramelessWindowHint
+            | Qt.WindowType.Dialog
+        )
+        self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground, True)
+
         self._init_ui()
 
     def _init_ui(self):
-        main_layout = QVBoxLayout(self)
-        main_layout.setContentsMargins(20, 20, 20, 20)
-        main_layout.setSpacing(14)
-
-        # Header
-        header = QHBoxLayout()
-        title_label = QLabel("Duplicate Screenshot Cleaner")
-        title_label.setObjectName("headerTitle")
-        header.addWidget(title_label)
+        root_layout = QVBoxLayout(self)
+        root_layout.setContentsMargins(0, 0, 0, 0)
+        root_layout.setSpacing(0)
 
         total_bytes = sum(c.total_reclaimable_bytes for c in self.clusters)
-        self.stats_badge = QLabel(f"{len(self.clusters)} Duplicate Clusters • Reclaimable: {format_bytes(total_bytes)}")
-        self.stats_badge.setObjectName("statusBadge")
-        header.addWidget(self.stats_badge)
-        header.addStretch()
+        badge_text = f"{len(self.clusters)} Clusters • {format_bytes(total_bytes)}"
 
-        close_btn = QPushButton("✕")
-        close_btn.setObjectName("closeBtn")
-        close_btn.clicked.connect(self.reject)
-        header.addWidget(close_btn)
-        main_layout.addLayout(header)
+        self.container = CustomWindowContainer(
+            parent_window=self,
+            title="Duplicate Screenshot Cleaner",
+            badge_text=badge_text,
+            can_maximize=True,
+            can_minimize=False,
+        )
+        root_layout.addWidget(self.container)
+
+        self.stats_badge = self.container.title_bar.badge_label
 
         # Description
         desc = QLabel("Identified near-identical screenshot bursts (Hamming distance ≤ 4). Redundant files will be safely moved to the SnipSense Archive folder.")
         desc.setStyleSheet("color: #A0A0A0; font-size: 12px;")
         desc.setWordWrap(True)
-        main_layout.addWidget(desc)
+        self.container.add_content_widget(desc)
 
         # Scroll area for clusters
         self.scroll_area = QScrollArea()
@@ -237,7 +240,7 @@ class DedupDialog(QDialog):
 
         self.scroll_layout.addStretch()
         self.scroll_area.setWidget(self.scroll_content)
-        main_layout.addWidget(self.scroll_area)
+        self.container.add_content_widget(self.scroll_area, stretch=1)
 
         # Action Buttons
         btn_layout = QHBoxLayout()
@@ -262,7 +265,7 @@ class DedupDialog(QDialog):
         self.clean_btn.clicked.connect(self._handle_clean)
         btn_layout.addWidget(self.clean_btn)
 
-        main_layout.addLayout(btn_layout)
+        self.container.add_content_layout(btn_layout)
 
     def _handle_clean(self):
         """Archives all selected duplicate items."""
