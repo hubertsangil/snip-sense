@@ -17,7 +17,6 @@ from PyQt6.QtWidgets import (
     QScrollArea,
     QCheckBox,
     QFrame,
-    QMessageBox,
 )
 from PIL import Image
 
@@ -285,7 +284,14 @@ class DedupDialog(QDialog):
                 reclaimed_bytes += widget.cluster.total_reclaimable_bytes
 
         if not to_archive:
-            QMessageBox.information(self, "Notice", "No duplicate items selected for cleanup.")
+            if self.stats_badge:
+                animate_badge_toast(
+                    self.stats_badge,
+                    message="No duplicate items selected for cleanup",
+                    original_text=self.stats_badge.text(),
+                    toast_style="background-color: rgba(239, 68, 68, 0.2); color: #EF4444;",
+                    hold_ms=2500,
+                )
             return
 
         count, batch_id = self.archiver.archive_files(to_archive)

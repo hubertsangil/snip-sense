@@ -70,6 +70,18 @@ def test_control_window_close_minimizes_to_tray(qtbot, qapp, monkeypatch):
     win.show()
     assert win.isVisible()
 
+    # Verify app metadata is SnipSense and does not contain python
+    assert QApplication.applicationName() == "SnipSense"
+    assert QApplication.applicationDisplayName() == "SnipSense"
+
+    # Capture showMessage parameters
+    shown_messages = []
+    monkeypatch.setattr(
+        app.tray_icon,
+        "showMessage",
+        lambda title, msg, *args: shown_messages.append((title, msg)),
+    )
+
     # Create close event
     close_event = QCloseEvent()
     win.closeEvent(close_event)
@@ -78,6 +90,11 @@ def test_control_window_close_minimizes_to_tray(qtbot, qapp, monkeypatch):
     assert not close_event.isAccepted()
     assert not win.isVisible()
     assert app._has_shown_tray_balloon is True
+    assert len(shown_messages) == 1
+    title, msg = shown_messages[0]
+    assert title == "SnipSense"
+    assert "python" not in title.lower()
+    assert "python" not in msg.lower()
 
 
 def test_toggle_control_window(qtbot, qapp, monkeypatch):

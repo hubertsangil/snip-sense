@@ -141,6 +141,7 @@ def test_preview_window_copy_image(qtbot, qapp):
     assert clip_pixmap.width() == 60
     assert clip_pixmap.height() == 40
     assert "Copied" in preview.copy_img_btn.text()
+    preview.close()
 
 
 def test_preview_window_copy_all_text(qtbot, qapp):
@@ -166,6 +167,7 @@ def test_preview_window_copy_all_text(qtbot, qapp):
     qtbot.mouseClick(preview.copy_text_btn, Qt.MouseButton.LeftButton)
     assert clipboard.text() == "Line 1\nLine 2"
     assert "Copied" in preview.copy_text_btn.text()
+    preview.close()
 
 
 def test_preview_window_no_text_graceful(qtbot, qapp):
@@ -184,6 +186,7 @@ def test_preview_window_no_text_graceful(qtbot, qapp):
     assert not preview.copy_text_btn.isEnabled()
     assert preview.copy_text_btn.text() == "No Text Found"
     assert not hasattr(preview, "toggle_boxes_btn")
+    preview.close()
 
 
 def test_interactive_image_canvas_click_copies_box_text(qtbot, qapp):
@@ -232,6 +235,7 @@ def test_toggle_boxes_button(qtbot, qapp):
     assert preview.canvas.boxes_visible is False
     qtbot.mouseClick(preview.toggle_boxes_btn, Qt.MouseButton.LeftButton)
     assert preview.canvas.boxes_visible is True
+    preview.close()
 
 
 def test_preview_save_button(qtbot, qapp, tmp_path):
@@ -259,6 +263,7 @@ def test_preview_save_button(qtbot, qapp, tmp_path):
     assert preview.saved_path is not None
     assert preview.saved_path.exists()
     assert preview.saved_path.name == "Custom_Name.png"
+    preview.close()
 
 
 def test_shield_pii_button_masks_sensitive_boxes(qtbot, qapp):
@@ -304,6 +309,7 @@ def test_shield_pii_button_masks_sensitive_boxes(qtbot, qapp):
     assert not clip_pix.isNull()
     assert clip_pix.width() == 200
     assert clip_pix.height() == 100
+    preview.close()
 
 
 def test_manual_box_toggle_masking(qtbot, qapp):
@@ -335,3 +341,4 @@ def test_manual_box_toggle_masking(qtbot, qapp):
 
     assert box not in preview.masked_boxes
     assert preview.get_redacted_text() == "NonSensitiveText"
+    preview.close()

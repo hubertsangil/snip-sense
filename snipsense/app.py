@@ -210,7 +210,21 @@ class SnipSenseApp(QObject):
     """Coordinates canvas spawning, image grabbing, auto-naming, preview, system tray, HUD, search vault, deduplication, and screen recording."""
 
     def __init__(self):
+        # Explicitly configure Windows AppUserModelID so tray popups, toast notifications,
+        # and taskbar items identify as 'SnipSense' instead of 'python'.
+        if sys.platform == "win32":
+            try:
+                import ctypes
+                ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("SnipSense.Desktop.CaptureStudio.1.0")
+            except Exception:
+                pass
+
         self.qt_app = QApplication.instance() or QApplication(sys.argv)
+        self.qt_app.setApplicationName("SnipSense")
+        self.qt_app.setApplicationDisplayName("SnipSense")
+        self.qt_app.setOrganizationName("SnipSense")
+        self.qt_app.setOrganizationDomain("snipsense.local")
+        self.qt_app.setWindowIcon(create_app_icon())
         super().__init__()
         self.grabber = ScreenGrabber()
         self.vault = VaultDatabase.get_instance()
@@ -344,8 +358,8 @@ class SnipSenseApp(QObject):
         """Displays a one-time balloon tip indicating background operation."""
         if self.tray_icon and not self._has_shown_tray_balloon:
             self.tray_icon.showMessage(
-                "SnipSense is running in the background",
-                "Press Ctrl+Shift+S anytime to capture, or click the tray icon to reopen.",
+                "SnipSense",
+                "Running in the background. Press Ctrl+Shift+S anytime to capture, or click the tray icon to reopen.",
                 QSystemTrayIcon.MessageIcon.Information,
                 3000,
             )
