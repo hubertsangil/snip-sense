@@ -3,11 +3,12 @@
 ### *The 100% Offline AI Desktop Capture Studio, Privacy Shield & Visual Memory HUD*
 
 [![Python](https://img.shields.io/badge/Python-3.9%20%7C%203.10%20%7C%203.11%20%7C%203.12-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![Release](https://img.shields.io/badge/Release-v1.0.0-0067C0?logo=github&logoColor=white)](https://github.com/hubertsangil/snip-sense/releases/tag/v1.0.0)
+[![Platform](https://img.shields.io/badge/Platform-Windows%20x64-0078D4?logo=windows&logoColor=white)](https://github.com/hubertsangil/snip-sense/releases)
 [![Local AI](https://img.shields.io/badge/AI%20Inference-100%25%20On--Device%20(Zero%20Cloud)-10B981?logo=cpu&logoColor=white)](#-theme-alignment-appbuildersph-2026)
 [![Database](https://img.shields.io/badge/Visual%20Memory-SQLite%20FTS5-003B57?logo=sqlite&logoColor=white)](#-technologies-and-frameworks)
 [![UI Framework](https://img.shields.io/badge/GUI-PyQt6-41CD52?logo=qt&logoColor=white)](https://www.riverbankcomputing.com/software/pyqt/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Hackathon](https://img.shields.io/badge/AppBuildersPH-2026%20Hackathon-FF6B6B)](https://github.com/hubertsangil/snip-sense)
 
 ---
 
@@ -143,10 +144,25 @@ To rapidly architect, code, test, and polish SnipSense for the AppBuildersPH 202
 
 ---
 
-## 🚀 Installation & Getting Started
+## 🚀 Download & Quick Start (Windows)
+
+No Python installation required:
+
+1. Go to **[Releases](https://github.com/hubertsangil/snip-sense/releases/tag/v1.0.0)**.
+2. Download **`SnipSense-v1.0.0-windows-x64.zip`**.
+3. Extract the zip file and launch **`SnipSense.exe`**.
+4. SnipSense runs in your system tray. Use global hotkeys:
+   - **`Ctrl + Shift + S`**: Instant screen snip & OCR
+   - **`Alt + Z`**: Overlay HUD
+   - **`Alt + F`**: Visual memory search
+   - **`Ctrl + Shift + R`**: Screen clip recorder
+
+---
+
+## 🛠️ Developer Setup & Installation
 
 ### Prerequisites
-* Python **3.9** or newer (Tested on macOS, Windows, Linux)
+* Python **3.9** or newer (Tested on Windows, macOS, Linux)
 * `pip` and `git`
 
 ### 1. Clone the Repository

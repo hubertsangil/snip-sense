@@ -54,10 +54,15 @@ from snipsense.ui.motion import animate_window_entrance
 
 def create_app_icon() -> QIcon:
     """Loads the official Razor Shears branding symbol (shears-v1-symbol.svg) for taskbar and tray."""
-    for candidate in [
+    candidates = [
         Path(__file__).resolve().parent.parent / "branding" / "shears-v1-symbol.svg",
         Path.cwd() / "branding" / "shears-v1-symbol.svg",
-    ]:
+        Path(sys.executable).parent / "branding" / "shears-v1-symbol.svg",
+    ]
+    if hasattr(sys, "_MEIPASS"):
+        candidates.insert(0, Path(sys._MEIPASS) / "branding" / "shears-v1-symbol.svg")
+
+    for candidate in candidates:
         if candidate.is_file():
             icon = QIcon(str(candidate))
             if not icon.isNull():
