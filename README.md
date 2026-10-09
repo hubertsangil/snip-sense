@@ -1,4 +1,4 @@
-# 🔮 SnipSense
+# SnipSense
 
 ### *The 100% Offline AI Desktop Capture Studio, Privacy Shield & Visual Memory HUD*
 
@@ -14,20 +14,20 @@
 ```
                                   [ BANNER IMAGE PLACEHOLDER ]
                          ╔═══════════════════════════════════════════╗
-                         ║      🔮 S N I P S E N S E   S T U D I O   ║
-                         ║   Local AI Screen Capture & Memory HUD   ║
+                         ║     S N I P S E N S E   S T U D I O       ║
+                         ║   Local AI Screen Capture & Memory HUD    ║
                          ╚═══════════════════════════════════════════╝
 ```
 
 ---
 
-## ⚡ Elevator Pitch
+## ⚡ Core Concept
 
 **SnipSense** is an open-source, 100% offline desktop capture studio and frosted-glass overlay HUD that replaces legacy snipping tools with zero-cloud intelligence. Running embedded quantized ONNX OCR models and Shannon entropy heuristics directly on your hardware, SnipSense automatically masks sensitive credentials (API keys, tokens, PII), auto-generates semantic filenames from active window contexts, indexes screenshot text into a sub-50ms searchable SQLite FTS5 visual memory vault, and captures short GIF/MP4 repro clips without a single byte ever touching the cloud.
 
 ---
 
-## 🎯 Why SnipSense? (The Problem vs. The Solution)
+## 🎯 Why SnipSense? 
 
 | # | Pain Point (The Status Quo) | SnipSense Solution (Local-First AI Architecture) |
 |---|---|---|
@@ -38,7 +38,7 @@
 
 ---
 
-## 🏆 Theme Alignment (AppBuildersPH 2026: "Local AI")
+## 🏆 Theme Alignment 
 
 The **AppBuildersPH 2026 Hackathon** celebrates **"Local AI"**—useful, tangible AI experiences where meaningful computation happens strictly on the user's personal device rather than depending on cloud inference endpoints.
 
@@ -199,13 +199,14 @@ pytest -v
 
 ---
 
-## 👥 Meet the Team (Batangas State University)
+## 👥 Meet the Team (Richeese)
 
 Developed with passion for **AppBuildersPH 2026 Hackathon**:
 
 * **Hubert Ross O. San Gil**
 * **Denrei Samual M. Angeles**
 * **Ritzy Leewis G. Celestial**
+* **Genesis Jim C. Cuasay**
 
 ---
 
