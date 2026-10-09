@@ -39,10 +39,67 @@ def test_canvas_drag_emits_snip_completed(qtbot, qapp):
     assert rect.height() == 150
 
     # Simulate completion by calling internal event handler path
-    canvas.snip_completed.emit(ScreenRegion(x=100, y=100, width=200, height=150))
+    canvas.snip_completed.emit(ScreenRegion(x=100, y=100, width=200, height=150), None)
 
     assert len(captured_regions) == 1
     assert captured_regions[0] == ScreenRegion(x=100, y=100, width=200, height=150)
+
+
+def test_canvas_frozen_pixmap_dpi_cropping(qtbot, qapp):
+    from PyQt6.QtGui import QPixmap, QColor
+    from PyQt6.QtGui import QMouseEvent
+    from PyQt6.QtCore import QEvent, QPointF
+
+    # Logical canvas: 1536 x 864, physical frozen pixmap: 1920 x 1080 (125% DPI)
+    logical_geom = (0, 0, 1536, 864)
+    pixmap = QPixmap(1920, 1080)
+    pixmap.fill(QColor(100, 150, 200))
+
+    canvas = SnipCanvas(logical_geom, frozen_pixmap=pixmap, dpr=1.25)
+    qtbot.addWidget(canvas)
+    canvas.show()
+
+    results = []
+    canvas.snip_completed.connect(lambda r, img: results.append((r, img)))
+
+    # Select logical area (100, 100) to (300, 250) -> width=200, height=150
+    canvas._start_pos = QPoint(100, 100)
+    canvas._current_pos = QPoint(300, 250)
+    canvas._is_selecting = True
+
+    # Trigger release event
+    release_event = QMouseEvent(
+        QEvent.Type.MouseButtonRelease,
+        QPointF(300.0, 250.0),
+        Qt.MouseButton.LeftButton,
+        Qt.MouseButton.LeftButton,
+        Qt.KeyboardModifier.NoModifier,
+    )
+    canvas.mouseReleaseEvent(release_event)
+
+    assert len(results) == 1
+    region, cropped_img = results[0]
+    assert region.width == 200
+    assert region.height == 150
+    assert cropped_img is not None
+    # 200 * 1.25 = 250, 150 * 1.25 = 188
+    assert cropped_img.size == (250, 188)
+
+
+def test_canvas_clamp_corner_coordinates(qtbot, qapp):
+    geom = (0, 0, 1536, 864)
+    canvas = SnipCanvas(geom)
+    qtbot.addWidget(canvas)
+
+    # Click beyond top-left corner
+    p_neg = canvas._clamp_pos(QPoint(-50, -50))
+    assert p_neg.x() == 0
+    assert p_neg.y() == 0
+
+    # Click beyond bottom-right corner
+    p_overflow = canvas._clamp_pos(QPoint(2000, 1200))
+    assert p_overflow.x() == canvas.width() - 1
+    assert p_overflow.y() == canvas.height() - 1
 
 
 def test_canvas_escape_cancels(qtbot, qapp):

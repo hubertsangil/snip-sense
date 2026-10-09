@@ -1,8 +1,8 @@
-"""Application coordinator linking hotkeys, canvas overlay, auto-naming, and preview dialog."""
+"""Application coordinator linking hotkeys, canvas overlay, auto-naming, preview dialog, system tray, and deduplication."""
 
 from __future__ import annotations
 import sys
-from PyQt6.QtCore import QObject, pyqtSlot, QThread
+from PyQt6.QtCore import QObject, pyqtSlot, QThread, Qt, QRect
 from PyQt6.QtWidgets import (
     QApplication,
     QMainWindow,
@@ -11,8 +11,19 @@ from PyQt6.QtWidgets import (
     QHBoxLayout,
     QPushButton,
     QLabel,
+    QSystemTrayIcon,
+    QMenu,
 )
-from PyQt6.QtGui import QKeySequence, QShortcut
+from PyQt6.QtGui import (
+    QKeySequence,
+    QShortcut,
+    QIcon,
+    QPixmap,
+    QPainter,
+    QColor,
+    QFont,
+    QCloseEvent,
+)
 from snipsense.core.capture import ScreenGrabber
 from snipsense.core.models import ScreenRegion, CaptureResult
 from snipsense.core.naming import get_foreground_window_title, generate_filename
@@ -21,11 +32,31 @@ from snipsense.core.ocr_engine import OCREngine
 from snipsense.core.vault import VaultDatabase
 from snipsense.core.dedup import DuplicateCluster, DuplicateArchiver
 from snipsense.core.ingestion import HistoricalScanner, IngestionWorker
+from snipsense.core.hotkey import GlobalHotkeyManager
 from snipsense.ui.canvas import SnipCanvas
 from snipsense.ui.preview import PreviewWindow
 from snipsense.ui.search_modal import SearchModal
 from snipsense.ui.dedup_dialog import DedupDialog
 from snipsense.ui.styles import DARK_THEME_QSS
+
+
+def create_app_icon() -> QIcon:
+    """Generates an emerald camera/snip studio icon for taskbar and tray."""
+    pix = QPixmap(64, 64)
+    pix.fill(Qt.GlobalColor.transparent)
+    p = QPainter(pix)
+    p.setRenderHint(QPainter.RenderHint.Antialiasing, True)
+    # Emerald rounded rectangle badge
+    p.setBrush(QColor("#10B981"))
+    p.setPen(Qt.PenStyle.NoPen)
+    p.drawRoundedRect(4, 4, 56, 56, 14, 14)
+    # Scissor symbol
+    p.setPen(QColor("#FFFFFF"))
+    font = QFont("Segoe UI Emoji", 26)
+    p.setFont(font)
+    p.drawText(QRect(0, 0, 64, 64), Qt.AlignmentFlag.AlignCenter, "✂")
+    p.end()
+    return QIcon(pix)
 
 
 class ControlWindow(QMainWindow):
@@ -102,17 +133,28 @@ class ControlWindow(QMainWindow):
         self.badge.setText(text)
 
     def _open_screenshots_folder(self):
-        storage = StorageManager()
-        storage.open_in_explorer(storage.base_directory)
+        self.app_controller.open_screenshots_folder()
+
+    def closeEvent(self, event: QCloseEvent):
+        """Minimizes window to system tray when closed instead of terminating application."""
+        if self.app_controller.is_tray_available():
+            event.ignore()
+            self.hide()
+            self.app_controller.notify_minimized_to_tray()
+        else:
+            event.accept()
 
 
 class SnipSenseApp(QObject):
-    """Coordinates canvas spawning, image grabbing, auto-naming, preview, search vault, and deduplication."""
+    """Coordinates canvas spawning, image grabbing, auto-naming, preview, system tray, search vault, and deduplication."""
 
     def __init__(self):
         super().__init__()
         self.grabber = ScreenGrabber()
         self.vault = VaultDatabase.get_instance()
+        self.hotkey_manager = GlobalHotkeyManager()
+        self.tray_icon: QSystemTrayIcon | None = None
+        self._has_shown_tray_balloon: bool = False
         self.canvas: SnipCanvas | None = None
         self.preview: PreviewWindow | None = None
         self.search_modal: SearchModal | None = None
@@ -120,6 +162,7 @@ class SnipSenseApp(QObject):
         self.control_win: ControlWindow | None = None
         self.duplicate_clusters: list[DuplicateCluster] = []
         self._last_window_title: str = ""
+        self._control_was_visible: bool = False
         self._ingestion_thread: QThread | None = None
         self._ingestion_worker: IngestionWorker | None = None
 
@@ -160,6 +203,80 @@ class SnipSenseApp(QObject):
         if self.control_win:
             self.control_win.set_status_text(f"Cleaned {cleaned_count} duplicates")
 
+    def is_tray_available(self) -> bool:
+        """Returns True if the system tray is supported and icon is active."""
+        return self.tray_icon is not None and QSystemTrayIcon.isSystemTrayAvailable()
+
+    def setup_system_tray(self):
+        """Initializes system tray icon, notifications, and context menu."""
+        if not QSystemTrayIcon.isSystemTrayAvailable():
+            return
+
+        icon = create_app_icon()
+        self.tray_icon = QSystemTrayIcon(icon, self)
+        self.tray_icon.setToolTip("SnipSense Studio (Ctrl+Shift+S to snip)")
+
+        menu = QMenu()
+        menu.setStyleSheet(DARK_THEME_QSS)
+
+        snip_act = menu.addAction("✂️ New Snip (Ctrl+Shift+S)")
+        snip_act.triggered.connect(self.start_snip)
+
+        search_act = menu.addAction("🔍 Search Vault (Alt+F)")
+        search_act.triggered.connect(self.open_search_vault)
+
+        folder_act = menu.addAction("📂 Open Screenshots")
+        folder_act.triggered.connect(self.open_screenshots_folder)
+
+        menu.addSeparator()
+
+        toggle_act = menu.addAction("Show / Hide Studio")
+        toggle_act.triggered.connect(self.toggle_control_window)
+
+        menu.addSeparator()
+
+        exit_act = menu.addAction("Exit SnipSense")
+        exit_act.triggered.connect(self.quit)
+
+        self.tray_icon.setContextMenu(menu)
+        self.tray_icon.activated.connect(self.on_tray_activated)
+        self.tray_icon.show()
+
+    def on_tray_activated(self, reason: QSystemTrayIcon.ActivationReason):
+        """Toggles main control launcher when tray icon is clicked."""
+        if reason in (
+            QSystemTrayIcon.ActivationReason.Trigger,
+            QSystemTrayIcon.ActivationReason.DoubleClick,
+        ):
+            self.toggle_control_window()
+
+    def toggle_control_window(self):
+        """Toggles the visibility of the control window."""
+        if not self.control_win:
+            return
+        if self.control_win.isVisible() and not self.control_win.isMinimized():
+            self.control_win.hide()
+        else:
+            self.control_win.showNormal()
+            self.control_win.raise_()
+            self.control_win.activateWindow()
+
+    def notify_minimized_to_tray(self):
+        """Displays a one-time balloon tip indicating background operation."""
+        if self.tray_icon and not self._has_shown_tray_balloon:
+            self.tray_icon.showMessage(
+                "SnipSense is running in the background",
+                "Press Ctrl+Shift+S anytime to capture, or click the tray icon to reopen.",
+                QSystemTrayIcon.MessageIcon.Information,
+                3000,
+            )
+            self._has_shown_tray_balloon = True
+
+    def open_screenshots_folder(self):
+        """Opens the user's default screenshot storage directory in File Explorer."""
+        storage = StorageManager()
+        storage.open_in_explorer(storage.base_directory)
+
     def open_search_vault(self):
         """Opens the visual memory search dialog."""
         self.search_modal = SearchModal(vault=self.vault)
@@ -168,25 +285,43 @@ class SnipSenseApp(QObject):
         self.search_modal.raise_()
 
     def start_snip(self):
-        """Captures active window context and spawns the transparent selection canvas."""
+        """Captures active window context, freezes the screen, and spawns the precision canvas."""
         # Query active window title before modifying window state
         self._last_window_title = get_foreground_window_title()
 
-        if self.control_win:
-            self.control_win.showMinimized()
+        self._control_was_visible = bool(
+            self.control_win and self.control_win.isVisible() and not self.control_win.isMinimized()
+        )
+        if self.control_win and self._control_was_visible:
+            self.control_win.hide()
 
-        virtual_geom = self.grabber.get_virtual_geometry()
-        self.canvas = SnipCanvas(virtual_geom)
+        # Capture frozen screen buffer instantly (~10ms)
+        frozen_pixmap, dpr, virt_geom = self.grabber.capture_frozen_screen()
+
+        self.canvas = SnipCanvas(
+            virtual_geometry=virt_geom,
+            frozen_pixmap=frozen_pixmap,
+            dpr=dpr,
+        )
         self.canvas.snip_completed.connect(self.on_snip_completed)
         self.canvas.snip_cancelled.connect(self.on_snip_cancelled)
         self.canvas.show()
+        self.canvas.raise_()
         self.canvas.activateWindow()
 
     @pyqtSlot(ScreenRegion)
-    def on_snip_completed(self, region: ScreenRegion):
-        """Captures the requested region, runs OCR, synthesizes filename, and opens preview."""
+    @pyqtSlot(ScreenRegion, object)
+    def on_snip_completed(self, region: ScreenRegion, image: object = None):
+        """Processes the captured region, runs OCR, synthesizes filename, and opens preview."""
         try:
-            result = self.grabber.capture_region(region, window_title=self._last_window_title)
+            if image is not None:
+                result = CaptureResult(
+                    image=image,
+                    region=region,
+                    window_title=self._last_window_title,
+                )
+            else:
+                result = self.grabber.capture_region(region, window_title=self._last_window_title)
 
             # 1. Run in-process OCR extraction
             boxes, raw_text = OCREngine.get_instance().extract_text(result.image)
@@ -203,22 +338,57 @@ class SnipSenseApp(QObject):
             # 3. Present preview window
             self.preview = PreviewWindow(result)
             self.preview.show()
+            self.preview.raise_()
             self.preview.activateWindow()
         finally:
-            if self.control_win:
+            if self.control_win and self._control_was_visible:
                 self.control_win.showNormal()
 
     @pyqtSlot()
     def on_snip_cancelled(self):
-        """Restores control window if a snip is aborted."""
-        if self.control_win:
+        """Restores control window if a snip is aborted and it was visible before."""
+        if self.control_win and self._control_was_visible:
             self.control_win.showNormal()
 
+    def quit(self):
+        """Cleanly terminates the application and all background listeners."""
+        self.hotkey_manager.stop()
+        if self.tray_icon:
+            self.tray_icon.hide()
+        if self.canvas:
+            self.canvas.close()
+        if self.preview:
+            self.preview.close()
+        if self.search_modal:
+            self.search_modal.close()
+        if self.dedup_dialog:
+            self.dedup_dialog.close()
+        if self.control_win:
+            self.control_win.close()
+        app = QApplication.instance()
+        if app:
+            app.quit()
+
     def run(self):
-        """Starts the main Qt event loop and kicks off background ingestion."""
+        """Starts the main Qt application and background hotkey listener."""
         app = QApplication.instance() or QApplication(sys.argv)
+        app.setQuitOnLastWindowClosed(False)
         app.setStyleSheet(DARK_THEME_QSS)
+
+        icon = create_app_icon()
+        app.setWindowIcon(icon)
+
         self.control_win = ControlWindow(self)
+        self.control_win.setWindowIcon(icon)
+        self.setup_system_tray()
+
+        # Connect and start global OS-wide hotkey listener
+        self.hotkey_manager.hotkey_triggered.connect(self.start_snip)
+        self.hotkey_manager.start()
+
         self.control_win.show()
         self.start_background_ingestion()
-        return app.exec()
+        try:
+            return app.exec()
+        finally:
+            self.hotkey_manager.stop()

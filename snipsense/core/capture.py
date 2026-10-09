@@ -41,14 +41,7 @@ class ScreenGrabber:
 
     def get_virtual_geometry(self) -> Tuple[int, int, int, int]:
         """Returns (left, top, width, height) of the virtual bounding box across all active screens."""
-        if self._sct:
-            try:
-                virtual = self._sct.monitors[0]
-                return (virtual["left"], virtual["top"], virtual["width"], virtual["height"])
-            except Exception:
-                pass
-
-        # Fallback to Qt QGuiApplication screen geometry
+        # Prefer Qt QGuiApplication screen geometry when running in GUI context
         try:
             from PyQt6.QtGui import QGuiApplication
             screens = QGuiApplication.screens()
@@ -60,8 +53,49 @@ class ScreenGrabber:
         except Exception:
             pass
 
+        if self._sct:
+            try:
+                virtual = self._sct.monitors[0]
+                return (virtual["left"], virtual["top"], virtual["width"], virtual["height"])
+            except Exception:
+                pass
+
         # Absolute default fallback
         return (0, 0, 1920, 1080)
+
+    def capture_frozen_screen(self) -> Tuple["QPixmap", float, Tuple[int, int, int, int]]:
+        """Captures the full virtual desktop as a QPixmap buffer with DPR and logical geometry.
+
+        Returns:
+            (frozen_pixmap, device_pixel_ratio, (left, top, width, height))
+        """
+        from PyQt6.QtWidgets import QApplication
+        from PyQt6.QtGui import QGuiApplication, QPixmap
+
+        app = QApplication.instance()
+        screens = QGuiApplication.screens() if app else []
+
+        if screens:
+            primary = QGuiApplication.primaryScreen() or screens[0]
+            combined = screens[0].geometry()
+            for s in screens[1:]:
+                combined = combined.united(s.geometry())
+            vx, vy, vw, vh = combined.x(), combined.y(), combined.width(), combined.height()
+            dpr = primary.devicePixelRatio()
+
+            try:
+                pixmap = primary.grabWindow(0)
+                if not pixmap.isNull():
+                    return (pixmap, dpr, (vx, vy, vw, vh))
+            except Exception:
+                pass
+
+        # Fallback for headless environments or when grabWindow fails
+        vx, vy, vw, vh = self.get_virtual_geometry()
+        full_res = self.capture_full_screen()
+        from snipsense.ui.preview import pil_to_qpixmap
+        pixmap = pil_to_qpixmap(full_res.image)
+        return (pixmap, 1.0, (vx, vy, vw, vh))
 
     def _grab_mss(self, region: ScreenRegion) -> Image.Image:
         """Attempts fast capture using mss."""
