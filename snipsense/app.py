@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 import sys
+from pathlib import Path
 from PyQt6.QtCore import QObject, pyqtSlot, QThread, Qt, QRect
 from PyQt6.QtWidgets import (
     QApplication,
@@ -52,20 +53,24 @@ from snipsense.ui.motion import animate_window_entrance
 
 
 def create_app_icon() -> QIcon:
-    """Generates an emerald camera/snip studio icon for taskbar and tray."""
+    """Loads the official Razor Shears branding symbol (shears-v1-symbol.svg) for taskbar and tray."""
+    for candidate in [
+        Path(__file__).resolve().parent.parent / "branding" / "shears-v1-symbol.svg",
+        Path.cwd() / "branding" / "shears-v1-symbol.svg",
+    ]:
+        if candidate.is_file():
+            icon = QIcon(str(candidate))
+            if not icon.isNull():
+                return icon
+
+    # Fallback in case asset file is missing
     pix = QPixmap(64, 64)
     pix.fill(Qt.GlobalColor.transparent)
     p = QPainter(pix)
     p.setRenderHint(QPainter.RenderHint.Antialiasing, True)
-    # Emerald rounded rectangle badge
-    p.setBrush(QColor("#10B981"))
+    p.setBrush(QColor("#0F172A"))
     p.setPen(Qt.PenStyle.NoPen)
-    p.drawRoundedRect(4, 4, 56, 56, 14, 14)
-    # Scissor symbol
-    p.setPen(QColor("#FFFFFF"))
-    font = QFont("Segoe UI Emoji", 26)
-    p.setFont(font)
-    p.drawText(QRect(0, 0, 64, 64), Qt.AlignmentFlag.AlignCenter, "✂")
+    p.drawRoundedRect(4, 4, 56, 56, 12, 12)
     p.end()
     return QIcon(pix)
 
