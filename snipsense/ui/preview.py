@@ -1,5 +1,6 @@
 """Interactive desktop preview window displaying the captured screenshot with OCR bounding boxes."""
 
+from __future__ import annotations
 import io
 from PIL import Image
 from PyQt6.QtCore import Qt, QTimer

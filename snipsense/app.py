@@ -1,5 +1,6 @@
 """Application coordinator linking hotkeys, canvas overlay, and preview dialog."""
 
+from __future__ import annotations
 import sys
 from PyQt6.QtCore import QObject, pyqtSlot
 from PyQt6.QtWidgets import (

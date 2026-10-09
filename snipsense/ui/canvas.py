@@ -1,5 +1,6 @@
 """Full-screen multi-monitor transparent selection canvas for capturing regions."""
 
+from __future__ import annotations
 from PyQt6.QtCore import Qt, QPoint, QRect, pyqtSignal
 from PyQt6.QtGui import QPainter, QColor, QPen, QBrush, QFont
 from PyQt6.QtWidgets import QWidget
