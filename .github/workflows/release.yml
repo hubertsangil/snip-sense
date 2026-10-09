@@ -46,7 +46,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          name: SnipSense v${{ github.ref_name }}
+          name: SnipSense ${{ github.ref_name }} (Windows x64)
           draft: false
           prerelease: false
           generate_release_notes: true
