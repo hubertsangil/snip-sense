@@ -4,11 +4,11 @@
 
 **Blocked by:** 04: Hybrid Auto-Naming & Instant File Saving
 
-**Status:** ready-for-agent
+**Status:** completed
 
-- [ ] Embedded SQLite schema initializes automatically with an `fts_captures` virtual table indexing `title`, `ocr_text`, `tags`, and `file_path`.
-- [ ] Every saved capture is ingested into the database transactionally without blocking the UI thread.
-- [ ] Pressing `Alt + F` (or clicking a search icon) summons a clean, fast visual search modal.
-- [ ] Search input performs real-time FTS5 prefix queries and ranks results by relevance and recency.
-- [ ] Results display image thumbnails, matching title, capture timestamp, and highlighted matching text snippets.
-- [ ] Clicking a search result card opens its full preview with options to copy text, copy image, or open the original file location.
+- [x] Embedded SQLite schema initializes automatically with an `fts_captures` virtual table indexing `title`, `ocr_text`, `tags`, and `file_path`.
+- [x] Every saved capture is ingested into the database transactionally without blocking the UI thread.
+- [x] Pressing `Alt + F` (or clicking a search icon) summons a clean, fast visual search modal.
+- [x] Search input performs real-time FTS5 prefix queries and ranks results by relevance and recency.
+- [x] Results display image thumbnails, matching title, capture timestamp, and highlighted matching text snippets.
+- [x] Clicking a search result card opens its full preview with options to copy text, copy image, or open the original file location.

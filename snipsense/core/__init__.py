@@ -1,1 +1,22 @@
-"""Core capture, OCR, privacy, and storage engines for SnipSense."""
+"""Core capture, OCR, privacy, naming, and storage engines for SnipSense."""
+
+from snipsense.core.models import ScreenRegion, OCRTextBox, CaptureResult
+from snipsense.core.capture import ScreenGrabber
+from snipsense.core.ocr_engine import OCREngine
+from snipsense.core.naming import generate_filename, sanitize_filename
+from snipsense.core.storage import StorageManager
+from snipsense.core.vault import VaultDatabase, VaultRecord, SearchResult
+
+__all__ = [
+    "ScreenRegion",
+    "OCRTextBox",
+    "CaptureResult",
+    "ScreenGrabber",
+    "OCREngine",
+    "generate_filename",
+    "sanitize_filename",
+    "StorageManager",
+    "VaultDatabase",
+    "VaultRecord",
+    "SearchResult",
+]

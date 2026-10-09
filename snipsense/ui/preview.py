@@ -19,6 +19,7 @@ from PyQt6.QtWidgets import (
 )
 from snipsense.core.models import CaptureResult
 from snipsense.core.storage import StorageManager
+from snipsense.core.vault import VaultDatabase
 from snipsense.ui.styles import DARK_THEME_QSS
 from snipsense.ui.image_canvas import InteractiveImageCanvas
 
@@ -206,6 +207,19 @@ class PreviewWindow(QDialog):
         filename = self.name_edit.text().strip() or "Snip.png"
         saved = self.storage.save_image(self.capture_result.image, filename)
         self.saved_path = saved
+
+        # Automatically index capture into SQLite FTS5 Visual Memory
+        try:
+            VaultDatabase.get_instance().index_capture(
+                file_path=saved,
+                title=saved.stem,
+                ocr_text=self.capture_result.raw_text,
+                tags="",
+                window_title=self.capture_result.window_title or "",
+                created_at=self.capture_result.timestamp,
+            )
+        except Exception:
+            pass
 
         # Update input field to reflect actual saved file name (e.g. if suffix was incremented)
         self.name_edit.setText(saved.name)

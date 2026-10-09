@@ -18,8 +18,10 @@ from snipsense.core.models import ScreenRegion, CaptureResult
 from snipsense.core.naming import get_foreground_window_title, generate_filename
 from snipsense.core.storage import StorageManager
 from snipsense.core.ocr_engine import OCREngine
+from snipsense.core.vault import VaultDatabase
 from snipsense.ui.canvas import SnipCanvas
 from snipsense.ui.preview import PreviewWindow
+from snipsense.ui.search_modal import SearchModal
 from snipsense.ui.styles import DARK_THEME_QSS
 
 
@@ -63,16 +65,24 @@ class ControlWindow(QMainWindow):
         snip_btn.clicked.connect(self.app_controller.start_snip)
         btn_row.addWidget(snip_btn)
 
-        folder_btn = QPushButton("📂 Open Screenshots")
+        search_btn = QPushButton("🔍 Search Vault (Alt+F)")
+        search_btn.setObjectName("ghostAction")
+        search_btn.clicked.connect(self.app_controller.open_search_vault)
+        btn_row.addWidget(search_btn)
+
+        folder_btn = QPushButton("📂 Open Folder")
         folder_btn.setObjectName("ghostAction")
         folder_btn.clicked.connect(self._open_screenshots_folder)
         btn_row.addWidget(folder_btn)
 
         layout.addLayout(btn_row)
 
-        # In-app shortcut
-        self.shortcut = QShortcut(QKeySequence("Ctrl+Shift+S"), self)
-        self.shortcut.activated.connect(self.app_controller.start_snip)
+        # In-app shortcuts
+        self.snip_shortcut = QShortcut(QKeySequence("Ctrl+Shift+S"), self)
+        self.snip_shortcut.activated.connect(self.app_controller.start_snip)
+
+        self.search_shortcut = QShortcut(QKeySequence("Alt+F"), self)
+        self.search_shortcut.activated.connect(self.app_controller.open_search_vault)
 
     def _open_screenshots_folder(self):
         storage = StorageManager()
@@ -80,15 +90,24 @@ class ControlWindow(QMainWindow):
 
 
 class SnipSenseApp(QObject):
-    """Coordinates canvas spawning, image grabbing, auto-naming, and preview window presentation."""
+    """Coordinates canvas spawning, image grabbing, auto-naming, preview, and search vault."""
 
     def __init__(self):
         super().__init__()
         self.grabber = ScreenGrabber()
+        self.vault = VaultDatabase.get_instance()
         self.canvas: SnipCanvas | None = None
         self.preview: PreviewWindow | None = None
+        self.search_modal: SearchModal | None = None
         self.control_win: ControlWindow | None = None
         self._last_window_title: str = ""
+
+    def open_search_vault(self):
+        """Opens the visual memory search dialog."""
+        self.search_modal = SearchModal(vault=self.vault)
+        self.search_modal.show()
+        self.search_modal.activateWindow()
+        self.search_modal.raise_()
 
     def start_snip(self):
         """Captures active window context and spawns the transparent selection canvas."""
