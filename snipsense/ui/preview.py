@@ -1,5 +1,6 @@
 """Interactive desktop preview window displaying the captured screenshot with clipboard actions."""
 
+from __future__ import annotations
 import io
 from PIL import Image
 from PyQt6.QtCore import Qt, QTimer, QSize
