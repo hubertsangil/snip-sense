@@ -57,6 +57,7 @@ class CaptureResult:
     window_title: Optional[str] = None
     ocr_boxes: list[OCRTextBox] = field(default_factory=list)
     raw_text: str = ""
+    suggested_filename: str = ""
 
     @property
     def width(self) -> int:

@@ -1,7 +1,8 @@
-"""Interactive desktop preview window displaying the captured screenshot with OCR bounding boxes."""
+"""Interactive desktop preview window displaying the captured screenshot with OCR bounding boxes and save actions."""
 
 from __future__ import annotations
 import io
+from pathlib import Path
 from PIL import Image
 from PyQt6.QtCore import Qt, QTimer
 from PyQt6.QtGui import QPixmap, QImage, QKeySequence, QShortcut
@@ -11,11 +12,13 @@ from PyQt6.QtWidgets import (
     QHBoxLayout,
     QLabel,
     QPushButton,
+    QLineEdit,
     QScrollArea,
     QWidget,
     QApplication,
 )
 from snipsense.core.models import CaptureResult
+from snipsense.core.storage import StorageManager
 from snipsense.ui.styles import DARK_THEME_QSS
 from snipsense.ui.image_canvas import InteractiveImageCanvas
 
@@ -29,7 +32,7 @@ def pil_to_qpixmap(pil_img: Image.Image) -> QPixmap:
 
 
 class PreviewWindow(QDialog):
-    """Interactive preview dialog rendering the captured image, OCR bounding boxes, and clipboard actions."""
+    """Interactive preview dialog rendering the captured image, OCR bounding boxes, and save/clipboard actions."""
 
     def __init__(self, capture_result: CaptureResult, parent: QWidget | None = None):
         super().__init__(parent)
@@ -42,6 +45,8 @@ class PreviewWindow(QDialog):
 
         self.capture_result = capture_result
         self.pixmap = pil_to_qpixmap(capture_result.image)
+        self.storage = StorageManager()
+        self.saved_path: Path | None = None
 
         self._init_ui()
         self._setup_shortcuts()
@@ -87,7 +92,35 @@ class PreviewWindow(QDialog):
 
         layout.addWidget(scroll, stretch=1)
 
-        # 3. Bottom Action Bar
+        # 3. Filename & Disk Save Bar
+        name_row = QHBoxLayout()
+        name_row.setSpacing(8)
+
+        name_label = QLabel("Save As:")
+        name_label.setStyleSheet("color: #94A3B8; font-size: 12px; font-weight: 500;")
+        name_row.addWidget(name_label)
+
+        initial_name = self.capture_result.suggested_filename or "Snip.png"
+        self.name_edit = QLineEdit(initial_name)
+        self.name_edit.setObjectName("slugEdit")
+        self.name_edit.setPlaceholderText("Enter filename...")
+        self.name_edit.returnPressed.connect(self.save_image_to_disk)
+        name_row.addWidget(self.name_edit, stretch=1)
+
+        self.save_btn = QPushButton("💾 Save")
+        self.save_btn.setObjectName("primaryAction")
+        self.save_btn.clicked.connect(self.save_image_to_disk)
+        name_row.addWidget(self.save_btn)
+
+        self.open_folder_btn = QPushButton("📂 Open Folder")
+        self.open_folder_btn.setObjectName("ghostAction")
+        self.open_folder_btn.setVisible(False)
+        self.open_folder_btn.clicked.connect(self._open_saved_location)
+        name_row.addWidget(self.open_folder_btn)
+
+        layout.addLayout(name_row)
+
+        # 4. Bottom Action Bar
         bottom_bar = QHBoxLayout()
         bottom_bar.setSpacing(10)
 
@@ -116,9 +149,9 @@ class PreviewWindow(QDialog):
             self.copy_text_btn.setEnabled(False)
         bottom_bar.addWidget(self.copy_text_btn)
 
-        # Copy Image Button (Primary Action)
+        # Copy Image Button
         self.copy_img_btn = QPushButton("🖼️ Copy Image")
-        self.copy_img_btn.setObjectName("primaryAction")
+        self.copy_img_btn.setObjectName("ghostAction")
         self.copy_img_btn.clicked.connect(self.copy_image_to_clipboard)
         bottom_bar.addWidget(self.copy_img_btn)
 
@@ -132,13 +165,16 @@ class PreviewWindow(QDialog):
         # Clamped initial dialog dimensions
         img_w = self.capture_result.width
         img_h = self.capture_result.height
-        target_w = max(520, min(img_w + 40, 1020))
-        target_h = max(380, min(img_h + 110, 720))
+        target_w = max(560, min(img_w + 40, 1020))
+        target_h = max(420, min(img_h + 150, 740))
         self.resize(target_w, target_h)
 
     def _setup_shortcuts(self):
         copy_img_shortcut = QShortcut(QKeySequence("Ctrl+C"), self)
         copy_img_shortcut.activated.connect(self.copy_image_to_clipboard)
+
+        save_shortcut = QShortcut(QKeySequence("Ctrl+S"), self)
+        save_shortcut.activated.connect(self.save_image_to_disk)
 
         if self.capture_result.raw_text.strip():
             copy_text_shortcut = QShortcut(QKeySequence("Ctrl+Shift+C"), self)
@@ -164,6 +200,36 @@ class PreviewWindow(QDialog):
             self.status_badge.setStyleSheet("")
 
         QTimer.singleShot(1400, _restore)
+
+    def save_image_to_disk(self):
+        """Saves the captured image to disk using the filename in the text field."""
+        filename = self.name_edit.text().strip() or "Snip.png"
+        saved = self.storage.save_image(self.capture_result.image, filename)
+        self.saved_path = saved
+
+        # Update input field to reflect actual saved file name (e.g. if suffix was incremented)
+        self.name_edit.setText(saved.name)
+
+        # Show visual confirmation
+        self.save_btn.setText("✓ Saved!")
+        self.save_btn.setStyleSheet("background-color: #059669; color: #FFFFFF;")
+        self.open_folder_btn.setVisible(True)
+
+        self.status_badge.setText(f"✓ Saved to {saved.parent.name}/{saved.name}")
+        self.status_badge.setStyleSheet("background-color: rgba(16, 185, 129, 0.25); color: #10B981;")
+
+        QTimer.singleShot(1800, self._reset_save_btn)
+
+    def _reset_save_btn(self):
+        self.save_btn.setText("💾 Save")
+        self.save_btn.setStyleSheet("")
+
+    def _open_saved_location(self):
+        """Opens the saved file in the system file explorer."""
+        if self.saved_path and self.saved_path.exists():
+            self.storage.open_in_explorer(self.saved_path)
+        else:
+            self.storage.open_in_explorer(self.storage.base_directory)
 
     def copy_image_to_clipboard(self):
         """Copies the captured QPixmap onto the system clipboard."""

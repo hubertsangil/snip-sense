@@ -4,11 +4,11 @@
 
 **Blocked by:** 02: In-Process OCR & Interactive Text Bounding Boxes
 
-**Status:** ready-for-agent
+**Status:** completed
 
-- [ ] At the moment of capture, the active foreground window title is queried via system APIs in under 5ms.
-- [ ] The engine inspects dominant, high-confidence OCR text lines and combines them with the application context to synthesize a clean, sanitized slug (e.g., `AppName_DominantKeyword_Date.png`).
-- [ ] If an optional bundled micro-SLM (`Qwen2.5-0.5B`) is available, it optionally enriches the title; if unavailable, the heuristic pipeline completes cleanly without warnings or errors.
-- [ ] The suggested filename is presented in an editable text field on the preview toolbar.
-- [ ] Clicking "Save" (or pressing `Enter` / `Ctrl+S`) writes the file to the user's configured captures directory.
-- [ ] Special filesystem characters (`/`, `\`, `:`, `*`, `?`, `"`, `<`, `>`, `|`) are strictly sanitized to prevent filesystem errors.
+- [x] At the moment of capture, the active foreground window title is queried via system APIs in under 5ms.
+- [x] The engine inspects dominant, high-confidence OCR text lines and combines them with the application context to synthesize a clean, sanitized slug (e.g., `AppName_DominantKeyword_Date.png`).
+- [x] If an optional bundled micro-SLM (`Qwen2.5-0.5B`) is available, it optionally enriches the title; if unavailable, the heuristic pipeline completes cleanly without warnings or errors.
+- [x] The suggested filename is presented in an editable text field on the preview toolbar.
+- [x] Clicking "Save" (or pressing `Enter` / `Ctrl+S`) writes the file to the user's configured captures directory.
+- [x] Special filesystem characters (`/`, `\`, `:`, `*`, `?`, `"`, `<`, `>`, `|`) are strictly sanitized to prevent filesystem errors.

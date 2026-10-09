@@ -175,3 +175,30 @@ def test_toggle_boxes_button(qtbot, qapp):
     assert preview.canvas.boxes_visible is False
     qtbot.mouseClick(preview.toggle_boxes_btn, Qt.MouseButton.LeftButton)
     assert preview.canvas.boxes_visible is True
+
+
+def test_preview_save_button(qtbot, qapp, tmp_path):
+    from snipsense.core.storage import StorageManager
+    pil_img = Image.new("RGB", (70, 50), color=(255, 0, 0))
+    result = CaptureResult(
+        image=pil_img,
+        region=ScreenRegion(x=0, y=0, width=70, height=50),
+        suggested_filename="Custom_Name.png",
+    )
+
+    preview = PreviewWindow(result)
+    preview.storage = StorageManager(base_directory=tmp_path)
+    qtbot.addWidget(preview)
+    preview.show()
+
+    assert preview.name_edit.text() == "Custom_Name.png"
+    assert not preview.open_folder_btn.isVisible()
+
+    # Click Save
+    qtbot.mouseClick(preview.save_btn, Qt.MouseButton.LeftButton)
+
+    assert "Saved" in preview.save_btn.text()
+    assert preview.open_folder_btn.isVisible()
+    assert preview.saved_path is not None
+    assert preview.saved_path.exists()
+    assert preview.saved_path.name == "Custom_Name.png"
