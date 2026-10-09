@@ -1,5 +1,6 @@
 """In-process Optical Character Recognition engine using RapidOCR ONNX."""
 
+from __future__ import annotations
 from typing import Optional
 import numpy as np
 from PIL import Image

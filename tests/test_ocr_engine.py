@@ -1,5 +1,6 @@
 """Unit tests for the in-process OCREngine and OCRTextBox data model."""
 
+from __future__ import annotations
 import numpy as np
 from PIL import Image, ImageDraw
 from snipsense.core.models import OCRTextBox

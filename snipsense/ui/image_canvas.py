@@ -1,5 +1,6 @@
 """Interactive image canvas widget supporting OCR text bounding boxes, hover tooltips, and click-to-copy."""
 
+from __future__ import annotations
 from PyQt6.QtCore import Qt, QRect, QTimer, pyqtSignal
 from PyQt6.QtGui import QPainter, QColor, QPen, QBrush, QPixmap
 from PyQt6.QtWidgets import QWidget, QApplication

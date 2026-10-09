@@ -1,5 +1,6 @@
 """Unit tests for ScreenRegion data models and ScreenGrabber engine."""
 
+from __future__ import annotations
 import pytest
 from PIL import Image
 from snipsense.core.models import ScreenRegion, CaptureResult

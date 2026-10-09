@@ -1,5 +1,6 @@
 """Unit tests for SnipCanvas, InteractiveImageCanvas, and PreviewWindow UI components."""
 
+from __future__ import annotations
 from PIL import Image
 from PyQt6.QtCore import Qt, QPoint
 from PyQt6.QtGui import QMouseEvent

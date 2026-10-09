@@ -1,5 +1,6 @@
 """High-performance multi-monitor screen capture engine with robust fallback."""
 
+from __future__ import annotations
 import io
 from typing import Tuple, Optional
 from PIL import Image

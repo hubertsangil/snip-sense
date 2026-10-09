@@ -1,5 +1,6 @@
 """Data structures and representations for screen capture operations."""
 
+from __future__ import annotations
 from dataclasses import dataclass, field
 import time
 from typing import Optional
