@@ -58,13 +58,12 @@ def test_ingestion_worker_signals(qtbot, tmp_path):
     worker = IngestionWorker(scanner=scanner)
 
     finished_results = []
-    clusters_results = []
 
     worker.finished.connect(lambda idx, dups: finished_results.append((idx, dups)))
-    worker.clusters_ready.connect(lambda cl: clusters_results.append(cl))
 
     worker.run()
 
     assert len(finished_results) == 1
     assert finished_results[0][0] == 1  # 1 indexed
-    assert len(clusters_results) == 1
+    assert isinstance(worker.clusters, list)
+

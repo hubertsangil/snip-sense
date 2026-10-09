@@ -130,20 +130,17 @@ class SnipSenseApp(QObject):
         self._ingestion_worker.moveToThread(self._ingestion_thread)
 
         self._ingestion_thread.started.connect(self._ingestion_worker.run)
-        self._ingestion_worker.clusters_ready.connect(self._on_clusters_ready)
         self._ingestion_worker.finished.connect(self._on_ingestion_finished)
         self._ingestion_worker.finished.connect(self._ingestion_thread.quit)
-        self._ingestion_thread.finished.connect(self._ingestion_worker.deleteLater)
         self._ingestion_thread.finished.connect(self._ingestion_thread.deleteLater)
 
         self._ingestion_thread.start()
 
-    @pyqtSlot(list)
-    def _on_clusters_ready(self, clusters: list):
-        self.duplicate_clusters = clusters
-
     @pyqtSlot(int, int)
     def _on_ingestion_finished(self, indexed_count: int, dup_count: int):
+        # Retrieve clusters directly from the worker (avoids cross-thread list serialization)
+        if self._ingestion_worker:
+            self.duplicate_clusters = self._ingestion_worker.clusters
         if self.control_win:
             if dup_count > 0:
                 self.control_win.set_status_text(f"{indexed_count} indexed | {dup_count} duplicate bursts")

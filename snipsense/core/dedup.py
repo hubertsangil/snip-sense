@@ -98,12 +98,16 @@ class DuplicateCluster:
 
 def cluster_duplicates(
     candidates: List[ScreenshotCandidate],
-    max_hamming_distance: int = 4
+    max_hamming_distance: int = 10
 ) -> List[DuplicateCluster]:
     """Groups screenshots into duplicate clusters based on perceptual hash similarity.
     
     Images with Hamming distance <= max_hamming_distance are grouped together.
     The primary version is chosen as the earliest capture (or largest file size).
+    
+    Note: A threshold of 10 captures real-world near-duplicates like rapid bursts,
+    same-page screenshots with slight scrolling, or timing differences. Lower values
+    (e.g. 4) only catch pixel-identical copies.
     """
     if not candidates:
         return []

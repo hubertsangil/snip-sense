@@ -150,23 +150,24 @@ class IngestionWorker(QObject):
 
     progress = pyqtSignal(int, int)  # current, total
     finished = pyqtSignal(int, int)  # indexed_count, duplicate_cluster_count
-    clusters_ready = pyqtSignal(list)  # list of DuplicateCluster
 
     def __init__(self, scanner: Optional[HistoricalScanner] = None):
         super().__init__()
         self.scanner = scanner or HistoricalScanner()
+        self.clusters: List[DuplicateCluster] = []
 
     def run(self):
         """Executes discovery, hashing, indexing, and duplicate detection."""
         image_paths = self.scanner.discover_images()
         if not image_paths:
+            self.clusters = []
             self.finished.emit(0, 0)
-            self.clusters_ready.emit([])
             return
 
         def on_prog(curr, tot):
             self.progress.emit(curr, tot)
 
         indexed_count, clusters = self.scanner.ingest_images(image_paths, progress_callback=on_prog)
-        self.clusters_ready.emit(clusters)
+        self.clusters = clusters
         self.finished.emit(indexed_count, len(clusters))
+

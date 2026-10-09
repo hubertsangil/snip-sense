@@ -78,7 +78,7 @@ def test_cluster_duplicates_grouping():
         ),
     ]
 
-    clusters = cluster_duplicates(candidates, max_hamming_distance=4)
+    clusters = cluster_duplicates(candidates, max_hamming_distance=10)
 
     assert len(clusters) == 1
     assert clusters[0].primary.file_path == "/path/to/img1.png"
